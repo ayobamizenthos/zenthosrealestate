@@ -1,18 +1,15 @@
 'use client'
 
 import clsx from 'clsx'
-import { Bell, Search } from 'lucide-react'
+import { Bell } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/components/auth/AuthProvider'
 import { ZenthosLogo } from '@/components/brand/ZenthosLogo'
-import { HeaderSearch } from '@/components/search/HeaderSearch'
-import { useSearchOverlay } from '@/components/search/SearchProvider'
 import { useUnreadNotificationCount } from '@/hooks/useUnreadNotificationCount'
 import { LOCATION_LANDING_PAGES } from '@/lib/constants'
 
 export function SiteHeader() {
-  const { openSearch } = useSearchOverlay()
   const { user } = useAuth()
   const unreadCount = useUnreadNotificationCount()
   const pathname = usePathname()
@@ -53,17 +50,6 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex-1" />
-
-        <HeaderSearch />
-
-        <button
-          type="button"
-          onClick={openSearch}
-          aria-label="Search properties"
-          className="text-ink hover:text-brand flex h-11 w-11 items-center justify-center md:hidden"
-        >
-          <Search size={20} aria-hidden="true" />
-        </button>
 
         {user ? (
           <Link
