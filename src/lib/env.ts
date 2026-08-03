@@ -14,7 +14,7 @@ export const publicEnv = {
 export const serverEnv = {
   supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY ?? '',
   vapidPrivateKey: process.env.VAPID_PRIVATE_KEY ?? '',
-  vapidSubject: process.env.VAPID_SUBJECT ?? 'mailto:hello@zenthosrealestate.com.ng',
+  vapidSubject: process.env.VAPID_SUBJECT ?? 'mailto:info@zenthosrealestate.com.ng',
 } as const
 
 export const isSupabaseConfigured = Boolean(publicEnv.supabaseUrl && publicEnv.supabaseAnonKey)

@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/components/auth/AuthProvider'
 import { ZenthosLogo } from '@/components/brand/ZenthosLogo'
+import { HeaderSearch } from '@/components/search/HeaderSearch'
 import { useSearchOverlay } from '@/components/search/SearchProvider'
 import { useUnreadNotificationCount } from '@/hooks/useUnreadNotificationCount'
 import { LOCATION_LANDING_PAGES } from '@/lib/constants'
@@ -53,17 +54,7 @@ export function SiteHeader() {
 
         <div className="flex-1" />
 
-        <button
-          type="button"
-          onClick={openSearch}
-          className="border-hairline text-muted hover:border-ink rounded-control hidden h-10 w-56 items-center gap-2 border px-3 text-left text-[14px] transition-colors md:flex xl:w-64"
-        >
-          <Search size={15} aria-hidden="true" className="shrink-0" />
-          <span className="flex-1 truncate">Search properties</span>
-          <kbd className="text-muted border-hairline rounded border px-1.5 py-0.5 font-sans text-[10px]">
-            ⌘K
-          </kbd>
-        </button>
+        <HeaderSearch />
 
         <button
           type="button"
