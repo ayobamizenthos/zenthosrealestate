@@ -146,7 +146,7 @@ export const LOCATION_LANDING_PAGES: readonly LocationLandingContent[] = [
     heading: 'Premium Properties in Ikoyi, Lagos',
     metaTitle: 'Premium Property for Sale in Ikoyi, Lagos | Zenthos Real Estate',
     metaDescription:
-      'Explore premium homes in Ikoyi, Lagos — Banana Island, Parkview and Old Ikoyi. Detached houses and duplexes from Zenthos Real Estate.',
+      'Explore premium homes across Banana Island, Parkview and Old Ikoyi. Detached houses and duplexes from Zenthos Real Estate.',
     intro:
       'Ikoyi holds the highest values in Lagos and the tightest supply. Banana Island, Parkview Estate and Old Ikoyi offer generous plots, mature tree cover and estate-managed security, which is why listings here move on relationships rather than open advertising. Availability changes quickly, so speak to us early.',
   },
@@ -214,7 +214,7 @@ export const LOCATION_LANDING_PAGES: readonly LocationLandingContent[] = [
     metaDescription:
       'Luxury houses and duplexes for sale in Maitama, Abuja. The capital’s most established address, with verified title and Zenthos inspection.',
     intro:
-      "Maitama is Abuja's most established address — embassies, ministers and the quietest streets in the capital. Plots are large, densities low, and the housing stock is overwhelmingly detached. Values hold through cycles here better than anywhere else in the Federal Capital Territory.",
+      "Maitama is Abuja's most established address, home to embassies, ministers and the quietest streets in the capital. Plots are large, densities low, and the housing stock is overwhelmingly detached. Values hold through cycles here better than anywhere else in the Federal Capital Territory.",
   },
   {
     name: 'Asokoro',

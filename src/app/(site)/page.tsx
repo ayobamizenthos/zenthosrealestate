@@ -94,7 +94,7 @@ export default async function HomePage() {
           <SectionHeading
             eyebrow="Areas"
             title="Where we sell"
-            description="Lagos island, Lagos mainland and Abuja — each with its own pricing and pace of turnover."
+            description="Lagos island, Lagos mainland and Abuja. Each market prices differently and moves at its own speed."
           />
           <LocationShowcase locations={homepageAreas} />
         </section>

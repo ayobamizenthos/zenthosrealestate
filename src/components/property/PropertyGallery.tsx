@@ -45,7 +45,7 @@ export function PropertyGallery({ images, title }: { images: string[]; title: st
         >
           <Image
             src={propertyGalleryImage(cover)}
-            alt={`${title} — Photo 1`}
+            alt={`${title}, photo 1`}
             fill
             sizes="(min-width: 1280px) 42vw, 50vw"
             priority
@@ -73,7 +73,7 @@ export function PropertyGallery({ images, title }: { images: string[]; title: st
               >
                 <Image
                   src={propertyGalleryImage(image)}
-                  alt={`${title} — Photo ${index + 2}`}
+                  alt={`${title}, photo ${index + 2}`}
                   fill
                   sizes="21vw"
                   placeholder="blur"
@@ -149,7 +149,7 @@ function MobileCarousel({
               >
                 <Image
                   src={propertyGalleryImage(image)}
-                  alt={`${title} — Photo ${index + 1}`}
+                  alt={`${title}, photo ${index + 1}`}
                   fill
                   sizes="100vw"
                   priority={index === 0}
@@ -237,7 +237,7 @@ function GalleryLightbox({
             <div key={image} className="relative h-full min-w-0 flex-[0_0_100%]">
               <Image
                 src={transformCloudinary(image, IMAGE_PRESETS.lightbox)}
-                alt={`${title} — Photo ${imageIndex + 1}`}
+                alt={`${title}, photo ${imageIndex + 1}`}
                 fill
                 sizes="100vw"
                 className="object-contain"

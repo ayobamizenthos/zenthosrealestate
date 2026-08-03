@@ -49,7 +49,7 @@ export default async function PropertiesPage({ searchParams }: { searchParams: S
       filters={filters}
       total={total}
       heading="Property for Sale in Lagos"
-      intro="Houses, duplexes and apartments for sale across Lagos island and mainland, and Abuja. Every listing is inspected by a Zenthos broker and its title document checked before it appears here — filter by area, price, bedrooms, type or title to narrow it down."
+      intro="Every listing here has been inspected by a Zenthos broker and its title document checked. Filter by area, price, bedrooms, property type or title to narrow the list."
     >
       {properties.length > 0 ? (
         <>

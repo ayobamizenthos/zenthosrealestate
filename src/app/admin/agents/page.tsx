@@ -35,7 +35,7 @@ export default async function AgentsPage() {
         <h1 className="text-ink text-[26px] font-extrabold">Agents</h1>
         <p className="text-muted mt-2 max-w-2xl text-[14px] leading-relaxed">
           Cooperating brokers. Agents are alerted to every new listing the moment it publishes, and
-          can download full photo sets. They cannot create, edit or delete listings — posting rights
+          can download full photo sets. They cannot create, edit or delete listings. Posting rights
           come from admin membership, which this screen never grants.
         </p>
         <p className="text-muted mt-3 text-[13px]">
@@ -74,7 +74,9 @@ export default async function AgentsPage() {
                         {account.full_name || 'Unnamed'}
                       </span>
                     </td>
-                    <td className="text-muted px-4 py-3 text-[14px]">{account.phone || '—'}</td>
+                    <td className="text-muted px-4 py-3 text-[14px]">
+                      {account.phone || 'Not given'}
+                    </td>
                     <td className="text-muted px-4 py-3 text-[14px]">
                       {formatDate(account.created_at)}
                     </td>
@@ -90,7 +92,7 @@ export default async function AgentsPage() {
                               : 'border-hairline text-ink hover:border-ink rounded-pill border px-3.5 py-2 text-[13px] font-semibold transition-colors'
                           }
                         >
-                          {isAgent ? 'Agent — revoke' : 'Make agent'}
+                          {isAgent ? 'Revoke agent' : 'Make agent'}
                         </button>
                       </form>
                     </td>

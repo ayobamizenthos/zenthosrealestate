@@ -304,7 +304,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
             </section>
 
             <section className="mt-10">
-              <InquiryForm propertyId={property.id} propertyTitle={property.title} />
+              <InquiryForm property={property} />
             </section>
           </div>
 
@@ -348,15 +348,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
 
                 <DownloadImagesButton images={property.images} title={property.title} />
                 <CompareButton propertyId={property.id} propertyTitle={property.title} />
-              </div>
-
-              <div className="border-hairline bg-surface border-t px-5 py-4">
-                <p className="text-muted text-[12px] leading-relaxed">
-                  Reference{' '}
-                  <span className="text-ink font-semibold">{property.reference_code}</span>. Quote
-                  it when you call. Inspections are arranged directly with a Zenthos broker — no
-                  booking fees.
-                </p>
               </div>
             </div>
           </aside>

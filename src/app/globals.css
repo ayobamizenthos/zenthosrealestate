@@ -235,6 +235,44 @@
   overflow: hidden;
 }
 
+/* A slim burgundy indicator in place of the platform scrollbar. The page itself
+   never scrolls sideways, so only the vertical track is styled; anything that
+   genuinely needs horizontal movement (the filter rail, wide tables) opts out
+   with `scrollbar-none` and scrolls inside its own box. */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-brand) transparent;
+  /* `clip` rather than `hidden`: hidden establishes a scroll container, which
+     silently kills `position: sticky` on the header and the filter rail. */
+  overflow-x: clip;
+}
+
+html::-webkit-scrollbar {
+  width: 10px;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background-color: var(--color-brand);
+  border-radius: 999px;
+  /* Inset by a transparent border so the thumb reads as a floating pill
+     rather than filling the gutter edge to edge. */
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-brand-hover);
+  background-clip: content-box;
+}
+
+body {
+  overflow-x: clip;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -1,72 +1,110 @@
 'use client'
 
-import { CircleCheck, LoaderCircle } from 'lucide-react'
-import { useActionState } from 'react'
-import { Button } from '@/components/ui/Button'
+import { LoaderCircle } from 'lucide-react'
+import { useState } from 'react'
+import type { FormEvent } from 'react'
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { TextArea, TextField } from '@/components/ui/TextField'
-import { submitInquiryAction, type InquiryActionState } from '@/lib/actions/inquiries'
+import { submitInquiryAction } from '@/lib/actions/inquiries'
+import type { Property } from '@/lib/types'
+import { inquiryHandoffLink } from '@/lib/whatsapp'
 
-const INITIAL_STATE: InquiryActionState = {}
+type InquiryProperty = Pick<Property, 'id' | 'title' | 'location' | 'state' | 'reference_code'>
 
 /**
- * Secondary to WhatsApp, which is how most enquiries actually arrive. Kept for
- * people who would rather not hand over a phone number up front.
+ * Submitting opens WhatsApp with every field already written out, because that
+ * is where the conversation actually continues. The enquiry is still written to
+ * the database first so it appears in admin even if the buyer never sends the
+ * message they were handed.
  */
-export function InquiryForm({
-  propertyId,
-  propertyTitle,
-}: {
-  propertyId: string
-  propertyTitle: string
-}) {
-  const [state, formAction, isPending] = useActionState(submitInquiryAction, INITIAL_STATE)
+export function InquiryForm({ property }: { property: InquiryProperty }) {
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  if (state.sent) {
-    return (
-      <div className="border-hairline rounded-card flex items-start gap-3 border bg-white p-5">
-        <CircleCheck size={20} className="text-success mt-0.5 shrink-0" aria-hidden="true" />
-        <div>
-          <p className="text-ink text-[15px] font-bold">Enquiry sent</p>
-          <p className="text-muted mt-1 text-[14px] leading-relaxed">
-            A broker will be in touch about {propertyTitle}. For a faster reply, message us on
-            WhatsApp.
-          </p>
-        </div>
-      </div>
-    )
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setIsSubmitting(true)
+
+    const draft = { name, email, phone, message }
+
+    // Opened synchronously from the submit gesture. Waiting on the network
+    // first would lose the user-gesture context and get the tab blocked.
+    const handoff = window.open(inquiryHandoffLink(property, draft), '_blank', 'noopener')
+
+    const formData = new FormData()
+    formData.set('propertyId', property.id)
+    formData.set('name', name)
+    formData.set('email', email)
+    formData.set('phone', phone)
+    formData.set('message', message)
+
+    // A failed write must not block the conversation the buyer just started.
+    await submitInquiryAction({}, formData).catch(() => undefined)
+
+    if (!handoff) window.location.href = inquiryHandoffLink(property, draft)
+    setIsSubmitting(false)
   }
 
   return (
-    <form action={formAction} className="border-hairline rounded-card border bg-white p-5">
-      <h2 className="text-ink text-[17px] font-bold">Request details</h2>
-      <p className="text-muted mt-1 text-[14px]">
-        Prefer email? Send your details and we&rsquo;ll reply with the full brief.
+    <form onSubmit={handleSubmit} className="border-hairline rounded-card border bg-white p-5">
+      <h2 className="text-ink text-[17px] font-bold">Enquire about this property</h2>
+      <p className="text-muted mt-1 text-[14px] leading-relaxed">
+        Fill this in and we will open WhatsApp with your details already written out. A broker
+        replies in minutes during working hours.
       </p>
 
-      <input type="hidden" name="propertyId" value={propertyId} />
-
       <div className="mt-4 space-y-3">
-        <TextField label="Name" name="name" autoComplete="name" required />
-        <TextField label="Email" name="email" type="email" autoComplete="email" required />
-        <TextField label="Phone" name="phone" type="tel" autoComplete="tel" required />
+        <TextField
+          label="Name"
+          name="name"
+          autoComplete="name"
+          required
+          value={name}
+          onChange={event => setName(event.target.value)}
+        />
+        <TextField
+          label="Phone"
+          name="phone"
+          type="tel"
+          autoComplete="tel"
+          required
+          value={phone}
+          onChange={event => setPhone(event.target.value)}
+        />
+        <TextField
+          label="Email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          hint="Optional"
+          value={email}
+          onChange={event => setEmail(event.target.value)}
+        />
         <TextArea
           label="Message"
           name="message"
           rows={3}
-          defaultValue={`I'd like more details about ${propertyTitle}.`}
+          placeholder={`When can I inspect ${property.title}?`}
+          value={message}
+          onChange={event => setMessage(event.target.value)}
         />
       </div>
 
-      {state.error ? (
-        <p role="alert" className="text-danger mt-3 text-[14px]">
-          {state.error}
-        </p>
-      ) : null}
-
-      <Button type="submit" fullWidth className="mt-4" disabled={isPending}>
-        {isPending ? <LoaderCircle size={17} className="animate-spin" aria-hidden="true" /> : null}
-        {isPending ? 'Sending…' : 'Send enquiry'}
-      </Button>
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="bg-whatsapp hover:bg-whatsapp-hover rounded-control mt-4 flex h-12 w-full items-center justify-center gap-2 text-[15px] font-bold text-white transition-colors disabled:opacity-60"
+      >
+        {isSubmitting ? (
+          <LoaderCircle size={18} className="animate-spin" aria-hidden="true" />
+        ) : (
+          <WhatsAppIcon className="h-5 w-5" />
+        )}
+        {isSubmitting ? 'Opening WhatsApp' : 'Send on WhatsApp'}
+      </button>
     </form>
   )
 }

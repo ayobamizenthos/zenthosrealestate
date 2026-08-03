@@ -30,8 +30,8 @@ export function HomeHero() {
         </h1>
 
         <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/70 md:mt-5 md:text-[17px]">
-          Houses, duplexes and apartments for sale across the islands, the mainland and the capital
-          — documented, and one WhatsApp message away.
+          Houses, duplexes and apartments for sale across Lagos and Abuja. Every title checked
+          before we list it. Speak to a broker on WhatsApp today.
         </p>
 
         <div className="mt-8 flex w-full justify-center md:mt-10">

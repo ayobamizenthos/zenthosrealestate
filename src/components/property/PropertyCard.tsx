@@ -66,7 +66,7 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
           <Image
             key={images[activeImage]}
             src={propertyCardImage(images[activeImage])}
-            alt={`${property.title} — Photo ${activeImage + 1}`}
+            alt={`${property.title}, photo ${activeImage + 1}`}
             fill
             sizes={CARD_IMAGE_SIZES}
             priority={priority && activeImage === 0}

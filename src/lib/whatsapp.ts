@@ -27,6 +27,43 @@ export function generalInquiryLink(): string {
   return whatsappLink(`Hi, I'd like to inquire about properties on ${SITE.name}.`)
 }
 
+export interface InquiryDraft {
+  name: string
+  email: string
+  phone: string
+  message: string
+}
+
+/**
+ * Formats a completed enquiry form as a WhatsApp message. Every field the buyer
+ * filled in is laid out under a heading so a broker reading it on a phone can
+ * act without opening a dashboard, and the reference is included so the listing
+ * can be pulled up by code.
+ */
+export function inquiryHandoffLink(
+  property: { title: string; location: string; state: string; reference_code: string },
+  draft: InquiryDraft
+): string {
+  const lines = [
+    `*Property enquiry*`,
+    ``,
+    `*Listing:* ${property.title}`,
+    `*Area:* ${property.location}, ${property.state}`,
+    `*Reference:* ${property.reference_code}`,
+    ``,
+    `*Name:* ${draft.name}`,
+    `*Phone:* ${draft.phone}`,
+  ]
+
+  if (draft.email.trim()) lines.push(`*Email:* ${draft.email.trim()}`)
+
+  if (draft.message.trim()) {
+    lines.push(``, `*Message:*`, draft.message.trim())
+  }
+
+  return whatsappLink(lines.join('\n'))
+}
+
 /** Used from the admin inquiries table to reply to the sender directly. */
 export function inquiryReplyLink(inquiry: {
   name: string

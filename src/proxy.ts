@@ -2,7 +2,12 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { isSupabaseConfigured, publicEnv } from '@/lib/env'
 
-const PROTECTED_PREFIXES = ['/saved', '/compare', '/profile', '/notifications', '/admin']
+/**
+ * `/compare` is deliberately absent. Comparison state lives in localStorage, so
+ * a signed-out buyer can line up three houses and decide without an account
+ * standing between them and the decision.
+ */
+const PROTECTED_PREFIXES = ['/saved', '/profile', '/notifications', '/admin']
 
 /**
  * Next 16 renamed the middleware convention to `proxy`. This refreshes the
