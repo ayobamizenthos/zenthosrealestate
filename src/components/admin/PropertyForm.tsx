@@ -292,12 +292,6 @@ export function PropertyForm({ action, property }: PropertyFormProps) {
           description="Featured listings lead the homepage showcase and rank first in browse."
         />
         <FormToggle
-          name="verified"
-          defaultChecked={property?.verified}
-          title="Verified by Zenthos"
-          description="Only tick this once a broker has physically inspected the property."
-        />
-        <FormToggle
           name="serviced"
           defaultChecked={property?.serviced}
           title="Serviced"

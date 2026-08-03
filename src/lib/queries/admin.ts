@@ -9,7 +9,7 @@ export interface AdminPropertyRow extends PropertySummary {
 }
 
 const ADMIN_COLUMNS =
-  'id, slug, title, description, location, state, address, price, price_label, property_type, bedrooms, bathrooms, toilets, area_sqm, serviced, verified, furnished, images, status, listing_type, published, featured, created_at, reference_code'
+  'id, slug, title, description, location, state, address, price, price_label, property_type, bedrooms, bathrooms, toilets, area_sqm, serviced, furnished, images, status, listing_type, published, featured, created_at, reference_code'
 
 export interface AdminPropertyFilters {
   search: string
@@ -56,7 +56,6 @@ export async function listPropertiesForAdmin(
     toilets: row.toilets,
     area_sqm: row.area_sqm,
     serviced: row.serviced,
-    verified: row.verified,
     furnished: row.furnished as PropertySummary['furnished'],
     images: row.images,
     status: row.status as PropertyStatus,

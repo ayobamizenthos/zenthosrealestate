@@ -28,8 +28,6 @@ export interface Property {
   /** Built floor area in square metres; null when the agent has not measured it. */
   area_sqm: number | null
   serviced: boolean
-  /** Set once a Zenthos broker has physically inspected the property. */
-  verified: boolean
   /** Short quotable code, e.g. ZEN-4A2B91, for phone and WhatsApp enquiries. */
   reference_code: string
   title_document: TitleDocument | null
@@ -62,7 +60,6 @@ export type PropertySummary = Pick<
   | 'toilets'
   | 'area_sqm'
   | 'serviced'
-  | 'verified'
   | 'furnished'
   | 'images'
   | 'status'

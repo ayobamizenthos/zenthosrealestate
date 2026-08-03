@@ -9,7 +9,6 @@ import {
   Images,
   MapPin,
   Maximize,
-  ShieldCheck,
   Toilet,
 } from 'lucide-react'
 import Image from 'next/image'
@@ -79,12 +78,6 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
         ) : null}
 
         <div className="absolute top-3 left-3 z-10 flex flex-wrap gap-1.5">
-          {property.verified ? (
-            <span className="bg-success flex items-center gap-1 px-2 py-1 text-[10px] font-bold tracking-wide text-white uppercase">
-              <ShieldCheck size={11} aria-hidden="true" />
-              Verified
-            </span>
-          ) : null}
           {property.serviced ? (
             <span className="bg-ink px-2 py-1 text-[10px] font-bold tracking-wide text-white uppercase">
               Serviced

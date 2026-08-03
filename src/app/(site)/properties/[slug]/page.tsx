@@ -4,7 +4,6 @@ import {
   ChevronRight,
   MapPin,
   Maximize,
-  ShieldCheck,
   Sofa,
   Toilet,
 } from 'lucide-react'
@@ -199,12 +198,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
         <div className="mt-8 lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start lg:gap-10">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              {property.verified ? (
-                <span className="bg-success flex items-center gap-1 px-2 py-1 text-[10px] font-bold tracking-wide text-white uppercase">
-                  <ShieldCheck size={11} aria-hidden="true" />
-                  Verified
-                </span>
-              ) : null}
               {property.serviced ? (
                 <span className="bg-ink px-2 py-1 text-[10px] font-bold tracking-wide text-white uppercase">
                   Serviced

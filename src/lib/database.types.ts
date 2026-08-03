@@ -29,7 +29,6 @@ export type PropertiesRow = {
   toilets: number
   area_sqm: number | null
   serviced: boolean
-  verified: boolean
   reference_code: string
   furnished: string
   amenities: string[]
