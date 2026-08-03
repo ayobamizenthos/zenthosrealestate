@@ -35,7 +35,7 @@ async function fanOut(
 
 async function usersFollowingLocation(location: string): Promise<string[]> {
   const supabase = createSupabaseServiceClient()
-  const { data, error } = await supabase.rpc('users_following_location', {
+  const { data, error } = await supabase.rpc('notification_audience', {
     target_location: location,
   })
 

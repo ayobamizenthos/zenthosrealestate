@@ -66,6 +66,7 @@ export type InquiriesRow = {
 export type ProfilesRow = {
   id: string
   full_name: string
+  role: string
   phone: string | null
   created_at: Timestamptz
 }
@@ -208,7 +209,7 @@ export type Database = {
         Args: { uid: string }
         Returns: boolean
       }
-      users_following_location: {
+      notification_audience: {
         Args: { target_location: string }
         Returns: { user_id: string }[]
       }

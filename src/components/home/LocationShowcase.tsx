@@ -35,9 +35,7 @@ export function LocationShowcase({ locations }: { locations: LocationShowcaseEnt
 
           <div className="border-hairline mt-4 flex items-end justify-between gap-4 border-t pt-4">
             <div>
-              <p className="text-muted text-eyebrow font-semibold uppercase">
-                Lagos
-              </p>
+              <p className="text-muted text-eyebrow font-semibold uppercase">Lagos</p>
               <h3 className="text-ink mt-2 text-[26px] leading-none md:text-[32px]">
                 {location.location}
               </h3>
