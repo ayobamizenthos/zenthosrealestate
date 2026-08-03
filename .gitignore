@@ -1,0 +1,29 @@
+node_modules
+.next
+out
+build
+next-env.d.ts
+*.tsbuildinfo
+.DS_Store
+
+# Secrets — never commit
+.env
+.env.local
+.env*.local
+
+# Serwist compiles the service worker into public/ on every build
+public/sw.js
+public/sw.js.map
+public/workbox-*.js
+
+# Browser-tool artefacts
+.playwright-mcp
+
+# Source photography is uploaded to Cloudinary; the originals are large and do
+# not belong in git. Brand artwork in public/ IS committed — the icon script
+# and the header both read from it.
+public/*Bedroom*/
+public/*bed*/
+
+# Stray OneDrive duplicate of public/
+public - Copy/

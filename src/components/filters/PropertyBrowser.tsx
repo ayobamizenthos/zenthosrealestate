@@ -1,0 +1,80 @@
+'use client'
+
+import clsx from 'clsx'
+import { usePathname, useRouter } from 'next/navigation'
+import { useCallback, useTransition } from 'react'
+import type { ReactNode } from 'react'
+import { PROPERTIES_PER_PAGE } from '@/lib/constants'
+import { filtersToQueryString } from '@/lib/property-filters'
+import type { PropertyFilters } from '@/lib/types'
+import { FilterBar } from './FilterBar'
+
+interface PropertyBrowserProps {
+  filters: PropertyFilters
+  total: number
+  heading: string
+  intro: string
+  children: ReactNode
+}
+
+/**
+ * Filters live in the URL, so every result set is shareable and crawlable. A
+ * change replaces the history entry rather than pushing, keeping the back
+ * button tied to real navigation instead of every checkbox tick.
+ */
+export function PropertyBrowser({
+  filters,
+  total,
+  heading,
+  intro,
+  children,
+}: PropertyBrowserProps) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const [isPending, startTransition] = useTransition()
+
+  const applyFilters = useCallback(
+    (next: PropertyFilters) => {
+      startTransition(() => {
+        router.replace(`${pathname}${filtersToQueryString({ ...next, page: 1 })}`, {
+          scroll: false,
+        })
+      })
+    },
+    [pathname, router]
+  )
+
+  const firstOnPage = total === 0 ? 0 : (filters.page - 1) * PROPERTIES_PER_PAGE + 1
+  const lastOnPage = Math.min(filters.page * PROPERTIES_PER_PAGE, total)
+
+  return (
+    <>
+      <div className="bg-canvas">
+        <div className="app-shell pt-8 pb-6 md:pt-12">
+          <h1 className="text-ink text-[30px] leading-tight font-extrabold md:text-[40px]">
+            {heading}
+          </h1>
+          <p className="text-muted mt-3 max-w-3xl text-[15px] leading-relaxed">{intro}</p>
+        </div>
+      </div>
+
+      <FilterBar filters={filters} total={total} onChange={applyFilters} />
+
+      <div className="bg-page min-h-screen">
+        <div className="app-shell py-6 md:py-8">
+          <p className="text-muted mb-5 text-[14px]" aria-live="polite">
+            <span className="text-ink font-bold">
+              {firstOnPage}–{lastOnPage}
+            </span>{' '}
+            of <span className="text-ink font-bold">{total}</span>{' '}
+            {total === 1 ? 'property' : 'properties'} for sale
+          </p>
+
+          <div className={clsx('transition-opacity duration-200', isPending && 'opacity-40')}>
+            {children}
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}

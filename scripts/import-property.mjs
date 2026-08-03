@@ -1,0 +1,238 @@
+/**
+ * Imports one property folder into Cloudinary and Supabase.
+ *
+ *   npm run import -- "public/2-bed apartment-Lekki 300M"
+ *
+ * Folder naming convention (this is the contract — keep to it and the import
+ * needs no other input):
+ *
+ *   <bedrooms>-bed <property type>-<location> <price>
+ *   e.g.  "2-bed apartment-Lekki 300M"
+ *         "5-bed detached-Ikoyi 1.2B"
+ *         "4-bed terraced-Victoria Island 285M"
+ *
+ * Image files must be named by their display order: 1.jpg, 2.jpg, 3.jpg …
+ * File 1 becomes the cover. Every photo is expected to be 4:5 portrait —
+ * anything else still imports, but will be centre-cropped to 4:5 on display.
+ */
+import { readFile, readdir } from 'node:fs/promises'
+import { basename, extname, join } from 'node:path'
+
+const PROPERTY_TYPES = [
+  'Studio Apartment',
+  'Apartment',
+  'Penthouse',
+  'Maisonette',
+  'Detached Duplex',
+  'Semi-detached Duplex',
+  'Terraced Duplex',
+  'Detached Bungalow',
+  'Semi-detached Bungalow',
+  'Terraced Bungalow',
+]
+
+/** Broad areas, longest first so 'Banana Island' wins over 'Ikoyi'. */
+const LOCATIONS = [
+  'Victoria Island',
+  'Banana Island',
+  'Eko Atlantic',
+  'Ikoyi',
+  'Lekki',
+  'Ajah',
+  'Oniru',
+  'Ikeja',
+  'Yaba',
+  'Surulere',
+  'Magodo',
+  'Gbagada',
+  'Maryland',
+  'Ogudu',
+  'Omole',
+  'Maitama',
+  'Asokoro',
+  'Wuse',
+  'Gwarinpa',
+  'Jabi',
+  'Katampe',
+  'Guzape',
+  'Lokogoma',
+].sort((a, b) => b.length - a.length)
+
+const STATES = ['Lagos', 'Abuja']
+
+// npm drops the quotes around an argument containing spaces, so the folder
+// arrives as several argv entries. Re-join them.
+const folder = process.argv.slice(2).join(' ').trim()
+if (!folder) {
+  console.error('Usage: npm run import -- "<folder>"')
+  process.exit(1)
+}
+
+const { NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = process.env
+const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
+
+if (!NEXT_PUBLIC_SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY || !cloudName || !uploadPreset) {
+  console.error('Missing Supabase or Cloudinary environment variables. Check .env.local.')
+  process.exit(1)
+}
+
+/** "300M" → 300000000, "1.2B" → 1200000000, "85000000" → 85000000 */
+function parsePrice(token) {
+  const match = /^([\d.]+)\s*([mMbBkK]?)$/.exec(token.trim())
+  if (!match) return null
+
+  const amount = Number.parseFloat(match[1])
+  if (!Number.isFinite(amount)) return null
+
+  const scale = { m: 1e6, b: 1e9, k: 1e3 }[match[2].toLowerCase()] ?? 1
+  return Math.round(amount * scale)
+}
+
+function matchFromList(candidate, list) {
+  const normalised = candidate.trim().toLowerCase()
+  return list.find(entry => entry.toLowerCase() === normalised) ?? null
+}
+
+/**
+ * Splits "2 Bedroom Apartment 300M-Lekki Phase 1, Lagos" into its parts.
+ *
+ *   <bedrooms> Bedroom <Type> <Price>-<Street or estate>, <State>
+ */
+function parseFolderName(name) {
+  const shape = /^(\d+)\s+Bedrooms?\s+(.+?)\s+([\d.]+\s*[MmBbKk]?)\s*-\s*(.+?)\s*,\s*(.+)$/.exec(
+    name.trim()
+  )
+
+  if (!shape) {
+    throw new Error(
+      `Folder name must read "<n> Bedroom <Type> <Price>-<Area>, <State>".
+       Got: "${name}"`
+    )
+  }
+
+  const [, bedsRaw, typeRaw, priceRaw, addressRaw, stateRaw] = shape
+
+  const bedrooms = Number.parseInt(bedsRaw, 10)
+
+  const price = parsePrice(priceRaw)
+  if (price === null) throw new Error(`Could not read price "${priceRaw}" in: "${name}"`)
+
+  const propertyType = matchFromList(typeRaw, PROPERTY_TYPES)
+  if (!propertyType) {
+    throw new Error(
+      `Unknown property type "${typeRaw}".
+       Expected one of: ${PROPERTY_TYPES.join(', ')}`
+    )
+  }
+
+  const state = matchFromList(stateRaw, STATES)
+  if (!state) throw new Error(`Unknown state "${stateRaw}". Expected Lagos or Abuja.`)
+
+  const address = addressRaw.trim()
+
+  // "Lekki Phase 1" sits inside the broad Lekki area; match the longest name.
+  const location = LOCATIONS.find(area => address.toLowerCase().includes(area.toLowerCase()))
+  if (!location) {
+    throw new Error(
+      `Could not place "${address}" in a known area.
+       Expected the address to contain one of: ${LOCATIONS.join(', ')}`
+    )
+  }
+
+  return { bedrooms, propertyType, price, address, location, state }
+}
+
+async function uploadImage(filePath) {
+  const body = new FormData()
+  const bytes = await readFile(filePath)
+  body.append('file', new Blob([bytes]), basename(filePath))
+  body.append('upload_preset', uploadPreset)
+
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+    method: 'POST',
+    body,
+  })
+
+  if (!response.ok)
+    throw new Error(`Cloudinary rejected ${basename(filePath)}: ${await response.text()}`)
+
+  const result = await response.json()
+  return result.secure_url
+}
+
+const details = parseFolderName(basename(folder))
+console.log(
+  `\n${details.bedrooms} bed ${details.propertyType} in ${details.location} — ₦${details.price.toLocaleString()}\n`
+)
+
+const files = (await readdir(folder))
+  .filter(name => /\.(jpe?g|png|webp)$/i.test(name))
+  // Numeric sort, so 10.jpg lands after 9.jpg rather than after 1.jpg.
+  .sort((a, b) => {
+    const toNumber = value => Number.parseInt(basename(value, extname(value)), 10)
+    const left = toNumber(a)
+    const right = toNumber(b)
+    if (Number.isFinite(left) && Number.isFinite(right)) return left - right
+    return a.localeCompare(b)
+  })
+
+if (!files.length) {
+  console.error('No images found in that folder.')
+  process.exit(1)
+}
+
+console.log(`Uploading ${files.length} photos in order…`)
+const images = []
+for (const [index, file] of files.entries()) {
+  process.stdout.write(`  ${index + 1}. ${file} … `)
+  images.push(await uploadImage(join(folder, file)))
+  console.log('ok')
+}
+
+const title = `${details.bedrooms} Bedroom ${details.propertyType}`
+const description = `${details.bedrooms} bedroom ${details.propertyType.toLowerCase()} at ${details.address}, ${details.state}. Inspected by a Zenthos broker with documentation verified. Message us on WhatsApp to arrange a viewing.`
+
+const payload = {
+  title,
+  description,
+  location: details.location,
+  address: details.address,
+  state: details.state,
+  price: details.price,
+  property_type: details.propertyType,
+  bedrooms: details.bedrooms,
+  bathrooms: details.bedrooms,
+  toilets: details.bedrooms + 1,
+  furnished: 'Unfurnished',
+  listing_type: 'Sale',
+  status: 'Available',
+  amenities: [],
+  images,
+  featured: false,
+  verified: true,
+  serviced: false,
+  published: true,
+}
+
+const insert = await fetch(`${NEXT_PUBLIC_SUPABASE_URL}/rest/v1/properties`, {
+  method: 'POST',
+  headers: {
+    apikey: SUPABASE_SERVICE_ROLE_KEY,
+    Authorization: `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+    'Content-Type': 'application/json',
+    Prefer: 'return=representation',
+  },
+  body: JSON.stringify(payload),
+})
+
+if (!insert.ok) {
+  console.error(`\nSupabase rejected the listing: ${await insert.text()}`)
+  process.exit(1)
+}
+
+const [created] = await insert.json()
+console.log(`\nPublished: ${title}`)
+console.log(`  /properties/${created.slug}`)
+console.log(`  Reference ${created.reference_code}`)
+console.log(`\nRefine the details at /admin/properties/edit/${created.id}`)

@@ -1,0 +1,106 @@
+'use client'
+
+import clsx from 'clsx'
+import { Bell, Search } from 'lucide-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useAuth } from '@/components/auth/AuthProvider'
+import { ZenthosLogo } from '@/components/brand/ZenthosLogo'
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
+import { useSearchOverlay } from '@/components/search/SearchProvider'
+import { useUnreadNotificationCount } from '@/hooks/useUnreadNotificationCount'
+import { LOCATION_LANDING_PAGES } from '@/lib/constants'
+import { generalInquiryLink } from '@/lib/whatsapp'
+
+export function SiteHeader() {
+  const { openSearch } = useSearchOverlay()
+  const { user } = useAuth()
+  const unreadCount = useUnreadNotificationCount()
+  const pathname = usePathname()
+
+  return (
+    <header className="border-hairline bg-canvas sticky top-0 z-40 border-b">
+      <div className="app-shell flex h-16 items-center gap-2">
+        <Link href="/" aria-label="Zenthos Real Estate home" className="mr-2 shrink-0">
+          <ZenthosLogo />
+        </Link>
+
+        <nav aria-label="Primary" className="hidden items-center lg:flex">
+          <Link
+            href="/properties"
+            className={clsx(
+              'rounded-control px-3 py-2 text-[14px] font-semibold whitespace-nowrap transition-colors',
+              pathname === '/properties' ? 'text-brand' : 'text-ink hover:text-brand'
+            )}
+          >
+            All properties
+          </Link>
+
+          {LOCATION_LANDING_PAGES.map(location => {
+            const href = `/properties/${location.slug}`
+            return (
+              <Link
+                key={location.slug}
+                href={href}
+                className={clsx(
+                  'rounded-control px-3 py-2 text-[14px] font-semibold whitespace-nowrap transition-colors',
+                  pathname === href ? 'text-brand' : 'text-ink hover:text-brand'
+                )}
+              >
+                {location.name}
+              </Link>
+            )
+          })}
+        </nav>
+
+        <div className="flex-1" />
+
+        <button
+          type="button"
+          onClick={openSearch}
+          className="border-hairline text-muted hover:border-ink rounded-control hidden h-10 w-56 items-center gap-2 border px-3 text-left text-[14px] transition-colors md:flex xl:w-64"
+        >
+          <Search size={15} aria-hidden="true" className="shrink-0" />
+          <span className="flex-1 truncate">Search properties</span>
+          <kbd className="text-muted border-hairline rounded border px-1.5 py-0.5 font-sans text-[10px]">
+            ⌘K
+          </kbd>
+        </button>
+
+        <button
+          type="button"
+          onClick={openSearch}
+          aria-label="Search properties"
+          className="text-ink hover:text-brand flex h-11 w-11 items-center justify-center md:hidden"
+        >
+          <Search size={20} aria-hidden="true" />
+        </button>
+
+        {user ? (
+          <Link
+            href="/notifications"
+            aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : 'Notifications'}
+            className="text-ink hover:text-brand relative flex h-11 w-11 items-center justify-center"
+          >
+            <Bell size={19} aria-hidden="true" />
+            {unreadCount > 0 ? (
+              <span className="bg-brand ring-canvas absolute top-2 right-2 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white ring-2">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            ) : null}
+          </Link>
+        ) : null}
+
+        <a
+          href={generalInquiryLink()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="bg-whatsapp hover:bg-whatsapp-hover rounded-control hidden h-10 shrink-0 items-center gap-2 px-4 text-[14px] font-semibold whitespace-nowrap text-white transition-colors sm:flex"
+        >
+          <WhatsAppIcon className="h-4 w-4" />
+          WhatsApp
+        </a>
+      </div>
+    </header>
+  )
+}
