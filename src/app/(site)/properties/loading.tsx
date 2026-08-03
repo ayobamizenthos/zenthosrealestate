@@ -29,7 +29,7 @@ export default function PropertiesLoading() {
       <div className="bg-page">
         <div className="app-shell py-8">
           <Skeleton className="mb-6 h-4 w-56" />
-          <PropertyFeedSkeleton count={4} />
+          <PropertyFeedSkeleton count={6} />
         </div>
       </div>
     </>

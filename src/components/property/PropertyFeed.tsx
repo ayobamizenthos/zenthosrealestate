@@ -3,8 +3,8 @@ import { PropertyCard } from './PropertyCard'
 import { PropertySaveAction } from './PropertySaveAction'
 
 /**
- * Single-column feed of wide rows. One definition is shared by browse, search,
- * location pages and saved, so the rhythm can never drift between them.
+ * Three-up grid on a desktop, two on a tablet, one on a phone. Shared by
+ * browse, search, location pages and saved, so the rhythm cannot drift.
  */
 export function PropertyFeed({
   properties,
@@ -14,12 +14,12 @@ export function PropertyFeed({
   showSaveAction?: boolean
 }) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
       {properties.map((property, position) => (
         <PropertyCard
           key={property.id}
           property={property}
-          priority={position < 2}
+          priority={position < 3}
           action={
             showSaveAction ? (
               <PropertySaveAction propertyId={property.id} propertyTitle={property.title} />

@@ -15,7 +15,7 @@ const UPLOAD_SEGMENT = '/image/upload/'
 export const PROPERTY_ASPECT_RATIO = '4:5'
 
 export const IMAGE_PRESETS = {
-  cardThumb: 'f_auto,q_auto,w_600,c_fill,ar_4:5,g_auto',
+  cardThumb: 'f_auto,q_auto,w_800,c_fill,ar_4:3,g_auto',
   gallery: 'f_auto,q_auto,w_1400,c_fill,ar_4:5,g_auto',
   lightbox: 'f_auto,q_auto:best,w_2400,c_limit',
   socialCard: 'f_jpg,q_auto,w_1200,h_630,c_fill,g_auto',

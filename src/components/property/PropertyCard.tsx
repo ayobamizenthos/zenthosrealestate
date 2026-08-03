@@ -3,13 +3,12 @@
 import {
   Bath,
   BedDouble,
-  Car,
   ChevronLeft,
   ChevronRight,
   Images,
   MapPin,
-  Phone,
   Maximize,
+  Phone,
   Toilet,
 } from 'lucide-react'
 import Image from 'next/image'
@@ -18,15 +17,15 @@ import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { StatusBadge } from '@/components/ui/Badge'
+import { RelativeTime } from '@/components/ui/RelativeTime'
 import { propertyBlurPlaceholder, propertyCardImage } from '@/lib/cloudinary'
 import { SITE } from '@/lib/constants'
-import { RelativeTime } from '@/components/ui/RelativeTime'
 import { displayPrice } from '@/lib/format'
 import { formatFullAddress } from '@/lib/share'
 import type { PropertySummary } from '@/lib/types'
 import { propertyInquiryLink } from '@/lib/whatsapp'
 
-const CARD_IMAGE_SIZES = '(min-width: 1024px) 380px, (min-width: 640px) 45vw, 100vw'
+const CARD_IMAGE_SIZES = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
 
 interface PropertyCardProps {
   property: PropertySummary
@@ -45,10 +44,9 @@ function Spec({ icon, value, label }: { icon: ReactNode; value: string; label: s
 }
 
 /**
- * Wide feed row rather than a grid tile: photography on the left, the full
- * detail stack on the right, broker actions pinned to the bottom. This is the
- * layout Nigerian buyers scan, and it fits far more information per screen
- * than a three-column grid of small cards.
+ * Grid tile: photograph on top, then price, type, title, address and specs.
+ * Three to a row on a desktop, which is the density Nigerian buyers are used
+ * to scanning and lets the photography carry the listing.
  */
 export function PropertyCard({ property, priority = false, action }: PropertyCardProps) {
   const [activeImage, setActiveImage] = useState(0)
@@ -60,9 +58,11 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
   }
 
   return (
-    <article className="group border-hairline hover:border-ink relative border bg-white transition-colors sm:flex">
-      {/* 4:5 on every breakpoint — the ratio the photographs are actually shot in. */}
-      <div className="bg-surface relative aspect-[4/5] shrink-0 overflow-hidden sm:w-[260px] lg:w-[300px]">
+    <article className="group border-hairline hover:shadow-card-hover relative flex flex-col overflow-hidden rounded-card border bg-white transition-shadow">
+      {/* 4:3 here rather than the 4:5 the photographs are shot in: three
+          portrait frames to a row pushed price and specs below the fold. The
+          detail gallery still shows the full frame. */}
+      <div className="bg-surface relative aspect-[4/3] w-full shrink-0 overflow-hidden">
         {images.length > 0 ? (
           <Image
             key={images[activeImage]}
@@ -117,7 +117,7 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col p-4 md:p-5">
-        <p className="text-ink text-[26px] leading-none font-extrabold md:text-[30px]">
+        <p className="text-ink text-[24px] leading-none font-extrabold md:text-[26px]">
           {displayPrice(property.price, property.price_label)}
         </p>
 
@@ -125,7 +125,7 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
           {property.property_type} for sale
         </p>
 
-        <h3 className="mt-1 text-[18px] leading-snug font-bold">
+        <h3 className="mt-1 text-[17px] leading-snug font-bold">
           <Link
             href={`/properties/${property.slug}`}
             className="text-ink after:absolute after:inset-0 after:content-[''] hover:underline"
@@ -133,12 +133,6 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
             {property.title}
           </Link>
         </h3>
-
-        {property.description ? (
-          <p className="text-muted mt-1.5 line-clamp-2 text-[13px] leading-relaxed">
-            {property.description}
-          </p>
-        ) : null}
 
         <p className="text-muted mt-2 flex items-start gap-1.5 text-[13px]">
           <MapPin size={14} aria-hidden="true" className="mt-0.5 shrink-0" />
@@ -168,34 +162,29 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
               label="m²"
             />
           ) : null}
-          {property.furnished === 'Furnished' ? (
-            <Spec icon={<Car size={15} aria-hidden="true" />} value="" label="Furnished" />
-          ) : null}
         </div>
 
-        <div className="border-hairline mt-4 flex items-center justify-between gap-3 border-t pt-3">
+        <div className="border-hairline mt-auto flex items-center justify-between gap-3 border-t pt-3">
           <p className="text-muted text-[12px]">
             Added <RelativeTime iso={property.created_at} />
           </p>
 
-          {/* Circular, so the pair reads as icon actions rather than two
-              competing bars fighting the price for attention. */}
           <div className="relative z-20 flex gap-2">
             <a
               href={`tel:+${SITE.whatsappNumber}`}
               aria-label={`Call about ${property.title}`}
-              className="border-hairline text-ink hover:border-ink hover:bg-surface flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
+              className="border-hairline text-ink hover:border-ink hover:bg-surface flex h-10 w-10 items-center justify-center rounded-full border transition-colors"
             >
-              <Phone size={17} aria-hidden="true" />
+              <Phone size={16} aria-hidden="true" />
             </a>
             <a
               href={propertyInquiryLink(property)}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Message us on WhatsApp about ${property.title}`}
-              className="bg-whatsapp hover:bg-whatsapp-hover flex h-11 w-11 items-center justify-center rounded-full text-white transition-colors"
+              className="bg-whatsapp hover:bg-whatsapp-hover flex h-10 w-10 items-center justify-center rounded-full text-white transition-colors"
             >
-              <WhatsAppIcon className="h-[19px] w-[19px]" />
+              <WhatsAppIcon className="h-[17px] w-[17px]" />
             </a>
           </div>
         </div>
