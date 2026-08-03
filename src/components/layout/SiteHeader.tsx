@@ -21,6 +21,8 @@ export function SiteHeader() {
           <ZenthosLogo />
         </Link>
 
+        <div className="flex-1" />
+
         <nav aria-label="Primary" className="hidden items-center lg:flex">
           <Link
             href="/properties"
@@ -48,8 +50,6 @@ export function SiteHeader() {
             )
           })}
         </nav>
-
-        <div className="flex-1" />
 
         {user ? (
           <Link
