@@ -252,7 +252,7 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
               type="search"
               value={queryDraft}
               onChange={event => setQueryDraft(event.target.value)}
-              placeholder="Try “2 bedroom Lekki”, “detached duplex” or ZEN-…"
+              placeholder="Search by area, street or property type"
               aria-label="Search properties"
               className="text-ink placeholder:text-muted h-full min-w-0 flex-1 bg-transparent text-[14px] outline-none [&::-webkit-search-cancel-button]:appearance-none"
             />

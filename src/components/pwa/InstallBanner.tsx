@@ -3,7 +3,6 @@
 import { Share2, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { ZenthosLogo } from '@/components/brand/ZenthosLogo'
-import { Button } from '@/components/ui/Button'
 import { useVisitCount } from '@/hooks/useVisitCount'
 import { createPromptDismissal, useIsClient } from '@/lib/local-store'
 
@@ -71,48 +70,46 @@ export function InstallBanner() {
   }
 
   return (
-    // Bottom-left on desktop: the right corner belongs to the WhatsApp button,
-    // and the centre of the page is where the search card lives.
-    <div className="fixed inset-x-0 bottom-[calc(64px+env(safe-area-inset-bottom))] z-50 px-4 md:right-auto md:bottom-6 md:left-6 md:w-[22rem] md:px-0">
-      <div className="border-hairline shadow-card-hover rounded-card border bg-white p-4">
-        <div className="flex items-start gap-3">
+    // A single slim bar rather than a card. The previous 22rem panel sat on top
+    // of whatever listing happened to be in the bottom-left of the viewport.
+    // Left-aligned on desktop because the right corner belongs to the WhatsApp
+    // button; above the tab bar on mobile so it never covers navigation.
+    <div className="animate-slide-up fixed inset-x-3 bottom-[calc(64px+env(safe-area-inset-bottom)+12px)] z-50 md:inset-x-auto md:bottom-6 md:left-6 md:max-w-md">
+      <div className="border-hairline shadow-card-hover flex items-center gap-3 rounded-full border bg-white/95 py-2 pr-2 pl-3 backdrop-blur-md">
+        <span className="shrink-0">
           <ZenthosLogo showWordmark={false} />
+        </span>
 
-          <div className="min-w-0 flex-1">
-            <p className="text-ink text-[15px] font-bold">Add to Home Screen</p>
-            {showIosHint ? (
-              <p className="text-muted mt-1 flex flex-wrap items-center gap-1 text-[13px] leading-relaxed">
-                Tap
-                <Share2 size={14} aria-hidden="true" className="inline" />
-                then <span className="text-ink font-semibold">Add to Home Screen</span>.
-              </p>
-            ) : (
-              <p className="text-muted mt-1 text-[13px] leading-relaxed">
-                Install Zenthos for quick access and property alerts.
-              </p>
-            )}
-          </div>
-
-          <button
-            type="button"
-            onClick={dismiss}
-            aria-label="Dismiss install prompt"
-            className="text-muted hover:text-ink -mt-1 -mr-1 flex h-9 w-9 shrink-0 items-center justify-center"
-          >
-            <X size={17} aria-hidden="true" />
-          </button>
-        </div>
+        {showIosHint ? (
+          <p className="text-ink flex min-w-0 flex-1 flex-wrap items-center gap-1 text-[13px] leading-snug">
+            Tap
+            <Share2 size={13} aria-hidden="true" className="shrink-0" />
+            then <span className="font-semibold">Add to Home Screen</span>
+          </p>
+        ) : (
+          <p className="text-ink min-w-0 flex-1 truncate text-[13px] font-medium">
+            Install the Zenthos app
+          </p>
+        )}
 
         {!showIosHint ? (
-          <div className="mt-3 flex gap-2">
-            <Button onClick={() => void install()} fullWidth className="whitespace-nowrap">
-              Install
-            </Button>
-            <Button onClick={dismiss} variant="ghost" className="shrink-0 whitespace-nowrap">
-              Not now
-            </Button>
-          </div>
+          <button
+            type="button"
+            onClick={() => void install()}
+            className="bg-brand hover:bg-brand-hover flex h-9 shrink-0 items-center rounded-full px-4 text-[13px] font-bold text-white transition-colors"
+          >
+            Install
+          </button>
         ) : null}
+
+        <button
+          type="button"
+          onClick={dismiss}
+          aria-label="Dismiss install prompt"
+          className="text-muted hover:text-ink hover:bg-surface flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors"
+        >
+          <X size={16} aria-hidden="true" />
+        </button>
       </div>
     </div>
   )

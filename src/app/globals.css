@@ -101,6 +101,22 @@
   }
 }
 
+/* The install bar rises into place rather than appearing under the cursor. */
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-slide-up {
+  animation: slide-up 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 @keyframes fade-in {
   from {
     opacity: 0;
