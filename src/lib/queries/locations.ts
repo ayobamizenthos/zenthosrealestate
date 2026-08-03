@@ -77,6 +77,27 @@ export interface CatalogueStats {
   areasCovered: number
 }
 
+/**
+ * Cheapest published listing, for the "from" figure on the homepage. Derived
+ * from the whole catalogue rather than whatever happens to be featured, so the
+ * price quoted is one a buyer can actually find.
+ */
+export async function getLowestListedPrice(
+  supabase: ZenthosSupabaseClient
+): Promise<number | null> {
+  const { data, error } = await supabase
+    .from('properties')
+    .select('price')
+    .eq('published', true)
+    .not('price', 'is', null)
+    .order('price', { ascending: true })
+    .limit(1)
+    .maybeSingle()
+
+  if (error || !data) return null
+  return data.price
+}
+
 export async function getCatalogueStats(
   supabase: ZenthosSupabaseClient
 ): Promise<CatalogueStats | null> {

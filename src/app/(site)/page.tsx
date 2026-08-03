@@ -1,16 +1,21 @@
 import type { Metadata } from 'next'
+import { AgentBand } from '@/components/home/AgentBand'
 import { HomeHero } from '@/components/home/HomeHero'
 import { LocationShowcase } from '@/components/home/LocationShowcase'
+import { buildMarketStats, MarketStats } from '@/components/home/MarketStats'
 import { PropertyTypeShowcase } from '@/components/home/PropertyTypeShowcase'
 import { TrustBand } from '@/components/home/TrustBand'
 import { PropertyFeed } from '@/components/property/PropertyFeed'
 import { OrganizationJsonLd } from '@/components/seo/PropertyJsonLd'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { SITE } from '@/lib/constants'
+import { LOCATIONS_BY_STATE, SITE } from '@/lib/constants'
 import { isSupabaseConfigured } from '@/lib/env'
 import {
+  getCatalogueStats,
+  getLowestListedPrice,
   getLocationShowcase,
   getPropertyTypeShowcase,
+  type CatalogueStats,
   type LocationShowcaseEntry,
   type PropertyTypeShowcaseEntry,
 } from '@/lib/queries/locations'
@@ -21,9 +26,9 @@ import type { PropertySummary } from '@/lib/types'
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
   openGraph: {
-    title: `${SITE.name} | Luxury Properties in Lagos`,
+    title: `${SITE.name} | Property for Sale in Lagos & Abuja`,
     description:
-      'Verified homes for sale, rent and shortlet in Victoria Island, Lekki, Ikoyi and Ajah.',
+      'Inspected homes for sale across Lagos island, Lagos mainland and Abuja. Speak to a broker on WhatsApp.',
     url: SITE.url,
   },
 }
@@ -34,24 +39,34 @@ interface HomepageData {
   featured: PropertySummary[]
   locations: LocationShowcaseEntry[]
   propertyTypes: PropertyTypeShowcaseEntry[]
+  stats: CatalogueStats | null
+  lowestPrice: number | null
 }
 
 async function loadHomepageData(): Promise<HomepageData> {
-  const empty: HomepageData = { featured: [], locations: [], propertyTypes: [] }
+  const empty: HomepageData = {
+    featured: [],
+    locations: [],
+    propertyTypes: [],
+    stats: null,
+    lowestPrice: null,
+  }
   if (!isSupabaseConfigured) return empty
 
   const supabase = createSupabasePublicClient()
-  const [featured, locations, propertyTypes] = await Promise.all([
+  const [featured, locations, propertyTypes, stats, lowestPrice] = await Promise.all([
     getFeaturedProperties(supabase, 3).catch(() => empty.featured),
     getLocationShowcase(supabase).catch(() => empty.locations),
     getPropertyTypeShowcase(supabase).catch(() => empty.propertyTypes),
+    getCatalogueStats(supabase).catch(() => null),
+    getLowestListedPrice(supabase).catch(() => null),
   ])
 
-  return { featured, locations, propertyTypes }
+  return { featured, locations, propertyTypes, stats, lowestPrice }
 }
 
 export default async function HomePage() {
-  const { featured, locations, propertyTypes } = await loadHomepageData()
+  const { featured, locations, propertyTypes, stats, lowestPrice } = await loadHomepageData()
 
   const availableTypes = propertyTypes.filter(entry => entry.propertyCount > 0)
 
@@ -59,11 +74,32 @@ export default async function HomePage() {
   // twelve-thousand-pixel scroll on a phone, and half the tiles were empty.
   const homepageAreas = [...locations].sort((a, b) => b.propertyCount - a.propertyCount).slice(0, 6)
 
+  // Read off the catalogue rather than written down, so the band cannot claim
+  // coverage the site does not actually have.
+  const statesCovered = new Set(
+    locations
+      .filter(area => area.propertyCount > 0)
+      .map(area =>
+        (LOCATIONS_BY_STATE.Abuja as readonly string[]).includes(area.location) ? 'Abuja' : 'Lagos'
+      )
+  ).size
+
+  const marketStats = stats
+    ? buildMarketStats({
+        totalListings: stats.totalListings,
+        areasCovered: stats.areasCovered,
+        statesCovered,
+        lowestPrice,
+      })
+    : []
+
   return (
     <>
       <OrganizationJsonLd />
 
       <HomeHero />
+
+      <MarketStats stats={marketStats} />
 
       {availableTypes.length > 0 ? (
         <section className="app-shell py-16 md:py-20">
@@ -99,6 +135,8 @@ export default async function HomePage() {
           <LocationShowcase locations={homepageAreas} />
         </section>
       ) : null}
+
+      <AgentBand />
 
       <TrustBand />
     </>
