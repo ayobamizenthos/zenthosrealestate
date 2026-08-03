@@ -19,22 +19,22 @@ export function HomeHero() {
         }}
       />
 
-      <div className="app-shell relative flex flex-col items-center py-16 text-center md:py-24">
+      <div className="app-shell relative flex flex-col items-center py-12 text-center md:py-24">
         <span className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-[12px] font-semibold text-white/90 backdrop-blur-sm">
           <ShieldCheck size={13} aria-hidden="true" />
           Every listing inspected before it is published
         </span>
 
-        <h1 className="mt-7 max-w-4xl text-[38px] leading-[1.02] font-extrabold tracking-tight text-white md:text-[62px] lg:text-[72px]">
-          Find the right property in Lagos
+        <h1 className="mt-6 max-w-4xl text-[36px] leading-[1.04] font-extrabold tracking-tight text-white md:mt-7 md:text-[62px] lg:text-[72px]">
+          Find the right property in Lagos &amp; Abuja
         </h1>
 
-        <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-white/70 md:text-[17px]">
-          Houses and duplexes for sale across Victoria Island, Ikoyi, Lekki and Ajah — verified,
-          documented, and one WhatsApp message away.
+        <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/70 md:mt-5 md:text-[17px]">
+          Houses, duplexes and apartments for sale across the islands, the mainland and the capital
+          — documented, and one WhatsApp message away.
         </p>
 
-        <div className="mt-10 flex w-full justify-center">
+        <div className="mt-8 flex w-full justify-center md:mt-10">
           <HeroSearchForm />
         </div>
       </div>

@@ -6,11 +6,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/components/auth/AuthProvider'
 import { ZenthosLogo } from '@/components/brand/ZenthosLogo'
-import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { useSearchOverlay } from '@/components/search/SearchProvider'
 import { useUnreadNotificationCount } from '@/hooks/useUnreadNotificationCount'
 import { LOCATION_LANDING_PAGES } from '@/lib/constants'
-import { generalInquiryLink } from '@/lib/whatsapp'
 
 export function SiteHeader() {
   const { openSearch } = useSearchOverlay()
@@ -36,7 +34,7 @@ export function SiteHeader() {
             All properties
           </Link>
 
-          {LOCATION_LANDING_PAGES.map(location => {
+          {LOCATION_LANDING_PAGES.slice(0, 4).map(location => {
             const href = `/properties/${location.slug}`
             return (
               <Link
@@ -91,15 +89,29 @@ export function SiteHeader() {
           </Link>
         ) : null}
 
-        <a
-          href={generalInquiryLink()}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-whatsapp hover:bg-whatsapp-hover rounded-control hidden h-10 shrink-0 items-center gap-2 px-4 text-[14px] font-semibold whitespace-nowrap text-white transition-colors sm:flex"
-        >
-          <WhatsAppIcon className="h-4 w-4" />
-          WhatsApp
-        </a>
+        {user ? (
+          <Link
+            href="/profile"
+            className="border-hairline text-ink hover:border-ink rounded-control hidden h-10 shrink-0 items-center px-4 text-[14px] font-semibold whitespace-nowrap transition-colors sm:flex"
+          >
+            My account
+          </Link>
+        ) : (
+          <div className="hidden shrink-0 items-center gap-2 sm:flex">
+            <Link
+              href="/login"
+              className="text-ink hover:text-brand rounded-control flex h-10 items-center px-3 text-[14px] font-semibold whitespace-nowrap transition-colors"
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/register"
+              className="bg-brand hover:bg-brand-hover rounded-control flex h-10 items-center px-4 text-[14px] font-semibold whitespace-nowrap text-white transition-colors"
+            >
+              Register
+            </Link>
+          </div>
+        )}
       </div>
     </header>
   )

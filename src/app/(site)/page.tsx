@@ -42,7 +42,7 @@ async function loadHomepageData(): Promise<HomepageData> {
 
   const supabase = createSupabasePublicClient()
   const [featured, locations, propertyTypes] = await Promise.all([
-    getFeaturedProperties(supabase, 7).catch(() => empty.featured),
+    getFeaturedProperties(supabase, 3).catch(() => empty.featured),
     getLocationShowcase(supabase).catch(() => empty.locations),
     getPropertyTypeShowcase(supabase).catch(() => empty.propertyTypes),
   ])
@@ -55,6 +55,10 @@ export default async function HomePage() {
 
   const availableTypes = propertyTypes.filter(entry => entry.propertyCount > 0)
 
+  // Areas carrying stock lead. Showing all of them turned the homepage into a
+  // twelve-thousand-pixel scroll on a phone, and half the tiles were empty.
+  const homepageAreas = [...locations].sort((a, b) => b.propertyCount - a.propertyCount).slice(0, 6)
+
   return (
     <>
       <OrganizationJsonLd />
@@ -65,7 +69,7 @@ export default async function HomePage() {
         <section className="app-shell py-16 md:py-20">
           <SectionHeading
             eyebrow="Browse"
-            title="Every kind of home on the peninsula"
+            title="Every kind of home we broker"
             linkHref="/properties"
             linkLabel="See all"
           />
@@ -89,10 +93,10 @@ export default async function HomePage() {
         <section className="app-shell py-16 md:py-20">
           <SectionHeading
             eyebrow="Areas"
-            title="Four corners of the peninsula"
-            description="Each with its own character, pricing and pace of turnover."
+            title="Where we sell"
+            description="Lagos island, Lagos mainland and Abuja — each with its own pricing and pace of turnover."
           />
-          <LocationShowcase locations={locations} />
+          <LocationShowcase locations={homepageAreas} />
         </section>
       ) : null}
 

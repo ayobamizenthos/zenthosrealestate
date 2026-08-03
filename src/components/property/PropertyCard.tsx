@@ -94,7 +94,7 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
               type="button"
               onClick={() => step(-1)}
               aria-label="Previous photo"
-              className="text-ink absolute top-1/2 left-2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+              className="text-ink absolute top-1/2 left-2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
             >
               <ChevronLeft size={17} aria-hidden="true" />
             </button>
@@ -102,7 +102,7 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
               type="button"
               onClick={() => step(1)}
               aria-label="Next photo"
-              className="text-ink absolute top-1/2 right-2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+              className="text-ink absolute top-1/2 right-2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
             >
               <ChevronRight size={17} aria-hidden="true" />
             </button>
@@ -180,7 +180,7 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
           <div className="relative z-20 flex gap-2">
             <a
               href={`tel:+${SITE.whatsappNumber}`}
-              className="border-hairline text-ink hover:border-ink flex h-10 items-center border px-3.5 text-[13px] font-semibold transition-colors"
+              className="border-hairline text-ink hover:border-ink flex h-11 items-center border px-4 text-[13px] font-semibold transition-colors"
             >
               Call
             </a>
@@ -188,7 +188,7 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
               href={propertyInquiryLink(property)}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-whatsapp hover:bg-whatsapp-hover flex h-10 items-center gap-1.5 px-3.5 text-[13px] font-semibold text-white transition-colors"
+              className="bg-whatsapp hover:bg-whatsapp-hover flex h-11 items-center gap-1.5 px-4 text-[13px] font-semibold text-white transition-colors"
             >
               <WhatsAppIcon className="h-4 w-4" />
               WhatsApp

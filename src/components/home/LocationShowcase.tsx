@@ -2,23 +2,23 @@ import { ArrowUpRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { propertyBlurPlaceholder, propertyCardImage } from '@/lib/cloudinary'
+import { LOCATIONS_BY_STATE } from '@/lib/constants'
 import type { LocationShowcaseEntry } from '@/lib/queries/locations'
 
-const TILE_SIZES = '(min-width: 768px) 50vw, 100vw'
+const TILE_SIZES = '(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw'
+
+const ABUJA_AREAS: readonly string[] = LOCATIONS_BY_STATE.Abuja
 
 /**
- * Two-up editorial rows rather than four equal tiles — the alternating offset
- * keeps the eye moving down the page instead of scanning a flat grid.
+ * Two-up on mobile, four-up on desktop. An earlier single-column portrait
+ * treatment ran the homepage past 12,000px on a phone once the coverage grew
+ * beyond four areas — at this density the whole footprint is one thumb-flick.
  */
 export function LocationShowcase({ locations }: { locations: LocationShowcaseEntry[] }) {
   return (
-    <div className="grid gap-x-6 gap-y-12 md:grid-cols-2">
+    <div className="grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-3 md:gap-x-5 lg:grid-cols-4">
       {locations.map(location => (
-        <Link
-          key={location.slug}
-          href={`/properties/${location.slug}`}
-          className="group block md:even:mt-16"
-        >
+        <Link key={location.slug} href={`/properties/${location.slug}`} className="group block">
           <div className="bg-surface relative aspect-[4/5] overflow-hidden">
             {location.coverImage ? (
               <Image
@@ -33,18 +33,23 @@ export function LocationShowcase({ locations }: { locations: LocationShowcaseEnt
             ) : null}
           </div>
 
-          <div className="border-hairline mt-4 flex items-end justify-between gap-4 border-t pt-4">
-            <div>
-              <p className="text-muted text-eyebrow font-semibold uppercase">Lagos</p>
-              <h3 className="text-ink mt-2 text-[26px] leading-none md:text-[32px]">
+          <div className="border-hairline mt-3 flex items-start justify-between gap-2 border-t pt-3">
+            <div className="min-w-0">
+              <p className="text-muted text-[11px] font-semibold tracking-wide uppercase">
+                {ABUJA_AREAS.includes(location.location) ? 'Abuja' : 'Lagos'}
+              </p>
+              <h3 className="text-ink mt-1 truncate text-[17px] leading-tight font-bold md:text-[19px]">
                 {location.location}
               </h3>
+              <p className="text-muted mt-0.5 text-[12px]">
+                {location.propertyCount} {location.propertyCount === 1 ? 'listing' : 'listings'}
+              </p>
             </div>
 
             <ArrowUpRight
-              size={22}
+              size={17}
               aria-hidden="true"
-              className="text-muted group-hover:text-brand mb-1 shrink-0 transition-all group-hover:-translate-y-1 group-hover:translate-x-1"
+              className="text-muted group-hover:text-brand mt-1 shrink-0 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             />
           </div>
         </Link>

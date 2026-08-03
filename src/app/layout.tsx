@@ -15,11 +15,11 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} | Luxury Properties in Lagos - Victoria Island, Lekki, Ikoyi, Ajah`,
+    default: `${SITE.name} | Property for Sale in Lagos & Abuja`,
     template: `%s | ${SITE.name}`,
   },
   description:
-    'Browse verified luxury properties for sale, rent and shortlet across Victoria Island, Lekki, Ikoyi and Ajah. Speak to a Zenthos broker on WhatsApp today.',
+    'Browse houses, duplexes and apartments for sale across Lagos island, Lagos mainland and Abuja. Every listing is inspected and its title checked. Speak to a Zenthos broker on WhatsApp today.',
   applicationName: SITE.name,
   manifest: '/manifest.webmanifest',
   icons: {

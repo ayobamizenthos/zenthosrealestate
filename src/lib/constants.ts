@@ -1,7 +1,7 @@
 export const SITE = {
   name: 'Zenthos Real Estate',
   shortName: 'Zenthos RE',
-  tagline: 'Premium property brokerage in Lagos',
+  tagline: 'Property brokerage in Lagos and Abuja',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zenthosrealestate.com.ng',
   email: 'hello@zenthosrealestate.com.ng',
   /** Displayed to humans; `whatsappNumber` is the wa.me wire format. */

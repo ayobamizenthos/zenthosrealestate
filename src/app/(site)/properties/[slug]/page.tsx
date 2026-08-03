@@ -1,12 +1,4 @@
-import {
-  Bath,
-  BedDouble,
-  ChevronRight,
-  MapPin,
-  Maximize,
-  Sofa,
-  Toilet,
-} from 'lucide-react'
+import { Bath, BedDouble, ChevronRight, MapPin, Maximize, Sofa, Toilet } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
