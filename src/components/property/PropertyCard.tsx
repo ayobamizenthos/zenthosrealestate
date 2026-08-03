@@ -8,6 +8,7 @@ import {
   ChevronRight,
   Images,
   MapPin,
+  Phone,
   Maximize,
   Toilet,
 } from 'lucide-react'
@@ -177,21 +178,24 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
             Added <RelativeTime iso={property.created_at} />
           </p>
 
+          {/* Circular, so the pair reads as icon actions rather than two
+              competing bars fighting the price for attention. */}
           <div className="relative z-20 flex gap-2">
             <a
               href={`tel:+${SITE.whatsappNumber}`}
-              className="border-hairline text-ink hover:border-ink flex h-11 items-center border px-4 text-[13px] font-semibold transition-colors"
+              aria-label={`Call about ${property.title}`}
+              className="border-hairline text-ink hover:border-ink hover:bg-surface flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
             >
-              Call
+              <Phone size={17} aria-hidden="true" />
             </a>
             <a
               href={propertyInquiryLink(property)}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-whatsapp hover:bg-whatsapp-hover flex h-11 items-center gap-1.5 px-4 text-[13px] font-semibold text-white transition-colors"
+              aria-label={`Message us on WhatsApp about ${property.title}`}
+              className="bg-whatsapp hover:bg-whatsapp-hover flex h-11 w-11 items-center justify-center rounded-full text-white transition-colors"
             >
-              <WhatsAppIcon className="h-4 w-4" />
-              WhatsApp
+              <WhatsAppIcon className="h-[19px] w-[19px]" />
             </a>
           </div>
         </div>
