@@ -5,16 +5,20 @@ import { propertyBlurPlaceholder, propertyCardImage } from '@/lib/cloudinary'
 import { LOCATIONS_BY_ZONE } from '@/lib/constants'
 import type { LocationShowcaseEntry } from '@/lib/queries/locations'
 
-const TILE_SIZES = '(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw'
+const TILE_SIZES = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
 
 const MAINLAND_AREAS: readonly string[] = LOCATIONS_BY_ZONE.Mainland
 
 export function LocationShowcase({ locations }: { locations: LocationShowcaseEntry[] }) {
   return (
-    <div className="grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-3 md:gap-x-5 lg:grid-cols-4">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
       {locations.map(location => (
-        <Link key={location.slug} href={`/properties/${location.slug}`} className="group block">
-          <div className="bg-surface relative aspect-[4/5] overflow-hidden">
+        <Link
+          key={location.slug}
+          href={`/properties/${location.slug}`}
+          className="group shadow-card hover:shadow-card-hover rounded-card relative block overflow-hidden bg-white transition-shadow"
+        >
+          <div className="bg-surface relative aspect-[4/3] overflow-hidden">
             {location.coverImage ? (
               <Image
                 src={propertyCardImage(location.coverImage)}
@@ -28,23 +32,23 @@ export function LocationShowcase({ locations }: { locations: LocationShowcaseEnt
             ) : null}
           </div>
 
-          <div className="mt-3 flex items-start justify-between gap-2 pt-3">
-            <div className="min-w-0">
-              <p className="text-muted text-[11px] font-semibold tracking-wide uppercase">
+          <div className="flex items-center justify-between gap-3 p-5">
+            <span className="min-w-0">
+              <span className="text-muted block text-[11px] font-semibold tracking-wide uppercase">
                 {MAINLAND_AREAS.includes(location.location) ? 'Mainland' : 'Island'}
-              </p>
-              <h3 className="text-ink mt-1 truncate text-[17px] leading-tight font-bold md:text-[19px]">
+              </span>
+              <span className="text-ink mt-1 block truncate text-[18px] font-bold">
                 {location.location}
-              </h3>
-              <p className="text-muted mt-0.5 text-[12px]">
+              </span>
+              <span className="text-muted mt-1 block text-[13px]">
                 {location.propertyCount} {location.propertyCount === 1 ? 'listing' : 'listings'}
-              </p>
-            </div>
+              </span>
+            </span>
 
             <ArrowUpRight
-              size={17}
+              size={20}
               aria-hidden="true"
-              className="text-muted group-hover:text-brand mt-1 shrink-0 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              className="text-muted group-hover:text-brand shrink-0 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             />
           </div>
         </Link>

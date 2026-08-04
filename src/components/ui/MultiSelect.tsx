@@ -109,11 +109,13 @@ export function MultiSelect({
       </button>
 
       {isOpen ? (
-        <div className={clsx(
+        <div
+          className={clsx(
             'animate-fade-in z-50 overflow-hidden bg-white shadow-2xl',
             'fixed inset-x-3 bottom-3 rounded-2xl md:absolute md:inset-x-auto md:bottom-auto md:left-0 md:w-full md:min-w-[16rem] md:rounded-xl',
             dropUp ? 'md:top-auto md:bottom-full md:mb-2' : 'md:top-full md:mt-2'
-          )}>
+          )}
+        >
           {searchable ? (
             <div className="flex items-center gap-2 px-3 py-2.5">
               <Search size={15} className="text-muted shrink-0" aria-hidden="true" />
