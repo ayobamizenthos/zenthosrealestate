@@ -35,7 +35,7 @@ export function ShareButton({ title, text, path }: ShareButtonProps) {
     <button
       type="button"
       onClick={() => void share()}
-      className="text-ink hover:border-brand rounded-control flex h-12 items-center justify-center gap-2 border px-4 text-[15px] font-semibold transition-colors"
+      className="text-ink bg-surface hover:bg-hairline rounded-control flex h-12 items-center justify-center gap-2 px-4 text-[15px] font-semibold transition-colors"
     >
       {justCopied ? (
         <>

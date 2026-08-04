@@ -218,7 +218,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
               </a>
               <a
                 href={`tel:+${SITE.whatsappNumber}`}
-                className="text-ink hover:border-ink flex h-12 items-center justify-center rounded-control border text-[15px] font-semibold transition-colors"
+                className="text-ink bg-surface hover:bg-hairline flex h-12 items-center justify-center rounded-control text-[15px] font-semibold transition-colors"
               >
                 Call broker
               </a>
@@ -321,7 +321,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
 
                 <a
                   href={`tel:+${SITE.whatsappNumber}`}
-                  className="text-ink hover:border-ink flex h-12 w-full items-center justify-center rounded-control border text-[15px] font-semibold transition-colors"
+                  className="text-ink bg-surface hover:bg-hairline flex h-12 w-full items-center justify-center rounded-control text-[15px] font-semibold transition-colors"
                 >
                   Call {SITE.phoneDisplay}
                 </a>

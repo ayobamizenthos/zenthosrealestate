@@ -1,7 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
-import { Heart } from 'lucide-react'
+import { Bookmark } from 'lucide-react'
 import { useState } from 'react'
 import { useSavedProperties } from './SavedProvider'
 
@@ -32,16 +32,17 @@ export function SaveButton({ propertyId, propertyTitle, tone = 'overlay' }: Save
       className={clsx(
         'flex h-11 w-11 items-center justify-center rounded-full transition-colors',
         tone === 'overlay'
-          ? 'bg-white/90 backdrop-blur-sm hover:bg-white'
-          : 'hover:border-brand border bg-white'
+          ? 'text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]'
+          : 'bg-surface hover:bg-hairline'
       )}
     >
-      <Heart
-        size={19}
+      <Bookmark
+        size={20}
         aria-hidden="true"
+        fill={saved ? 'currentColor' : 'none'}
         className={clsx(
           'transition-colors',
-          saved ? 'fill-brand text-brand' : 'text-ink',
+          saved ? 'text-brand' : tone === 'overlay' ? 'text-white' : 'text-ink',
           isPopping && 'animate-heart-pop'
         )}
       />
