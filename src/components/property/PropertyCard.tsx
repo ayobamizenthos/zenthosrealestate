@@ -69,11 +69,6 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
         ) : null}
 
         <div className="absolute top-3 left-3 z-10 flex flex-wrap gap-1.5">
-          {property.serviced ? (
-            <span className="bg-ink px-2 py-1 text-[10px] font-bold tracking-wide text-white uppercase">
-              Serviced
-            </span>
-          ) : null}
           <StatusBadge status={property.status} />
         </div>
 

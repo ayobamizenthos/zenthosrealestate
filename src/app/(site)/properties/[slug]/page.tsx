@@ -189,11 +189,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
         <div className="mt-8 lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start lg:gap-10">
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
-              {property.serviced ? (
-                <span className="bg-ink px-2 py-1 text-[10px] font-bold tracking-wide text-white uppercase">
-                  Serviced
-                </span>
-              ) : null}
               <StatusBadge status={property.status} />
               <span className="text-brand text-[13px] font-semibold">
                 {property.property_type} for sale

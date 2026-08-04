@@ -1,5 +1,6 @@
 'use client'
 
+import clsx from 'clsx'
 import { LoaderCircle, Search, X } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -24,6 +25,7 @@ import type { PropertySummary } from '@/lib/types'
 export function HeroSearchForm() {
   const router = useRouter()
   const cardRef = useRef<HTMLDivElement>(null)
+  const [resultsAbove, setResultsAbove] = useState(false)
 
   const [term, setTerm] = useState('')
   const [locations, setLocations] = useState<string[]>([])
@@ -73,6 +75,21 @@ export function HeroSearchForm() {
       document.removeEventListener('keydown', handleKeydown)
     }
   }, [])
+
+  useEffect(() => {
+    if (!isOpen) return
+
+    const measure = () => {
+      const rect = cardRef.current?.getBoundingClientRect()
+      if (!rect) return
+      const below = window.innerHeight - rect.bottom
+      setResultsAbove(below < 320 && rect.top > below)
+    }
+
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  }, [isOpen])
 
   const matches = isQueryReady && resolved.query === query ? resolved.matches : []
   const isSearching = isQueryReady && resolved.query !== query
@@ -214,7 +231,10 @@ export function HeroSearchForm() {
       </div>
 
       {isOpen && isQueryReady ? (
-        <div className="animate-fade-in absolute inset-x-0 top-full z-50 mt-2 overflow-hidden rounded-xl border bg-white text-left shadow-2xl">
+        <div className={clsx(
+            'animate-fade-in absolute inset-x-0 z-50 overflow-hidden rounded-xl bg-white text-left shadow-2xl',
+            resultsAbove ? 'bottom-full mb-2' : 'top-full mt-2'
+          )}>
           {matches.length > 0 ? (
             <ul>
               {matches.map(property => {
