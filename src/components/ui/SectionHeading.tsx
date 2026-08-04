@@ -24,7 +24,7 @@ export function SectionHeading({ title, description, linkHref, linkLabel }: Sect
           {linkHref && linkLabel ? (
             <Link
               href={linkHref}
-              className="text-ink hover:text-brand group flex shrink-0 items-center gap-2 border-current pb-1 text-[14px] font-semibold transition-colors"
+              className="bg-ink hover:bg-brand group flex h-11 shrink-0 items-center gap-2 rounded-full px-5 text-[14px] font-semibold text-white transition-colors"
             >
               {linkLabel}
               <ArrowRight

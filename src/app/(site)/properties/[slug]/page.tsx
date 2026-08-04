@@ -276,11 +276,13 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
 
             <section className="mt-10">
               <h2 className="text-ink text-[19px] font-bold">Property details</h2>
-              <dl className="mt-4 border">
+              <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {detailRows.map(({ label, value }) => (
-                  <div key={label} className="flex items-center justify-between gap-4 px-4 py-3">
-                    <dt className="text-muted text-[14px]">{label}</dt>
-                    <dd className="text-ink text-right text-[14px] font-semibold">{value}</dd>
+                  <div key={label} className="bg-surface rounded-card px-4 py-3.5">
+                    <dt className="text-muted text-[12px] font-medium tracking-wide uppercase">
+                      {label}
+                    </dt>
+                    <dd className="text-ink mt-1 text-[15px] font-bold">{value}</dd>
                   </div>
                 ))}
               </dl>
