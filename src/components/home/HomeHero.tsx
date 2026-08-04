@@ -2,10 +2,10 @@ import { HeroSearchForm } from './HeroSearchForm'
 
 export function HomeHero() {
   return (
-    <section className="relative overflow-hidden bg-[#1B0710]">
+    <section className="relative bg-[#1B0710]">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 overflow-hidden"
         style={{
           background:
             'radial-gradient(60rem 34rem at 78% -10%, rgba(128,0,32,0.75), transparent 62%), radial-gradient(46rem 28rem at 12% 108%, rgba(128,0,32,0.42), transparent 60%)',

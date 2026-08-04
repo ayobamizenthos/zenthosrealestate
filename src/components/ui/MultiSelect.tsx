@@ -27,7 +27,9 @@ export function MultiSelect({
   searchPlaceholder?: string
 }) {
   const containerRef = useRef<HTMLDivElement>(null)
+  const triggerRef = useRef<HTMLButtonElement>(null)
   const [isOpen, setIsOpen] = useState(false)
+  const [dropUp, setDropUp] = useState(false)
   const [term, setTerm] = useState('')
 
   useEffect(() => {
@@ -45,6 +47,15 @@ export function MultiSelect({
       document.removeEventListener('keydown', handleKeydown)
     }
   }, [])
+
+  const open = () => {
+    const rect = triggerRef.current?.getBoundingClientRect()
+    if (rect) {
+      const below = window.innerHeight - rect.bottom
+      setDropUp(below < 340 && rect.top > below)
+    }
+    setIsOpen(true)
+  }
 
   const toggle = (option: string) => {
     onChange(
@@ -77,7 +88,8 @@ export function MultiSelect({
 
       <button
         type="button"
-        onClick={() => setIsOpen(open => !open)}
+        ref={triggerRef}
+        onClick={() => (isOpen ? setIsOpen(false) : open())}
         aria-expanded={isOpen}
         className="mt-1 flex w-full items-center justify-between gap-2 text-left"
       >
@@ -97,7 +109,11 @@ export function MultiSelect({
       </button>
 
       {isOpen ? (
-        <div className="animate-fade-in absolute top-full left-0 z-50 mt-2 w-full min-w-[15rem] overflow-hidden rounded-xl bg-white shadow-2xl">
+        <div className={clsx(
+            'animate-fade-in z-50 overflow-hidden bg-white shadow-2xl',
+            'fixed inset-x-3 bottom-3 rounded-2xl md:absolute md:inset-x-auto md:bottom-auto md:left-0 md:w-full md:min-w-[16rem] md:rounded-xl',
+            dropUp ? 'md:top-auto md:bottom-full md:mb-2' : 'md:top-full md:mt-2'
+          )}>
           {searchable ? (
             <div className="flex items-center gap-2 px-3 py-2.5">
               <Search size={15} className="text-muted shrink-0" aria-hidden="true" />
@@ -112,7 +128,7 @@ export function MultiSelect({
             </div>
           ) : null}
 
-          <div className="scrollbar-none max-h-[16rem] overflow-y-auto pb-1">
+          <div className="scrollbar-none max-h-[50vh] overflow-y-auto overscroll-contain pb-1 md:max-h-[17rem]">
             {visible.map(group => (
               <div key={group.label}>
                 {groups.length > 1 ? (

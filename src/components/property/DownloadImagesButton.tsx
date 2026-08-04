@@ -20,26 +20,30 @@ export function DownloadImagesButton({ images, title }: { images: string[]; titl
     const slug = toSlug(title)
 
     try {
+      const { default: JSZip } = await import('jszip')
+      const zip = new JSZip()
+      const folder = zip.folder(slug) ?? zip
+
       for (const [index, image] of images.entries()) {
         const response = await fetch(propertyOriginalImage(image))
         if (!response.ok) throw new Error(`Photo ${index + 1} could not be fetched`)
 
         const blob = await response.blob()
         const extension = blob.type.split('/')[1]?.replace('jpeg', 'jpg') ?? 'jpg'
-        const objectUrl = URL.createObjectURL(blob)
-
-        const link = document.createElement('a')
-        link.href = objectUrl
-        link.download = `${slug}-${String(index + 1).padStart(2, '0')}.${extension}`
-        document.body.appendChild(link)
-        link.click()
-        link.remove()
-
-        URL.revokeObjectURL(objectUrl)
+        folder.file(`${slug}-${String(index + 1).padStart(2, '0')}.${extension}`, blob)
         setProgress(Math.round(((index + 1) / images.length) * 100))
-
-        await new Promise(resolve => setTimeout(resolve, 350))
       }
+
+      const archive = await zip.generateAsync({ type: 'blob' })
+      const objectUrl = URL.createObjectURL(archive)
+
+      const link = document.createElement('a')
+      link.href = objectUrl
+      link.download = `${slug}.zip`
+      document.body.appendChild(link)
+      link.click()
+      link.remove()
+      URL.revokeObjectURL(objectUrl)
 
       setState('idle')
     } catch {
@@ -58,14 +62,14 @@ export function DownloadImagesButton({ images, title }: { images: string[]; titl
       {state === 'working' ? (
         <>
           <LoaderCircle size={17} aria-hidden="true" className="animate-spin" />
-          Saving {progress}%
+          Preparing {progress}%
         </>
       ) : state === 'failed' ? (
         'Download failed'
       ) : (
         <>
           <Download size={17} aria-hidden="true" />
-          Download photos
+          Download all photos
         </>
       )}
     </button>

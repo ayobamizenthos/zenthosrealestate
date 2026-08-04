@@ -1,7 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
-import { Bell, Heart } from 'lucide-react'
+import { Bell, Bookmark } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/components/auth/AuthProvider'
@@ -58,7 +58,7 @@ export function SiteHeader() {
           aria-label={savedCount > 0 ? `Saved, ${savedCount} properties` : 'Saved properties'}
           className="text-brand hover:text-brand-hover relative flex h-11 w-11 items-center justify-center"
         >
-          <Heart size={20} aria-hidden="true" fill={savedCount > 0 ? 'currentColor' : 'none'} />
+          <Bookmark size={20} aria-hidden="true" fill="currentColor" />
           {savedCount > 0 ? (
             <span className="bg-brand ring-canvas absolute top-1.5 right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white ring-2">
               {savedCount > 9 ? '9+' : savedCount}

@@ -45,7 +45,7 @@ export function HeroSearchForm() {
     if (!isQueryReady) return
 
     let cancelled = false
-    searchProperties(createSupabaseBrowserClient(), query, 5)
+    searchProperties(createSupabaseBrowserClient(), query, 6)
       .then(matches => {
         if (!cancelled) setResolved({ query, matches })
       })
@@ -216,7 +216,7 @@ export function HeroSearchForm() {
       {isOpen && isQueryReady ? (
         <div className="animate-fade-in absolute inset-x-0 top-full z-50 mt-2 overflow-hidden rounded-xl border bg-white text-left shadow-2xl">
           {matches.length > 0 ? (
-            <ul className="max-h-[20rem] overflow-y-auto">
+            <ul>
               {matches.map(property => {
                 const [cover] = property.images
                 return (
@@ -227,21 +227,21 @@ export function HeroSearchForm() {
                         setIsOpen(false)
                         router.push(`/properties/${property.slug}`)
                       }}
-                      className="hover:bg-surface flex w-full items-center gap-3 px-4 py-3 text-left transition-colors"
+                      className="hover:bg-surface flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors"
                     >
-                      <span className="bg-surface relative h-14 w-12 shrink-0 overflow-hidden rounded">
+                      <span className="bg-surface relative h-16 w-14 shrink-0 overflow-hidden rounded">
                         {cover ? (
                           <Image
                             src={propertyCardImage(cover)}
                             alt=""
                             fill
-                            sizes="48px"
+                            sizes="56px"
                             className="object-cover"
                           />
                         ) : null}
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="text-ink block truncate text-[14px] font-semibold">
+                        <span className="text-ink block truncate text-[15px] font-semibold">
                           {property.title}
                         </span>
                         <span className="text-muted block text-[13px]">
