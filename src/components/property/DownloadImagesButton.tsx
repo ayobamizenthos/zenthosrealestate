@@ -17,28 +17,29 @@ export function DownloadImagesButton({ images, title }: { images: string[]; titl
     setState('working')
     setProgress(0)
 
-    try {
-      const { default: JSZip } = await import('jszip')
-      const zip = new JSZip()
+    const slug = toSlug(title)
 
+    try {
       for (const [index, image] of images.entries()) {
         const response = await fetch(propertyOriginalImage(image))
-        if (!response.ok) throw new Error(`Image ${index + 1} could not be fetched`)
+        if (!response.ok) throw new Error(`Photo ${index + 1} could not be fetched`)
 
         const blob = await response.blob()
         const extension = blob.type.split('/')[1]?.replace('jpeg', 'jpg') ?? 'jpg'
-        zip.file(`${toSlug(title)}-${index + 1}.${extension}`, blob)
+        const objectUrl = URL.createObjectURL(blob)
+
+        const link = document.createElement('a')
+        link.href = objectUrl
+        link.download = `${slug}-${String(index + 1).padStart(2, '0')}.${extension}`
+        document.body.appendChild(link)
+        link.click()
+        link.remove()
+
+        URL.revokeObjectURL(objectUrl)
         setProgress(Math.round(((index + 1) / images.length) * 100))
+
+        await new Promise(resolve => setTimeout(resolve, 350))
       }
-
-      const archive = await zip.generateAsync({ type: 'blob' })
-      const objectUrl = URL.createObjectURL(archive)
-
-      const link = document.createElement('a')
-      link.href = objectUrl
-      link.download = `${toSlug(title)}-photos.zip`
-      link.click()
-      URL.revokeObjectURL(objectUrl)
 
       setState('idle')
     } catch {
@@ -57,7 +58,7 @@ export function DownloadImagesButton({ images, title }: { images: string[]; titl
       {state === 'working' ? (
         <>
           <LoaderCircle size={17} aria-hidden="true" className="animate-spin" />
-          {progress}%
+          Saving {progress}%
         </>
       ) : state === 'failed' ? (
         'Download failed'

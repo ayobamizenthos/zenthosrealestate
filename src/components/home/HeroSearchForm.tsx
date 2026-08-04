@@ -83,12 +83,16 @@ export function HeroSearchForm() {
     if (locations.length) params.set('location', locations.join(','))
     if (propertyTypes.length) params.set('type', propertyTypes.join(','))
 
-    const bedCounts = bedroomChoices.map(choice => Number.parseInt(choice, 10)).filter(Number.isFinite)
+    const bedCounts = bedroomChoices
+      .map(choice => Number.parseInt(choice, 10))
+      .filter(Number.isFinite)
     if (bedCounts.length) params.set('beds', String(Math.min(...bedCounts)))
 
     const chosen = PRICE_PRESETS.filter(preset => priceBands.includes(preset.label))
     if (chosen.length) {
-      const mins = chosen.map(preset => preset.min).filter((value): value is number => value !== null)
+      const mins = chosen
+        .map(preset => preset.min)
+        .filter((value): value is number => value !== null)
       const maxes = chosen.map(preset => preset.max)
       if (mins.length === chosen.length) params.set('min', String(Math.min(...mins)))
       if (!maxes.includes(null)) params.set('max', String(Math.max(...(maxes as number[]))))
@@ -174,7 +178,10 @@ export function HeroSearchForm() {
             label="Bedrooms"
             placeholder="All sizes"
             groups={[
-              { label: 'Bedrooms', options: BEDROOM_FILTER_OPTIONS.map(count => `${count}+ bedrooms`) },
+              {
+                label: 'Bedrooms',
+                options: BEDROOM_FILTER_OPTIONS.map(count => `${count}+ bedrooms`),
+              },
             ]}
             selected={bedroomChoices}
             onChange={setBedroomChoices}

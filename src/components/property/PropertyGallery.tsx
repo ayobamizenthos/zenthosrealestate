@@ -4,10 +4,12 @@ import useEmblaCarousel from 'embla-carousel-react'
 import { ChevronLeft, ChevronRight, Expand, Images, X } from 'lucide-react'
 import Image from 'next/image'
 import { useCallback, useEffect, useState } from 'react'
+import clsx from 'clsx'
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll'
 import {
   IMAGE_PRESETS,
   propertyBlurPlaceholder,
+  propertyCardImage,
   propertyGalleryImage,
   transformCloudinary,
 } from '@/lib/cloudinary'
@@ -205,7 +207,7 @@ function GalleryLightbox({
 
   return (
     <div
-      className="fixed inset-0 z-[70] bg-black"
+      className="fixed inset-0 z-[70] bg-black/85 backdrop-blur-2xl"
       role="dialog"
       aria-modal="true"
       aria-label={`${title} photos`}
@@ -224,7 +226,7 @@ function GalleryLightbox({
         </button>
       </div>
 
-      <div className="h-full overflow-hidden" ref={emblaRef}>
+      <div className="h-[calc(100%-7.5rem)] overflow-hidden pt-16" ref={emblaRef}>
         <div className="flex h-full touch-pan-y">
           {images.map((image, imageIndex) => (
             <div key={image} className="relative h-full min-w-0 flex-[0_0_100%]">
@@ -241,12 +243,37 @@ function GalleryLightbox({
       </div>
 
       {images.length > 1 ? (
+        <div className="scrollbar-none absolute inset-x-0 bottom-0 z-10 flex justify-center gap-2 overflow-x-auto px-4 py-5">
+          {images.map((image, thumbIndex) => (
+            <button
+              key={image}
+              type="button"
+              onClick={() => emblaApi?.scrollTo(thumbIndex)}
+              aria-label={`Show photo ${thumbIndex + 1}`}
+              className={clsx(
+                'relative h-16 w-20 shrink-0 overflow-hidden rounded-lg transition-all',
+                thumbIndex === index ? 'ring-2 ring-white' : 'opacity-50 hover:opacity-90'
+              )}
+            >
+              <Image
+                src={propertyCardImage(image)}
+                alt=""
+                fill
+                sizes="80px"
+                className="object-cover"
+              />
+            </button>
+          ))}
+        </div>
+      ) : null}
+
+      {images.length > 1 ? (
         <>
           <button
             type="button"
             onClick={scrollPrev}
             aria-label="Previous photo"
-            className="absolute top-1/2 left-4 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-white/25 md:flex"
+            className="absolute top-1/2 left-4 hidden -translate-y-14 h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-white/25 md:flex"
           >
             <ChevronLeft size={22} aria-hidden="true" />
           </button>
@@ -254,7 +281,7 @@ function GalleryLightbox({
             type="button"
             onClick={scrollNext}
             aria-label="Next photo"
-            className="absolute top-1/2 right-4 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-white/25 md:flex"
+            className="absolute top-1/2 right-4 hidden -translate-y-14 h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm transition-colors hover:bg-white/25 md:flex"
           >
             <ChevronRight size={22} aria-hidden="true" />
           </button>

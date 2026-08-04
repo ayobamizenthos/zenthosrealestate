@@ -3,7 +3,7 @@ const UPLOAD_SEGMENT = '/image/upload/'
 export const PROPERTY_ASPECT_RATIO = '4:5'
 
 const WATERMARK =
-  'l_zenthos:properties:zenthos_watermark,o_38,w_0.18,fl_relative,g_south_east,x_0.04,y_0.04'
+  'l_zenthos:properties:zenthos_wordmark,o_42,w_0.22,fl_relative,g_south_east,x_0.04,y_0.04'
 
 export const IMAGE_PRESETS = {
   cardThumb: `f_auto,q_auto,w_800,c_fill,ar_4:3,g_auto/${WATERMARK}`,
