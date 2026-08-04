@@ -9,7 +9,7 @@ export default function PropertiesLoading() {
         <Skeleton className="mt-2 h-4 w-3/4 max-w-xl" />
       </div>
 
-      <div className="border-hairline bg-canvas border-y">
+      <div className="bg-canvas border-y">
         <div className="app-shell flex items-center gap-3 py-3">
           <Skeleton className="h-11 flex-1 rounded-full" />
           <Skeleton className="hidden h-11 w-32 rounded-full md:block" />

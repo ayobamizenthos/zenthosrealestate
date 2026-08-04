@@ -33,7 +33,7 @@ export function SaveButton({ propertyId, propertyTitle, tone = 'overlay' }: Save
         'flex h-11 w-11 items-center justify-center rounded-full transition-colors',
         tone === 'overlay'
           ? 'bg-white/90 backdrop-blur-sm hover:bg-white'
-          : 'border-hairline hover:border-brand border bg-white'
+          : 'hover:border-brand border bg-white'
       )}
     >
       <Heart

@@ -17,7 +17,7 @@ export function SiteHeader() {
   const pathname = usePathname()
 
   return (
-    <header className="border-hairline bg-canvas sticky top-0 z-40 border-b">
+    <header className="bg-canvas sticky top-0 z-40">
       <div className="app-shell flex h-16 items-center gap-2">
         <Link href="/" aria-label="Zenthos Real Estate home" className="mr-2 shrink-0">
           <ZenthosLogo />
@@ -84,7 +84,7 @@ export function SiteHeader() {
         {user ? (
           <Link
             href="/profile"
-            className="border-hairline text-ink hover:border-ink rounded-control hidden h-10 shrink-0 items-center px-4 text-[14px] font-semibold whitespace-nowrap transition-colors sm:flex"
+            className="text-ink hover:border-ink rounded-control hidden h-10 shrink-0 items-center px-4 text-[14px] font-semibold whitespace-nowrap transition-colors sm:flex"
           >
             My account
           </Link>

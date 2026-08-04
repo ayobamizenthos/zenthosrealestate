@@ -20,7 +20,7 @@ export function BottomTabBar() {
   return (
     <nav
       aria-label="Primary"
-      className="border-hairline bg-canvas/95 safe-bottom fixed inset-x-0 bottom-0 z-50 border-t backdrop-blur-md md:hidden"
+      className="bg-canvas/95 safe-bottom fixed inset-x-0 bottom-0 z-50 backdrop-blur-md md:hidden"
     >
       <div className="flex h-16">
         <Link

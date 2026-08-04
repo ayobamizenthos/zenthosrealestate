@@ -19,7 +19,7 @@ export function PriceBands({ bands }: { bands: PriceBand[] }) {
         <Link
           key={band.label}
           href={bandHref(band)}
-          className="group border-hairline hover:border-ink flex items-center justify-between gap-3 border bg-white px-5 py-5 transition-colors"
+          className="group hover:border-ink flex items-center justify-between gap-3 border bg-white px-5 py-5 transition-colors"
         >
           <span className="min-w-0">
             <span className="text-ink block text-[17px] leading-tight font-bold">{band.label}</span>

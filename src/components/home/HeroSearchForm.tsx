@@ -134,7 +134,7 @@ export function HeroSearchForm() {
   return (
     <div ref={cardRef} className="relative w-full max-w-4xl">
       <div className="rounded-xl bg-white p-2 shadow-2xl md:p-2.5">
-        <div className="border-hairline flex items-center gap-2.5 border-b px-3 py-2.5 md:px-4">
+        <div className="flex items-center gap-2.5 px-3 py-2.5 md:px-4">
           <Search size={18} aria-hidden="true" className="text-muted shrink-0" />
           <input
             type="search"
@@ -227,13 +227,13 @@ export function HeroSearchForm() {
           </div>
         </div>
 
-        <div className="border-hairline scrollbar-none flex gap-2 overflow-x-auto border-t px-3 py-2.5 md:px-4">
+        <div className="scrollbar-none flex gap-2 overflow-x-auto px-3 py-2.5 md:px-4">
           {LOCATION_LANDING_PAGES.map(area => (
             <button
               key={area.slug}
               type="button"
               onClick={() => router.push(`/properties/${area.slug}`)}
-              className="border-hairline text-ink hover:border-ink hover:bg-surface shrink-0 rounded-full border px-3.5 py-1.5 text-[13px] font-medium whitespace-nowrap transition-colors"
+              className="text-ink hover:border-ink hover:bg-surface shrink-0 rounded-full border px-3.5 py-1.5 text-[13px] font-medium whitespace-nowrap transition-colors"
             >
               {area.name}
             </button>
@@ -242,7 +242,7 @@ export function HeroSearchForm() {
       </div>
 
       {isOpen && isQueryReady ? (
-        <div className="border-hairline animate-fade-in absolute inset-x-0 top-full z-50 mt-2 overflow-hidden rounded-xl border bg-white text-left shadow-2xl">
+        <div className="animate-fade-in absolute inset-x-0 top-full z-50 mt-2 overflow-hidden rounded-xl border bg-white text-left shadow-2xl">
           {matches.length > 0 ? (
             <ul className="max-h-[20rem] overflow-y-auto">
               {matches.map(property => {

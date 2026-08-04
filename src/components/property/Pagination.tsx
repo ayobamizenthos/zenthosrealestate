@@ -24,7 +24,7 @@ export function Pagination({ filters, pageCount, basePath }: PaginationProps) {
           href={hrefForPage(filters.page - 1)}
           rel="prev"
           aria-label="Previous page"
-          className="border-hairline text-ink hover:border-brand flex h-11 w-11 items-center justify-center rounded-control border transition-colors"
+          className="text-ink hover:border-brand flex h-11 w-11 items-center justify-center rounded-control border transition-colors"
         >
           <ChevronLeft size={17} aria-hidden="true" />
         </Link>
@@ -48,7 +48,7 @@ export function Pagination({ filters, pageCount, basePath }: PaginationProps) {
               className={
                 page === filters.page
                   ? 'bg-brand text-brand-ink rounded-control flex h-11 min-w-11 items-center justify-center px-3 text-[14px] font-bold'
-                  : 'border-hairline text-ink hover:border-brand rounded-control flex h-11 min-w-11 items-center justify-center border px-3 text-[14px] font-semibold transition-colors'
+                  : 'text-ink hover:border-brand rounded-control flex h-11 min-w-11 items-center justify-center border px-3 text-[14px] font-semibold transition-colors'
               }
             >
               {page}
@@ -62,7 +62,7 @@ export function Pagination({ filters, pageCount, basePath }: PaginationProps) {
           href={hrefForPage(filters.page + 1)}
           rel="next"
           aria-label="Next page"
-          className="border-hairline text-ink hover:border-brand flex h-11 w-11 items-center justify-center rounded-control border transition-colors"
+          className="text-ink hover:border-brand flex h-11 w-11 items-center justify-center rounded-control border transition-colors"
         >
           <ChevronRight size={17} aria-hidden="true" />
         </Link>

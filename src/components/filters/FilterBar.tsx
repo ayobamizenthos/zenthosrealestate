@@ -57,7 +57,7 @@ function Chip({
         'flex h-11 shrink-0 items-center gap-1.5 rounded-full border px-4 text-[14px] font-medium whitespace-nowrap transition-colors',
         summary || isOpen
           ? 'border-brand text-brand bg-surface'
-          : 'border-hairline text-ink hover:border-ink'
+          : 'text-ink hover:border-ink'
       )}
     >
       {summary ?? label}
@@ -86,7 +86,7 @@ function OptionRow({
         aria-hidden="true"
         className={clsx(
           'flex h-5 w-5 shrink-0 items-center justify-center rounded-[5px] border transition-colors',
-          checked ? 'bg-brand border-brand text-white' : 'border-hairline bg-white'
+          checked ? 'bg-brand border-brand text-white' : 'bg-white'
         )}
       >
         {checked ? <Check size={13} strokeWidth={3} /> : null}
@@ -120,7 +120,7 @@ function BedroomScale({
             'h-11 min-w-11 rounded-full border px-4 text-[14px] font-medium transition-colors',
             value === null
               ? 'bg-ink border-ink text-white'
-              : 'border-hairline text-ink hover:border-ink'
+              : 'text-ink hover:border-ink'
           )}
         >
           Any
@@ -134,7 +134,7 @@ function BedroomScale({
               'h-11 min-w-11 rounded-full border px-4 text-[14px] font-medium transition-colors',
               value === count
                 ? 'bg-ink border-ink text-white'
-                : 'border-hairline text-ink hover:border-ink'
+                : 'text-ink hover:border-ink'
             )}
           >
             {count}
@@ -241,10 +241,10 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
   const togglePanel = (key: FilterKey) => setOpenPanel(current => (current === key ? null : key))
 
   return (
-    <div className="border-hairline bg-canvas/95 sticky top-16 z-30 border-b backdrop-blur-md">
+    <div className="bg-canvas/95 sticky top-16 z-30 backdrop-blur-md">
       <div className="app-shell">
         <div className="flex items-center gap-3 py-3">
-          <div className="border-hairline focus-within:border-ink relative flex h-11 flex-1 items-center gap-2.5 rounded-full border px-4 transition-colors">
+          <div className="focus-within:border-ink relative flex h-11 flex-1 items-center gap-2.5 rounded-full border px-4 transition-colors">
             <Search size={16} className="text-ink shrink-0" aria-hidden="true" />
             <input
               type="search"
@@ -279,7 +279,7 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
               value={filters.sort}
               onChange={event => onChange({ ...filters, sort: event.target.value as PropertySort })}
               aria-label="Sort results"
-              className="border-hairline text-ink h-11 rounded-full border bg-white px-3 text-[14px] outline-none"
+              className="text-ink h-11 rounded-full border bg-white px-3 text-[14px] outline-none"
             >
               {SORT_OPTIONS.map(option => (
                 <option key={option.value} value={option.value}>
@@ -341,7 +341,7 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
         </div>
 
         {openPanel ? (
-          <div className="border-hairline animate-fade-in border-t py-5">
+          <div className="py-5">
             {openPanel === 'location' ? (
               <div className="space-y-5">
                 {(Object.keys(LOCATIONS_BY_ZONE) as (keyof typeof LOCATIONS_BY_ZONE)[]).map(
@@ -414,7 +414,7 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
                             'h-11 rounded-full border px-4 text-[14px] font-medium transition-colors',
                             isActive
                               ? 'bg-ink border-ink text-white'
-                              : 'border-hairline text-ink hover:border-ink'
+                              : 'text-ink hover:border-ink'
                           )}
                         >
                           {preset.label}
@@ -435,7 +435,7 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
                       onChange={event => setMinDraft(event.target.value)}
                       placeholder="Min ₦"
                       aria-label="Minimum price in Naira"
-                      className="border-hairline focus:border-brand h-11 w-full min-w-0 rounded-full border px-4 text-[14px] outline-none"
+                      className="focus:border-brand h-11 w-full min-w-0 rounded-full border px-4 text-[14px] outline-none"
                     />
                     <span className="text-muted" aria-hidden="true">
                       –
@@ -448,7 +448,7 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
                       onChange={event => setMaxDraft(event.target.value)}
                       placeholder="Max ₦"
                       aria-label="Maximum price in Naira"
-                      className="border-hairline focus:border-brand h-11 w-full min-w-0 rounded-full border px-4 text-[14px] outline-none"
+                      className="focus:border-brand h-11 w-full min-w-0 rounded-full border px-4 text-[14px] outline-none"
                     />
                   </div>
                 </div>
@@ -550,7 +550,7 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
                           'h-10 rounded-full border px-3.5 text-[13px] font-medium transition-colors',
                           filters.addedWithinDays === preset.days
                             ? 'bg-ink border-ink text-white'
-                            : 'border-hairline text-ink hover:border-ink'
+                            : 'text-ink hover:border-ink'
                         )}
                       >
                         {preset.label}

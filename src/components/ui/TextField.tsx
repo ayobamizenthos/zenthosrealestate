@@ -22,7 +22,7 @@ export function TextField({ label, hint, error, id, ...rest }: TextFieldProps) {
         aria-describedby={describedBy}
         className={clsx(
           'rounded-control mt-1.5 h-12 w-full border px-3.5 text-[16px] outline-none transition-colors',
-          error ? 'border-danger' : 'border-hairline focus:border-brand'
+          error ? 'border-danger' : 'focus:border-brand'
         )}
         {...rest}
       />
@@ -62,7 +62,7 @@ export function TextArea({
         aria-invalid={error ? true : undefined}
         className={clsx(
           'rounded-control mt-1.5 w-full border px-3.5 py-3 text-[16px] outline-none transition-colors',
-          error ? 'border-danger' : 'border-hairline focus:border-brand'
+          error ? 'border-danger' : 'focus:border-brand'
         )}
         {...rest}
       />
@@ -93,7 +93,7 @@ export function SelectField({
         id={fieldId}
         className={clsx(
           'rounded-control mt-1.5 h-12 w-full border bg-white px-3 text-[16px] outline-none transition-colors',
-          error ? 'border-danger' : 'border-hairline focus:border-brand'
+          error ? 'border-danger' : 'focus:border-brand'
         )}
         {...rest}
       >

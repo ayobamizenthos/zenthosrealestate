@@ -152,7 +152,7 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
             <a
               href={`tel:+${SITE.whatsappNumber}`}
               aria-label={`Call about ${property.title}`}
-              className="border-hairline text-ink hover:border-ink hover:bg-surface flex h-10 w-10 items-center justify-center rounded-full border transition-colors"
+              className="text-ink hover:border-ink hover:bg-surface flex h-10 w-10 items-center justify-center rounded-full border transition-colors"
             >
               <Phone size={16} aria-hidden="true" />
             </a>

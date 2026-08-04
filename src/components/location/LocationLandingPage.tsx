@@ -52,7 +52,7 @@ export async function LocationLandingPage({ content }: { content: LocationLandin
             {total > properties.length ? (
               <Link
                 href={browseAllHref}
-                className="text-ink hover:text-brand group flex items-center gap-1.5 border-b border-current pb-0.5 text-[14px] font-semibold transition-colors"
+                className="text-ink hover:text-brand group flex items-center gap-1.5 border-current pb-0.5 text-[14px] font-semibold transition-colors"
               >
                 View all {total}
                 <ArrowRight

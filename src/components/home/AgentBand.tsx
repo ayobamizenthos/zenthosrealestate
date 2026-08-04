@@ -21,7 +21,7 @@ const AGENT_BENEFITS = [
 
 export function AgentBand() {
   return (
-    <section className="border-hairline border-y bg-white">
+    <section className="border-y bg-white">
       <div className="app-shell grid gap-12 py-16 md:py-20 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-16">
         <div>
           <p className="text-muted text-[11px] font-semibold tracking-[0.18em] uppercase">
@@ -49,7 +49,7 @@ export function AgentBand() {
             </Link>
             <Link
               href="/properties"
-              className="border-hairline text-ink hover:border-ink rounded-control flex h-12 items-center border px-6 text-[15px] font-semibold transition-colors"
+              className="text-ink hover:border-ink rounded-control flex h-12 items-center border px-6 text-[15px] font-semibold transition-colors"
             >
               Browse properties
             </Link>

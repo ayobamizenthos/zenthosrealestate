@@ -8,7 +8,7 @@ export function Skeleton({ className }: { className?: string }) {
 
 export function PropertyCardSkeleton() {
   return (
-    <div className="border-hairline overflow-hidden rounded-card border bg-white">
+    <div className="overflow-hidden rounded-card border bg-white">
       <Skeleton className="aspect-[4/3] w-full rounded-none" />
 
       <div className="p-4 md:p-5">
@@ -23,7 +23,7 @@ export function PropertyCardSkeleton() {
           <Skeleton className="h-4 w-12" />
         </div>
 
-        <div className="border-hairline mt-4 flex items-center justify-between border-t pt-3">
+        <div className="mt-4 flex items-center justify-between pt-3">
           <Skeleton className="h-3 w-20" />
           <div className="flex gap-2">
             <Skeleton className="h-10 w-10 rounded-full" />

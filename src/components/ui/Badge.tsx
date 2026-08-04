@@ -33,7 +33,7 @@ export function StatusBadge({ status }: { status: PropertyStatus }) {
 
 export function MetaPill({ children }: { children: ReactNode }) {
   return (
-    <span className="border-hairline text-ink rounded-pill border bg-white px-3 py-1.5 text-[13px] font-medium">
+    <span className="text-ink rounded-pill border bg-white px-3 py-1.5 text-[13px] font-medium">
       {children}
     </span>
   )

@@ -52,7 +52,7 @@ export function DownloadImagesButton({ images, title }: { images: string[]; titl
       type="button"
       onClick={() => void downloadAll()}
       disabled={state === 'working'}
-      className="border-hairline text-ink hover:border-brand rounded-control flex h-12 items-center justify-center gap-2 border px-4 text-[15px] font-semibold transition-colors disabled:opacity-60"
+      className="text-ink hover:border-brand rounded-control flex h-12 items-center justify-center gap-2 border px-4 text-[15px] font-semibold transition-colors disabled:opacity-60"
     >
       {state === 'working' ? (
         <>

@@ -28,7 +28,7 @@ export function LocationShowcase({ locations }: { locations: LocationShowcaseEnt
             ) : null}
           </div>
 
-          <div className="border-hairline mt-3 flex items-start justify-between gap-2 border-t pt-3">
+          <div className="mt-3 flex items-start justify-between gap-2 pt-3">
             <div className="min-w-0">
               <p className="text-muted text-[11px] font-semibold tracking-wide uppercase">
                 {MAINLAND_AREAS.includes(location.location) ? 'Mainland' : 'Island'}

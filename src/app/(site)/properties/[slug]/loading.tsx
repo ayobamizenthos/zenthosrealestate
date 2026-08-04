@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/Skeleton'
 export default function PropertyDetailLoading() {
   return (
     <>
-      <div className="border-hairline border-b">
+      <div className="bg-surface/60 h-px">
         <div className="app-shell py-3">
           <Skeleton className="h-4 w-72" />
         </div>
@@ -30,7 +30,7 @@ export default function PropertyDetailLoading() {
             <Skeleton className="mt-3 h-4 w-56" />
             <Skeleton className="mt-5 h-10 w-64 md:h-12" />
 
-            <div className="border-hairline mt-8 grid grid-cols-2 border sm:grid-cols-4">
+            <div className="mt-8 grid grid-cols-2 border sm:grid-cols-4">
               {Array.from({ length: 4 }, (_, index) => (
                 <div key={index} className="flex items-center gap-3 px-4 py-3.5">
                   <Skeleton className="h-10 w-10 rounded-lg" />
@@ -49,7 +49,7 @@ export default function PropertyDetailLoading() {
           </div>
 
           <aside className="mt-10 hidden lg:mt-0 lg:block">
-            <div className="border-hairline border bg-white p-5">
+            <div className="border bg-white p-5">
               <Skeleton className="h-8 w-44" />
               <Skeleton className="mt-3 h-3.5 w-36" />
               <Skeleton className="mt-5 h-12 w-full rounded-control" />

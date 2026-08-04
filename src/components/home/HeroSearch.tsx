@@ -13,7 +13,7 @@ export function HeroSearch() {
       <button
         type="button"
         onClick={openSearch}
-        className="group border-ink hover:border-brand flex h-14 w-full items-center gap-3 border-b-2 text-left transition-colors"
+        className="group border-ink hover:border-brand flex h-14 w-full items-center gap-3 -2 text-left transition-colors"
       >
         <Search size={18} className="text-ink shrink-0" aria-hidden="true" />
         <span className="text-muted flex-1 truncate text-[15px]">
@@ -32,7 +32,7 @@ export function HeroSearch() {
           <Link
             key={location.slug}
             href={`/properties/${location.slug}`}
-            className="text-ink hover:text-brand border-b border-transparent pb-0.5 text-[14px] font-medium transition-colors hover:border-current"
+            className="text-ink hover:text-brand border-transparent pb-0.5 text-[14px] font-medium transition-colors hover:border-current"
           >
             {location.name}
           </Link>

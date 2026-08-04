@@ -124,7 +124,7 @@ export function CompareTable() {
 
         <tbody>
           {specRows.map(row => (
-            <tr key={row.label} className="border-hairline border-t">
+            <tr key={row.label} className="">
               <th scope="row" className="text-muted py-3 pr-3 text-[13px] font-medium align-top">
                 {row.label}
               </th>
@@ -137,7 +137,7 @@ export function CompareTable() {
           ))}
 
           {relevantAmenities.map(amenity => (
-            <tr key={amenity} className="border-hairline border-t">
+            <tr key={amenity} className="">
               <th scope="row" className="text-muted py-3 pr-3 text-[13px] font-medium align-top">
                 {amenity}
               </th>

@@ -158,7 +158,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
     <>
       <PropertyJsonLd property={property} />
 
-      <nav aria-label="Breadcrumb" className="border-hairline border-b">
+      <nav aria-label="Breadcrumb" className="bg-surface/60 h-px">
         <ol className="app-shell text-muted flex items-center gap-1.5 py-3 text-[13px]">
           <li>
             <Link href="/" className="hover:text-brand transition-colors">
@@ -218,7 +218,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
               </a>
               <a
                 href={`tel:+${SITE.whatsappNumber}`}
-                className="border-hairline text-ink hover:border-ink flex h-12 items-center justify-center rounded-control border text-[15px] font-semibold transition-colors"
+                className="text-ink hover:border-ink flex h-12 items-center justify-center rounded-control border text-[15px] font-semibold transition-colors"
               >
                 Call broker
               </a>
@@ -233,7 +233,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
               <CompareButton propertyId={property.id} propertyTitle={property.title} />
             </div>
 
-            <div className="border-hairline divide-hairline mt-8 grid grid-cols-2 divide-x divide-y border sm:grid-cols-4 sm:divide-y-0">
+            <div className="mt-8 grid grid-cols-2 border sm:grid-cols-4 sm:-0">
               <SpecTile
                 icon={<BedDouble size={18} aria-hidden="true" />}
                 value={String(property.bedrooms)}
@@ -274,7 +274,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
 
             <section className="mt-10">
               <h2 className="text-ink text-[19px] font-bold">Property details</h2>
-              <dl className="border-hairline divide-hairline mt-4 divide-y border">
+              <dl className="mt-4 border">
                 {detailRows.map(({ label, value }) => (
                   <div key={label} className="flex items-center justify-between gap-4 px-4 py-3">
                     <dt className="text-muted text-[14px]">{label}</dt>
@@ -294,7 +294,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
           </div>
 
           <aside className="mt-10 hidden lg:mt-0 lg:block">
-            <div className="border-hairline sticky top-24 border bg-white">
+            <div className="sticky top-24 border bg-white">
               <div className="space-y-2 p-5">
                 <a
                   href={propertyInquiryLink(property)}
@@ -308,7 +308,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
 
                 <a
                   href={`tel:+${SITE.whatsappNumber}`}
-                  className="border-hairline text-ink hover:border-ink flex h-12 w-full items-center justify-center rounded-control border text-[15px] font-semibold transition-colors"
+                  className="text-ink hover:border-ink flex h-12 w-full items-center justify-center rounded-control border text-[15px] font-semibold transition-colors"
                 >
                   Call {SITE.phoneDisplay}
                 </a>
