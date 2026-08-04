@@ -90,7 +90,7 @@ export function PropertyGallery({ images, title }: { images: string[]; title: st
       <button
         type="button"
         onClick={() => setLightboxIndex(0)}
-        className="text-ink hover:border-ink mt-3 hidden h-11 items-center gap-2 border px-4 text-[14px] font-semibold transition-colors md:inline-flex"
+        className="text-ink bg-surface hover:bg-ink mt-4 hidden h-11 items-center gap-2 rounded-full px-5 text-[14px] font-semibold transition-colors hover:text-white md:inline-flex"
       >
         <Expand size={15} aria-hidden="true" />
         View all photos

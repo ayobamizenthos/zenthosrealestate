@@ -111,10 +111,8 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
 
 function SpecTile({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) {
   return (
-    <div className="flex items-center gap-3 px-4 py-3.5">
-      <span className="bg-surface text-brand flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
-        {icon}
-      </span>
+    <div className="bg-surface rounded-card flex items-center gap-3 px-4 py-4">
+      <span className="text-brand shrink-0">{icon}</span>
       <span className="min-w-0">
         <span className="text-ink block text-[16px] leading-tight font-bold">{value}</span>
         <span className="text-muted block text-[12px]">{label}</span>
@@ -235,7 +233,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
               <CompareButton propertyId={property.id} propertyTitle={property.title} />
             </div>
 
-            <div className="mt-8 grid grid-cols-2 border sm:grid-cols-4 sm:-0">
+            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
               <SpecTile
                 icon={<BedDouble size={18} aria-hidden="true" />}
                 value={String(property.bedrooms)}
@@ -309,7 +307,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
           </div>
 
           <aside className="mt-10 hidden lg:mt-0 lg:block">
-            <div className="sticky top-24 border bg-white">
+            <div className="shadow-card rounded-card sticky top-24 bg-white">
               <div className="space-y-2 p-5">
                 <a
                   href={propertyInquiryLink(property)}
