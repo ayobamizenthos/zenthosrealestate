@@ -8,11 +8,15 @@ import { useAuth } from '@/components/auth/AuthProvider'
 import { ZenthosLogo } from '@/components/brand/ZenthosLogo'
 import { useSavedProperties } from '@/components/property/SavedProvider'
 import { useUnreadNotificationCount } from '@/hooks/useUnreadNotificationCount'
+import { listingAlerts } from '@/lib/listing-alerts'
+import { useLocalStore } from '@/lib/local-store'
 import { LOCATION_LANDING_PAGES } from '@/lib/constants'
 
 export function SiteHeader() {
   const { user } = useAuth()
-  const unreadCount = useUnreadNotificationCount()
+  const accountUnread = useUnreadNotificationCount()
+  const alerts = useLocalStore(listingAlerts)
+  const unreadCount = accountUnread + alerts.filter(alert => !alert.read).length
   const { savedCount } = useSavedProperties()
   const pathname = usePathname()
 
@@ -66,8 +70,7 @@ export function SiteHeader() {
           ) : null}
         </Link>
 
-        {user ? (
-          <Link
+        <Link
             href="/notifications"
             aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : 'Notifications'}
             className="text-ink hover:text-brand relative flex h-11 w-11 items-center justify-center"
@@ -79,7 +82,6 @@ export function SiteHeader() {
               </span>
             ) : null}
           </Link>
-        ) : null}
 
         {user ? (
           <Link

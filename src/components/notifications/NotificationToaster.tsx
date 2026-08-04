@@ -8,6 +8,7 @@ import { propertyCardImage } from '@/lib/cloudinary'
 import { isSupabaseConfigured } from '@/lib/env'
 import { displayPriceCompact } from '@/lib/format'
 import { playNotificationBell, unlockNotificationSound } from '@/lib/notification-sound'
+import { recordAlert } from '@/lib/listing-alerts'
 import { createSupabaseBrowserClient } from '@/lib/supabase/client'
 
 interface ListingToast {
@@ -30,7 +31,7 @@ interface PropertyInsertPayload {
   published?: unknown
 }
 
-const DISMISS_AFTER_MS = 9000
+const DISMISS_AFTER_MS = 12000
 
 function toToast(row: PropertyInsertPayload): ListingToast | null {
   if (row.published !== true) return null
@@ -85,7 +86,15 @@ export function NotificationToaster() {
           if (!toast) return
 
           playNotificationBell()
-          setToasts(current => [toast, ...current.filter(t => t.id !== toast.id)].slice(0, 3))
+          recordAlert({
+            id: toast.id,
+            slug: toast.slug,
+            title: toast.title,
+            location: toast.location,
+            price: toast.price,
+            image: toast.image,
+          })
+          setToasts(current => [toast, ...current.filter(t => t.id !== toast.id)].slice(0, 4))
           window.setTimeout(() => dismiss(toast.id), DISMISS_AFTER_MS)
         }
       )
@@ -103,7 +112,7 @@ export function NotificationToaster() {
       role="region"
       aria-live="polite"
       aria-label="New listing alerts"
-      className="pointer-events-none fixed inset-x-0 bottom-[calc(64px+env(safe-area-inset-bottom)+8px)] z-[55] flex flex-col gap-2 px-4 md:inset-x-auto md:right-6 md:bottom-24 md:w-[22rem] md:px-0"
+      className="scrollbar-none pointer-events-none fixed inset-x-0 bottom-[calc(64px+env(safe-area-inset-bottom)+8px)] z-[55] flex max-h-[60vh] flex-col gap-2 overflow-y-auto px-4 md:inset-x-auto md:right-6 md:bottom-24 md:w-[22rem] md:px-0"
     >
       {toasts.map(toast => (
         <article

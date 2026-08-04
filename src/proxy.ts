@@ -2,7 +2,7 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { isSupabaseConfigured, publicEnv } from '@/lib/env'
 
-const PROTECTED_PREFIXES = ['/profile', '/notifications', '/admin']
+const PROTECTED_PREFIXES = ['/profile', '/admin']
 
 export async function proxy(request: NextRequest) {
   const response = NextResponse.next({ request })

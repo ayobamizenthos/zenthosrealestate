@@ -1,28 +1,22 @@
 import type { Metadata } from 'next'
-import { NotificationList } from '@/components/notifications/NotificationList'
-import { requireUser } from '@/lib/auth'
-import { listNotifications } from '@/lib/queries/notifications'
-import { createSupabaseServerClient } from '@/lib/supabase/server'
+import { DeviceAlertList } from '@/components/notifications/DeviceAlertList'
 
 export const metadata: Metadata = {
   title: 'Notifications',
   robots: { index: false, follow: false },
 }
 
-export const dynamic = 'force-dynamic'
-
-export default async function NotificationsPage() {
-  const user = await requireUser('/notifications')
-  const supabase = await createSupabaseServerClient()
-  const notifications = await listNotifications(supabase, user.id).catch(() => [])
-
+export default function NotificationsPage() {
   return (
     <div className="app-shell py-6 md:py-10">
       <header className="mb-6">
-        <h1 className="text-title md:text-display text-brand font-extrabold">Notifications</h1>
+        <h1 className="text-ink text-[28px] font-extrabold md:text-[36px]">Notifications</h1>
+        <p className="text-muted mt-1 text-[14px]">
+          Every listing published while you have the site open.
+        </p>
       </header>
 
-      <NotificationList notifications={notifications} userId={user.id} />
+      <DeviceAlertList />
     </div>
   )
 }
