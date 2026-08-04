@@ -295,7 +295,9 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
               <section className="mt-10">
                 <AreaGuidePanel
                   guide={areaGuide}
-                  slug={findLocationLanding(property.location.toLowerCase().replace(/ /g, '-'))?.slug}
+                  slug={
+                    findLocationLanding(property.location.toLowerCase().replace(/ /g, '-'))?.slug
+                  }
                 />
               </section>
             ) : null}

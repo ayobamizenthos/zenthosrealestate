@@ -1,6 +1,6 @@
 'use client'
 
-import { ChevronDown, LoaderCircle, Search, X } from 'lucide-react'
+import { LoaderCircle, Search, X } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
@@ -9,65 +9,27 @@ import { propertyCardImage } from '@/lib/cloudinary'
 import {
   BEDROOM_FILTER_OPTIONS,
   LOCATION_LANDING_PAGES,
-  PROPERTY_LOCATIONS,
+  LOCATIONS_BY_ZONE,
   PROPERTY_TYPES,
   SEARCH_DEBOUNCE_MS,
   SEARCH_MIN_CHARS,
-  type PropertyLocation,
-  type PropertyType,
 } from '@/lib/constants'
+import { MultiSelect } from '@/components/ui/MultiSelect'
 import { displayPriceCompact } from '@/lib/format'
 import { PRICE_PRESETS } from '@/lib/property-filters'
 import { searchProperties } from '@/lib/queries/properties'
 import { createSupabaseBrowserClient } from '@/lib/supabase/client'
 import type { PropertySummary } from '@/lib/types'
 
-function Field({
-  label,
-  value,
-  onChange,
-  children,
-  className,
-}: {
-  label: string
-  value: string
-  onChange: (next: string) => void
-  children: React.ReactNode
-  className?: string
-}) {
-  return (
-    <div className={`relative flex-1 px-4 py-3 md:px-5 ${className ?? ''}`}>
-      <label className="text-muted block text-[11px] font-bold tracking-wider uppercase">
-        {label}
-      </label>
-      <div className="relative mt-1 flex items-center">
-        <select
-          value={value}
-          onChange={event => onChange(event.target.value)}
-          aria-label={label}
-          className="text-ink w-full cursor-pointer appearance-none bg-transparent pr-6 text-[15px] font-semibold outline-none"
-        >
-          {children}
-        </select>
-        <ChevronDown
-          size={16}
-          aria-hidden="true"
-          className="text-muted pointer-events-none absolute right-0"
-        />
-      </div>
-    </div>
-  )
-}
-
 export function HeroSearchForm() {
   const router = useRouter()
   const cardRef = useRef<HTMLDivElement>(null)
 
   const [term, setTerm] = useState('')
-  const [location, setLocation] = useState('')
-  const [propertyType, setPropertyType] = useState('')
-  const [priceBand, setPriceBand] = useState('')
-  const [bedrooms, setBedrooms] = useState('')
+  const [locations, setLocations] = useState<string[]>([])
+  const [propertyTypes, setPropertyTypes] = useState<string[]>([])
+  const [priceBands, setPriceBands] = useState<string[]>([])
+  const [bedroomChoices, setBedroomChoices] = useState<string[]>([])
 
   const [isOpen, setIsOpen] = useState(false)
   const [resolved, setResolved] = useState<{ query: string; matches: PropertySummary[] }>({
@@ -118,13 +80,19 @@ export function HeroSearchForm() {
   const submit = () => {
     const params = new URLSearchParams()
     if (term.trim()) params.set('q', term.trim())
-    if (location) params.set('location', location)
-    if (propertyType) params.set('type', propertyType)
-    if (bedrooms) params.set('beds', bedrooms)
+    if (locations.length) params.set('location', locations.join(','))
+    if (propertyTypes.length) params.set('type', propertyTypes.join(','))
 
-    const preset = PRICE_PRESETS.find(entry => entry.label === priceBand)
-    if (preset?.min !== null && preset?.min !== undefined) params.set('min', String(preset.min))
-    if (preset?.max !== null && preset?.max !== undefined) params.set('max', String(preset.max))
+    const bedCounts = bedroomChoices.map(choice => Number.parseInt(choice, 10)).filter(Number.isFinite)
+    if (bedCounts.length) params.set('beds', String(Math.min(...bedCounts)))
+
+    const chosen = PRICE_PRESETS.filter(preset => priceBands.includes(preset.label))
+    if (chosen.length) {
+      const mins = chosen.map(preset => preset.min).filter((value): value is number => value !== null)
+      const maxes = chosen.map(preset => preset.max)
+      if (mins.length === chosen.length) params.set('min', String(Math.min(...mins)))
+      if (!maxes.includes(null)) params.set('max', String(Math.max(...(maxes as number[]))))
+    }
 
     const search = params.toString()
     setIsOpen(false)
@@ -173,47 +141,44 @@ export function HeroSearchForm() {
         </div>
 
         <div className="flex flex-col md:flex-row md:items-stretch">
-          <Field label="Location" value={location} onChange={setLocation}>
-            <option value="">Any area</option>
-            {PROPERTY_LOCATIONS.map((entry: PropertyLocation) => (
-              <option key={entry} value={entry}>
-                {entry}
-              </option>
-            ))}
-          </Field>
+          <MultiSelect
+            label="Location"
+            placeholder="Anywhere in Lagos"
+            searchable
+            searchPlaceholder="Type an area"
+            groups={[
+              { label: 'Island', options: LOCATIONS_BY_ZONE.Island },
+              { label: 'Mainland', options: LOCATIONS_BY_ZONE.Mainland },
+            ]}
+            selected={locations}
+            onChange={setLocations}
+          />
 
-          <span className="bg-hairline hidden w-px shrink-0 md:block" aria-hidden="true" />
+          <MultiSelect
+            label="Property type"
+            placeholder="All types"
+            groups={[{ label: 'Types', options: PROPERTY_TYPES }]}
+            selected={propertyTypes}
+            onChange={setPropertyTypes}
+          />
 
-          <Field label="Property type" value={propertyType} onChange={setPropertyType}>
-            <option value="">Any type</option>
-            {PROPERTY_TYPES.map((entry: PropertyType) => (
-              <option key={entry} value={entry}>
-                {entry}
-              </option>
-            ))}
-          </Field>
+          <MultiSelect
+            label="Price range"
+            placeholder="All prices"
+            groups={[{ label: 'Bands', options: PRICE_PRESETS.map(preset => preset.label) }]}
+            selected={priceBands}
+            onChange={setPriceBands}
+          />
 
-          <span className="bg-hairline hidden w-px shrink-0 md:block" aria-hidden="true" />
-
-          <Field label="Price range" value={priceBand} onChange={setPriceBand}>
-            <option value="">Any price</option>
-            {PRICE_PRESETS.map(preset => (
-              <option key={preset.label} value={preset.label}>
-                {preset.label}
-              </option>
-            ))}
-          </Field>
-
-          <span className="bg-hairline hidden w-px shrink-0 md:block" aria-hidden="true" />
-
-          <Field label="Bedrooms" value={bedrooms} onChange={setBedrooms}>
-            <option value="">Any beds</option>
-            {BEDROOM_FILTER_OPTIONS.map(count => (
-              <option key={count} value={String(count)}>
-                {count}+ bedrooms
-              </option>
-            ))}
-          </Field>
+          <MultiSelect
+            label="Bedrooms"
+            placeholder="All sizes"
+            groups={[
+              { label: 'Bedrooms', options: BEDROOM_FILTER_OPTIONS.map(count => `${count}+ bedrooms`) },
+            ]}
+            selected={bedroomChoices}
+            onChange={setBedroomChoices}
+          />
 
           <div className="p-2 md:flex md:items-center">
             <button
