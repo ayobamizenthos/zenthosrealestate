@@ -121,10 +121,10 @@ export function SiteFooter() {
             </h2>
             <Link
               href="/offline"
-              className="text-brand mt-5 flex h-12 w-full max-w-[15rem] items-center justify-center gap-2.5 rounded-full bg-white text-[14px] font-bold transition-colors hover:bg-white/90"
+              className="text-brand mt-5 inline-flex h-11 items-center gap-2 rounded-lg bg-white px-4 text-[13px] font-bold transition-colors hover:bg-white/90"
             >
-              <Download size={17} aria-hidden="true" />
-              Install Zenthos
+              <Download size={15} aria-hidden="true" />
+              Install app
             </Link>
           </div>
         </div>
@@ -132,7 +132,7 @@ export function SiteFooter() {
 
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-[-0.15em] left-1/2 z-10 -translate-x-1/2 text-[30vw] leading-none font-black tracking-tighter whitespace-nowrap text-white/10 italic uppercase md:text-[clamp(15vw,25vw,400px)]"
+        className="pointer-events-none absolute bottom-[-0.15em] left-1/2 z-10 -translate-x-1/2 text-[26vw] leading-none font-black tracking-tighter whitespace-nowrap text-white/10 italic uppercase md:text-[clamp(13vw,21vw,340px)]"
       >
         Zenthos
       </span>

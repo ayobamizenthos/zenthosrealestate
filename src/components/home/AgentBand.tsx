@@ -59,7 +59,7 @@ export function AgentBand() {
         <ul className="space-y-8">
           {AGENT_BENEFITS.map(({ Icon, title, body }) => (
             <li key={title} className="flex gap-4">
-              <span className="bg-surface text-brand flex h-11 w-11 shrink-0 items-center justify-center rounded-full">
+              <span className="text-brand mt-0.5 shrink-0">
                 <Icon size={19} aria-hidden="true" />
               </span>
               <div className="min-w-0">
