@@ -31,9 +31,7 @@ export function CompareButton({
       }
       className={clsx(
         'flex h-11 items-center justify-center gap-2 rounded-control px-4 text-[14px] font-semibold transition-colors',
-        selected
-          ? 'bg-brand text-brand-ink'
-          : 'text-ink hover:border-brand border bg-white',
+        selected ? 'bg-brand text-brand-ink' : 'text-ink hover:border-brand border bg-white',
         disabled && 'cursor-not-allowed opacity-40'
       )}
     >

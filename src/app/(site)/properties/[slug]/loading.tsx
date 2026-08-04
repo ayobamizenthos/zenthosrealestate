@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/Skeleton'
 export default function PropertyDetailLoading() {
   return (
     <>
-      <div className="bg-surface/60 h-px">
+      <div>
         <div className="app-shell py-3">
           <Skeleton className="h-4 w-72" />
         </div>

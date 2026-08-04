@@ -93,12 +93,29 @@ export type NotificationsRow = {
   created_at: Timestamptz
 }
 
+export type AreaGuidesRow = {
+  location: string
+  headline: string
+  overview: string
+  estates: string
+  shopping: string
+  landmarks: string
+  getting_around: string
+  updated_at: Timestamptz
+}
+
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: '12'
   }
   public: {
     Tables: {
+      area_guides: {
+        Row: AreaGuidesRow
+        Insert: Omit<AreaGuidesRow, 'updated_at'> & Partial<Pick<AreaGuidesRow, 'updated_at'>>
+        Update: Partial<AreaGuidesRow>
+        Relationships: []
+      }
       properties: {
         Row: PropertiesRow
         Insert: PropertiesInsert

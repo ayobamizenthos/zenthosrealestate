@@ -55,9 +55,7 @@ function Chip({
       aria-expanded={isOpen}
       className={clsx(
         'flex h-11 shrink-0 items-center gap-1.5 rounded-full border px-4 text-[14px] font-medium whitespace-nowrap transition-colors',
-        summary || isOpen
-          ? 'border-brand text-brand bg-surface'
-          : 'text-ink hover:border-ink'
+        summary || isOpen ? 'border-brand text-brand bg-surface' : 'text-ink hover:border-ink'
       )}
     >
       {summary ?? label}
@@ -118,9 +116,7 @@ function BedroomScale({
           onClick={() => onSelect(null)}
           className={clsx(
             'h-11 min-w-11 rounded-full border px-4 text-[14px] font-medium transition-colors',
-            value === null
-              ? 'bg-ink border-ink text-white'
-              : 'text-ink hover:border-ink'
+            value === null ? 'bg-ink border-ink text-white' : 'text-ink hover:border-ink'
           )}
         >
           Any
@@ -132,9 +128,7 @@ function BedroomScale({
             onClick={() => onSelect(value === count ? null : count)}
             className={clsx(
               'h-11 min-w-11 rounded-full border px-4 text-[14px] font-medium transition-colors',
-              value === count
-                ? 'bg-ink border-ink text-white'
-                : 'text-ink hover:border-ink'
+              value === count ? 'bg-ink border-ink text-white' : 'text-ink hover:border-ink'
             )}
           >
             {count}
@@ -412,9 +406,7 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
                           }
                           className={clsx(
                             'h-11 rounded-full border px-4 text-[14px] font-medium transition-colors',
-                            isActive
-                              ? 'bg-ink border-ink text-white'
-                              : 'text-ink hover:border-ink'
+                            isActive ? 'bg-ink border-ink text-white' : 'text-ink hover:border-ink'
                           )}
                         >
                           {preset.label}

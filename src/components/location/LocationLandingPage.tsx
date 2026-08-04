@@ -1,11 +1,13 @@
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import { AreaGuidePanel } from '@/components/property/AreaGuidePanel'
 import { PropertyFeed } from '@/components/property/PropertyFeed'
 import { ButtonLink } from '@/components/ui/Button'
 import { EmptyState, NoResultsIllustration } from '@/components/ui/EmptyState'
 import type { LocationLandingContent } from '@/lib/constants'
 import { isSupabaseConfigured } from '@/lib/env'
 import { EMPTY_FILTERS } from '@/lib/property-filters'
+import { getAreaGuide } from '@/lib/queries/area-guides'
 import { listProperties } from '@/lib/queries/properties'
 import { createSupabasePublicClient } from '@/lib/supabase/public'
 import type { PropertyFilters, PropertyPage } from '@/lib/types'
@@ -22,6 +24,10 @@ async function loadLocationProperties(filters: PropertyFilters): Promise<Propert
 export async function LocationLandingPage({ content }: { content: LocationLandingContent }) {
   const filters: PropertyFilters = { ...EMPTY_FILTERS, locations: [content.name] }
   const { properties, total } = await loadLocationProperties(filters)
+
+  const guide = isSupabaseConfigured
+    ? await getAreaGuide(createSupabasePublicClient(), content.name).catch(() => null)
+    : null
 
   const browseAllHref = `/properties?location=${encodeURIComponent(content.name)}`
 
@@ -74,6 +80,12 @@ export async function LocationLandingPage({ content }: { content: LocationLandin
               action={<ButtonLink href="/properties">Browse all properties</ButtonLink>}
             />
           )}
+
+          {guide ? (
+            <div className="mt-14">
+              <AreaGuidePanel guide={guide} />
+            </div>
+          ) : null}
         </div>
       </div>
     </>

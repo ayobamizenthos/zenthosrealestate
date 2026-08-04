@@ -9,6 +9,7 @@ import { DownloadImagesButton } from '@/components/property/DownloadImagesButton
 import { InquiryForm } from '@/components/property/InquiryForm'
 import { PropertyFeed } from '@/components/property/PropertyFeed'
 import { PropertyGallery } from '@/components/property/PropertyGallery'
+import { AreaGuidePanel } from '@/components/property/AreaGuidePanel'
 import { PropertyMap } from '@/components/property/PropertyMap'
 import { SaveButton } from '@/components/property/SaveButton'
 import { ShareButton } from '@/components/property/ShareButton'
@@ -21,6 +22,7 @@ import { findLocationLanding, LOCATION_LANDING_PAGES, SITE } from '@/lib/constan
 import { isSupabaseConfigured } from '@/lib/env'
 import { displayPrice, toMetaDescription } from '@/lib/format'
 import { buildShareTitle, formatFullAddress } from '@/lib/share'
+import { getAreaGuide } from '@/lib/queries/area-guides'
 import {
   getAllPropertySlugs,
   getPropertyBySlug,
@@ -134,7 +136,12 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
   if (!property) notFound()
 
   const supabase = isSupabaseConfigured ? createSupabasePublicClient() : null
-  const related = supabase ? await getRelatedProperties(supabase, property).catch(() => []) : []
+  const [related, areaGuide] = supabase
+    ? await Promise.all([
+        getRelatedProperties(supabase, property).catch(() => []),
+        getAreaGuide(supabase, property.location).catch(() => null),
+      ])
+    : [[], null]
 
   const canonicalPath = `/properties/${property.slug}`
   const priceDisplay = displayPrice(property.price, property.price_label)
@@ -158,7 +165,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
     <>
       <PropertyJsonLd property={property} />
 
-      <nav aria-label="Breadcrumb" className="bg-surface/60 h-px">
+      <nav aria-label="Breadcrumb">
         <ol className="app-shell text-muted flex items-center gap-1.5 py-3 text-[13px]">
           <li>
             <Link href="/" className="hover:text-brand transition-colors">
@@ -283,6 +290,15 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
                 ))}
               </dl>
             </section>
+
+            {areaGuide ? (
+              <section className="mt-10">
+                <AreaGuidePanel
+                  guide={areaGuide}
+                  slug={findLocationLanding(property.location.toLowerCase().replace(/ /g, '-'))?.slug}
+                />
+              </section>
+            ) : null}
 
             <section className="mt-10">
               <PropertyMap address={property.address} location={property.location} />
