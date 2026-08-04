@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        // Signed-in and operational areas hold nothing a crawler should index.
+
         disallow: [
           '/admin',
           '/api/',

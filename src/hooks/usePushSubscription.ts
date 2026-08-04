@@ -5,11 +5,6 @@ import { publicEnv } from '@/lib/env'
 
 export type PushPermissionState = 'unsupported' | 'default' | 'granted' | 'denied'
 
-/**
- * VAPID keys travel as base64url but the Push API wants raw bytes. The buffer
- * is allocated explicitly so the result is a `Uint8Array<ArrayBuffer>` — the
- * only view type `applicationServerKey` accepts.
- */
 function urlBase64ToUint8Array(base64: string): Uint8Array<ArrayBuffer> {
   const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=')
   const normalised = padded.replace(/-/g, '+').replace(/_/g, '/')
@@ -28,9 +23,6 @@ export function usePushSubscription() {
   const [isBusy, setIsBusy] = useState(false)
 
   useEffect(() => {
-    // 'unsupported' is already the initial value, so an unsupported browser
-    // needs no state write at all — which keeps this effect free of the
-    // synchronous setState that triggers cascading renders.
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) return
 
     void navigator.serviceWorker.ready.then(async registration => {
@@ -92,7 +84,6 @@ export function usePushSubscription() {
       await subscription.unsubscribe()
       setIsSubscribed(false)
     } catch {
-      // Leave the flag as-is; the next mount re-reads the real state.
     } finally {
       setIsBusy(false)
     }

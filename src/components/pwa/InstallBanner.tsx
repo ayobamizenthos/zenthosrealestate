@@ -24,15 +24,10 @@ function isIosSafari(): boolean {
 function isStandalone(): boolean {
   return (
     window.matchMedia('(display-mode: standalone)').matches ||
-    // iOS exposes standalone on navigator rather than through display-mode.
     (window.navigator as Navigator & { standalone?: boolean }).standalone === true
   )
 }
 
-/**
- * Custom banner instead of the browser's default mini-infobar, so the prompt
- * matches the brand and we control when it appears.
- */
 export function InstallBanner() {
   const isClient = useIsClient()
   const visitCount = useVisitCount()
@@ -49,8 +44,6 @@ export function InstallBanner() {
     return () => window.removeEventListener('beforeinstallprompt', captureInstallPrompt)
   }, [])
 
-  // Every browser-only fact is read during render behind `isClient`, which
-  // keeps hydration honest without syncing anything through an effect.
   if (!isClient) return null
   if (isSuppressed) return null
   if (isStandalone()) return null
@@ -70,10 +63,6 @@ export function InstallBanner() {
   }
 
   return (
-    // A single slim bar rather than a card. The previous 22rem panel sat on top
-    // of whatever listing happened to be in the bottom-left of the viewport.
-    // Left-aligned on desktop because the right corner belongs to the WhatsApp
-    // button; above the tab bar on mobile so it never covers navigation.
     <div className="animate-slide-up fixed inset-x-3 bottom-[calc(64px+env(safe-area-inset-bottom)+12px)] z-50 md:inset-x-auto md:bottom-6 md:left-6 md:max-w-md">
       <div className="border-hairline shadow-card-hover flex items-center gap-3 rounded-full border bg-white/95 py-2 pr-2 pl-3 backdrop-blur-md">
         <span className="shrink-0">

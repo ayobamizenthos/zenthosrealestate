@@ -39,7 +39,6 @@ export function RegisterForm() {
       email,
       password,
       options: {
-        // Read by the handle_new_user trigger to populate public.profiles.
         data: { full_name: fullName, phone },
         emailRedirectTo: `${window.location.origin}${nextPath}`,
       },
@@ -51,7 +50,6 @@ export function RegisterForm() {
       return
     }
 
-    // With email confirmation on, Supabase returns a user but no session.
     if (data.session) {
       router.replace(nextPath)
       router.refresh()

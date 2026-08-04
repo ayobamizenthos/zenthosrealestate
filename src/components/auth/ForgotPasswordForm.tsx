@@ -20,8 +20,6 @@ export function ForgotPasswordForm() {
       redirectTo: `${window.location.origin}/reset-password`,
     })
 
-    // Always report success — telling a stranger whether an address is
-    // registered hands them a way to enumerate accounts.
     setIsSent(true)
     setIsSubmitting(false)
   }

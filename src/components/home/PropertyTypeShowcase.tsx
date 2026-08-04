@@ -6,7 +6,6 @@ import type { PropertyTypeShowcaseEntry } from '@/lib/queries/locations'
 
 const TILE_SIZES = '(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw'
 
-/** Entry points by building type, with live counts so nothing looks abandoned. */
 export function PropertyTypeShowcase({ types }: { types: PropertyTypeShowcaseEntry[] }) {
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">

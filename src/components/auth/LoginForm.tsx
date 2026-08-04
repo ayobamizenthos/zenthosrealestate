@@ -36,7 +36,6 @@ export function LoginForm() {
       return
     }
 
-    // Refresh so the server layout picks up the new session cookie.
     router.replace(nextPath)
     router.refresh()
   }

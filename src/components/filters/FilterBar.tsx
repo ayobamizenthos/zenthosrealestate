@@ -2,7 +2,7 @@
 
 import clsx from 'clsx'
 import { Check, ChevronDown, Search, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDebouncedValue } from '@/hooks/useDebouncedValue'
 import {
   BEDROOM_FILTER_OPTIONS,
@@ -146,11 +146,6 @@ function BedroomScale({
   )
 }
 
-/**
- * Every filter sits on one visible rail. Opening a chip expands an inline panel
- * beneath it rather than covering the results — the user keeps seeing the count
- * change as they refine, which is the whole point of instant filtering.
- */
 export function FilterBar({ filters, total, onChange }: FilterBarProps) {
   const [openPanel, setOpenPanel] = useState<FilterKey | null>(null)
 
@@ -162,6 +157,12 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
   const debouncedMin = useDebouncedValue(minDraft, 450)
   const debouncedMax = useDebouncedValue(maxDraft, 450)
 
+  const latest = useRef({ filters, onChange })
+
+  useEffect(() => {
+    latest.current = { filters, onChange }
+  })
+
   useEffect(() => {
     const parse = (value: string) => {
       if (value === '') return null
@@ -171,18 +172,18 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
 
     const nextMin = parse(debouncedMin)
     const nextMax = parse(debouncedMax)
-    if (nextMin === filters.minPrice && nextMax === filters.maxPrice) return
+    const current = latest.current
+    if (nextMin === current.filters.minPrice && nextMax === current.filters.maxPrice) return
 
-    onChange({ ...filters, minPrice: nextMin, maxPrice: nextMax })
-    // Reacting to `filters` here would re-fire immediately after navigation.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    current.onChange({ ...current.filters, minPrice: nextMin, maxPrice: nextMax })
   }, [debouncedMin, debouncedMax])
 
   useEffect(() => {
-    if (debouncedQuery.trim() === filters.query) return
-    onChange({ ...filters, query: debouncedQuery.trim() })
-    // Depending on `filters` would re-fire the moment navigation lands.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const current = latest.current
+    const trimmed = debouncedQuery.trim()
+    if (trimmed === current.filters.query) return
+
+    current.onChange({ ...current.filters, query: trimmed })
   }, [debouncedQuery])
 
   const applyPricePreset = (min: number | null, max: number | null) => {
@@ -244,8 +245,6 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
     <div className="border-hairline bg-canvas/95 sticky top-16 z-30 border-b backdrop-blur-md">
       <div className="app-shell">
         <div className="flex items-center gap-3 py-3">
-          {/* A live input, not a button that opens a modal — results update
-              underneath as the user types, before any Enter or Search press. */}
           <div className="border-hairline focus-within:border-ink relative flex h-11 flex-1 items-center gap-2.5 rounded-full border px-4 transition-colors">
             <Search size={16} className="text-ink shrink-0" aria-hidden="true" />
             <input
@@ -461,7 +460,7 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
                     onChange({
                       ...filters,
                       minBedrooms: next,
-                      // Keep the range coherent rather than silently returning nothing.
+
                       maxBedrooms:
                         next !== null && filters.maxBedrooms !== null && filters.maxBedrooms < next
                           ? next

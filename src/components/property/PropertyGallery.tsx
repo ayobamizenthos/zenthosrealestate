@@ -12,11 +12,6 @@ import {
   transformCloudinary,
 } from '@/lib/cloudinary'
 
-/**
- * Photographs are 4:5 portrait. One main frame beside a 2×2 thumbnail grid fills
- * exactly the same height, so the block squares off without letterboxing —
- * a landscape-first gallery would crop through every ceiling and floor.
- */
 export function PropertyGallery({ images, title }: { images: string[]; title: string }) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
@@ -30,12 +25,10 @@ export function PropertyGallery({ images, title }: { images: string[]; title: st
 
   return (
     <>
-      {/* Mobile: a single swipeable frame. */}
       <div className="md:hidden">
         <MobileCarousel images={images} title={title} onOpen={setLightboxIndex} />
       </div>
 
-      {/* Desktop: main frame plus thumbnail grid. */}
       <div className="hidden gap-2 md:grid md:grid-cols-[1.15fr_1fr]">
         <button
           type="button"
@@ -98,7 +91,7 @@ export function PropertyGallery({ images, title }: { images: string[]; title: st
         className="border-hairline text-ink hover:border-ink mt-3 hidden h-11 items-center gap-2 border px-4 text-[14px] font-semibold transition-colors md:inline-flex"
       >
         <Expand size={15} aria-hidden="true" />
-        View all {images.length} photos
+        View all photos
       </button>
 
       {lightboxIndex !== null ? (

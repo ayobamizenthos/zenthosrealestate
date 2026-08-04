@@ -11,12 +11,6 @@ import { inquiryHandoffLink } from '@/lib/whatsapp'
 
 type InquiryProperty = Pick<Property, 'id' | 'title' | 'location' | 'state' | 'reference_code'>
 
-/**
- * Submitting opens WhatsApp with every field already written out, because that
- * is where the conversation actually continues. The enquiry is still written to
- * the database first so it appears in admin even if the buyer never sends the
- * message they were handed.
- */
 export function InquiryForm({ property }: { property: InquiryProperty }) {
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
@@ -30,8 +24,6 @@ export function InquiryForm({ property }: { property: InquiryProperty }) {
 
     const draft = { name, email, phone, message }
 
-    // Opened synchronously from the submit gesture. Waiting on the network
-    // first would lose the user-gesture context and get the tab blocked.
     const handoff = window.open(inquiryHandoffLink(property, draft), '_blank', 'noopener')
 
     const formData = new FormData()
@@ -41,7 +33,6 @@ export function InquiryForm({ property }: { property: InquiryProperty }) {
     formData.set('phone', phone)
     formData.set('message', message)
 
-    // A failed write must not block the conversation the buyer just started.
     await submitInquiryAction({}, formData).catch(() => undefined)
 
     if (!handoff) window.location.href = inquiryHandoffLink(property, draft)

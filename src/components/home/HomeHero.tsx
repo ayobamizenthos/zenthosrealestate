@@ -1,15 +1,8 @@
-import { ShieldCheck } from 'lucide-react'
 import { HeroSearchForm } from './HeroSearchForm'
 
-/**
- * Dark stage, centred type, and a white search card floating over it. The card
- * is the point of the page — a buyer should be able to start a real search
- * without scrolling or clicking through to another screen first.
- */
 export function HomeHero() {
   return (
     <section className="relative overflow-hidden bg-[#1B0710]">
-      {/* Two offset radial washes give the backdrop depth without a mesh gradient. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
@@ -20,11 +13,6 @@ export function HomeHero() {
       />
 
       <div className="app-shell relative flex flex-col items-center py-12 text-center md:py-24">
-        <span className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5 text-[12px] font-semibold text-white/90 backdrop-blur-sm">
-          <ShieldCheck size={13} aria-hidden="true" />
-          Every listing inspected before it is published
-        </span>
-
         <h1 className="mt-6 max-w-4xl text-[36px] leading-[1.04] font-extrabold tracking-tight text-white md:mt-7 md:text-[62px] lg:text-[72px]">
           Find the right property in Lagos &amp; Abuja
         </h1>

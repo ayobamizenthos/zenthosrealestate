@@ -1,89 +1,84 @@
-/**
- * Builds every icon from the supplied brand artwork. Run with `npm run icons`
- * after replacing public/zenthos-logo.png or public/zenthos-mark.png.
- *
- * The source art is burgundy line-work on an opaque white field. Painting it
- * straight onto a burgundy tile renders it invisible, so the artwork is first
- * reduced to an alpha mask (dark pixels = ink) and then re-tinted in whatever
- * colour the target needs.
- */
 import { mkdir, writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import sharp from 'sharp'
 
-const BRAND = { r: 128, g: 0, b: 32, alpha: 1 }
+const BRAND = '#800020'
 const TRANSPARENT = { r: 0, g: 0, b: 0, alpha: 0 }
 
 const PUBLIC_DIR = join(process.cwd(), 'public')
 const ICONS_DIR = join(PUBLIC_DIR, 'icons')
 const APP_DIR = join(process.cwd(), 'src', 'app')
 
-const markSource = join(PUBLIC_DIR, 'zenthos-mark.png')
-const logoSource = join(PUBLIC_DIR, 'zenthos-logo.png')
-
-/** Crops the white field away from around the artwork. */
-function trimWhite(input) {
-  return sharp(input).flatten({ background: '#ffffff' }).trim({ threshold: 30 })
+const SOURCES = {
+  markWhite: join(PUBLIC_DIR, 'ZENTHOS RE LOGO SINGLE_WHITE.png'),
+  markBurgundy: join(PUBLIC_DIR, 'ZENTHOS RE LOGO SINGLE_BURG.png'),
+  lockupWhite: join(PUBLIC_DIR, 'ZENTHOS RE LOGO_WHITE.png'),
+  lockupBurgundy: join(PUBLIC_DIR, 'ZENTHOS RE LOGO_BURG.png'),
 }
 
-/**
- * Single-channel mask at `size`×`size`: opaque where the ink is, transparent
- * where the white field was.
- */
-async function inkMask(size) {
-  const trimmed = await trimWhite(markSource).toBuffer()
+const markWhite = SOURCES.markWhite
+
+async function trimTo(source, target) {
+  const buffer = await sharp(source).trim({ threshold: 10 }).png().toBuffer()
+  await writeFile(join(PUBLIC_DIR, target), buffer)
+}
+
+async function tile(size, padding) {
+  const inner = Math.max(1, Math.round(size * (1 - padding * 2)))
+
+  const trimmed = await sharp(markWhite).trim({ threshold: 10 }).toBuffer()
   const fitted = await sharp(trimmed)
-    .resize(size, size, { fit: 'contain', background: '#ffffff' })
+    .resize(inner, inner, { fit: 'contain', background: TRANSPARENT })
     .toBuffer()
 
-  return (
-    sharp(fitted)
-      .greyscale()
-      .negate()
-      // Push the mid-tones from anti-aliasing to full black or white so edges
-      // stay crisp at 72px rather than turning into grey haze.
-      .linear(1.8, -20)
-      .toColourspace('b-w')
-      .toBuffer()
-  )
+  return sharp({ create: { width: size, height: size, channels: 4, background: BRAND } })
+    .composite([{ input: fitted, gravity: 'centre' }])
+    .png()
+    .toBuffer()
 }
 
-/** The mark in `inkColour`, centred on `background`, padded by `padding`. */
-async function renderIcon(size, padding, inkColour, background) {
-  const inner = size - padding * 2
-  const mask = await inkMask(inner)
+async function writeIco(target, sizes) {
+  const images = await Promise.all(sizes.map(size => tile(size, 0.08)))
 
-  const ink = await sharp({
-    create: { width: inner, height: inner, channels: 3, background: inkColour },
+  const header = Buffer.alloc(6)
+  header.writeUInt16LE(0, 0)
+  header.writeUInt16LE(1, 2)
+  header.writeUInt16LE(images.length, 4)
+
+  const entries = []
+  let offset = 6 + images.length * 16
+
+  images.forEach((image, index) => {
+    const entry = Buffer.alloc(16)
+    const size = sizes[index]
+    entry.writeUInt8(size >= 256 ? 0 : size, 0)
+    entry.writeUInt8(size >= 256 ? 0 : size, 1)
+    entry.writeUInt16LE(1, 4)
+    entry.writeUInt16LE(32, 6)
+    entry.writeUInt32LE(image.length, 8)
+    entry.writeUInt32LE(offset, 12)
+    entries.push(entry)
+    offset += image.length
   })
-    .joinChannel(mask)
-    .png()
-    .toBuffer()
 
-  return sharp({ create: { width: size, height: size, channels: 4, background } })
-    .composite([{ input: ink, top: padding, left: padding }])
-    .png()
-    .toBuffer()
+  await writeFile(target, Buffer.concat([header, ...entries, ...images]))
 }
 
 await mkdir(ICONS_DIR, { recursive: true })
-console.log('Generating brand assets…')
 
-const trimmedLogo = await trimWhite(logoSource).png().toBuffer()
-await writeFile(join(PUBLIC_DIR, 'zenthos-wordmark.png'), trimmedLogo)
-console.log('  zenthos-wordmark.png')
+await writeFile(join(APP_DIR, 'icon.png'), await tile(512, 0.08))
+await writeFile(join(APP_DIR, 'apple-icon.png'), await tile(180, 0.1))
+await writeIco(join(APP_DIR, 'favicon.ico'), [16, 32, 48])
 
-// Favicon: burgundy mark on transparent, so it reads on light and dark tabs.
-await writeFile(join(APP_DIR, 'icon.png'), await renderIcon(512, 28, BRAND, TRANSPARENT))
-console.log('  src/app/icon.png (favicon)')
+await writeFile(join(ICONS_DIR, 'icon-192.png'), await tile(192, 0.08))
+await writeFile(join(ICONS_DIR, 'icon-512.png'), await tile(512, 0.08))
+await writeFile(join(ICONS_DIR, 'apple-touch-icon.png'), await tile(180, 0.1))
+await writeFile(join(ICONS_DIR, 'maskable-512.png'), await tile(512, 0.22))
+await writeFile(join(ICONS_DIR, 'badge-72.png'), await tile(72, 0.12))
 
-// Everything below is a launcher tile: white mark knocked out of burgundy.
-await writeFile(join(APP_DIR, 'apple-icon.png'), await renderIcon(180, 26, '#ffffff', BRAND))
-await writeFile(join(ICONS_DIR, 'icon-192.png'), await renderIcon(192, 28, '#ffffff', BRAND))
-await writeFile(join(ICONS_DIR, 'icon-512.png'), await renderIcon(512, 74, '#ffffff', BRAND))
-// Android launchers crop up to 20% from each edge of a maskable icon.
-await writeFile(join(ICONS_DIR, 'maskable-512.png'), await renderIcon(512, 128, '#ffffff', BRAND))
-await writeFile(join(ICONS_DIR, 'badge-72.png'), await renderIcon(72, 10, '#ffffff', BRAND))
-console.log('  apple-icon.png, icon-192, icon-512, maskable-512, badge-72')
+await trimTo(SOURCES.lockupBurgundy, 'zenthos-lockup-burgundy.png')
+await trimTo(SOURCES.lockupWhite, 'zenthos-lockup-white.png')
+await trimTo(SOURCES.markBurgundy, 'zenthos-mark-burgundy.png')
+await trimTo(SOURCES.markWhite, 'zenthos-mark-white.png')
 
-console.log('Done.')
+console.log('icons and logos written')

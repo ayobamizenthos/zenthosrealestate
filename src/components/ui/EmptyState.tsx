@@ -18,7 +18,6 @@ export function EmptyState({ illustration, title, description, action }: EmptySt
   )
 }
 
-/** Simple line art — no cartoons or emoji, per the design direction. */
 export function NoResultsIllustration() {
   return (
     <svg

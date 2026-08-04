@@ -6,10 +6,6 @@ import { usePathname } from 'next/navigation'
 import { MAX_COMPARE_PROPERTIES } from '@/lib/constants'
 import { useCompare } from './CompareProvider'
 
-/**
- * Floating summary of the current comparison. Hidden on /compare itself, where
- * the selection is already the entire page.
- */
 export function CompareBar() {
   const { compareIds, clearCompare } = useCompare()
   const pathname = usePathname()

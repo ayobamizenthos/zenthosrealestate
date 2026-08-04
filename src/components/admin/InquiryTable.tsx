@@ -50,7 +50,6 @@ function InquiryRow({ inquiry }: { inquiry: InquiryWithProperty }) {
         </button>
 
         <div className="flex items-center gap-2">
-          {/* Submitting on change keeps the triage flow to a single interaction. */}
           <form action={updateInquiryStatusAction}>
             <input type="hidden" name="id" value={inquiry.id} />
             <select

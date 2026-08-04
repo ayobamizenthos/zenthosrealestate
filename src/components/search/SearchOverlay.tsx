@@ -18,8 +18,7 @@ export function SearchOverlay({ onClose }: { onClose: () => void }) {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const [term, setTerm] = useState('')
-  // Results are stored alongside the query that produced them, so "loading" and
-  // "stale" are derived during render rather than tracked as separate state.
+
   const [resolved, setResolved] = useState<{ query: string; matches: PropertySummary[] }>({
     query: '',
     matches: [],

@@ -16,10 +16,6 @@ const STATUS_CLASSES: Record<PropertyStatus, string> = {
   Sold: 'bg-danger text-white',
 }
 
-/**
- * Only rendered for Reserved and Sold — an "Available" chip on every card is
- * noise, since availability is the default the user already assumes.
- */
 export function StatusBadge({ status }: { status: PropertyStatus }) {
   if (status === 'Available') return null
 

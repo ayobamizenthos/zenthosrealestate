@@ -35,7 +35,6 @@ export function NotificationList({
 
     hasMarkedRead.current = true
 
-    // Opening the page is the read receipt. Refresh so the header badge clears.
     markNotificationsRead(createSupabaseBrowserClient(), userId)
       .then(() => {
         void navigator.clearAppBadge?.()

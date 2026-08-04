@@ -8,10 +8,6 @@ import { createSupabaseBrowserClient } from '@/lib/supabase/client'
 
 const MIN_PASSWORD_LENGTH = 8
 
-/**
- * Reached from the emailed recovery link. Supabase has already exchanged the
- * link for a session by the time this renders, so updateUser is enough.
- */
 export function ResetPasswordForm() {
   const router = useRouter()
   const [password, setPassword] = useState('')

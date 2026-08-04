@@ -34,8 +34,6 @@ type PageParams = Promise<{ slug: string }>
 export const revalidate = 300
 
 export async function generateStaticParams() {
-  // Area landing pages are known statically and must always be prerendered,
-  // even when the database is unreachable at build time.
   const areaParams = LOCATION_LANDING_PAGES.map(area => ({ slug: area.slug }))
 
   if (!isSupabaseConfigured) return areaParams
@@ -76,8 +74,6 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
 
   if (!property) return { title: 'Property not found', robots: { index: false, follow: false } }
 
-  // "2 Bedroom Apartment 300M-Lekki Phase 1, Lagos" — the exact string the
-  // brokerage uses everywhere else, so a shared link reads identically.
   const shareTitle = buildShareTitle(property)
   const [coverImage] = property.images
   const canonicalPath = `/properties/${property.slug}`
@@ -127,9 +123,6 @@ function SpecTile({ icon, value, label }: { icon: React.ReactNode; value: string
 export default async function PropertyDetailPage({ params }: { params: PageParams }) {
   const { slug } = await params
 
-  // Area slugs and property slugs share this segment. Areas are a small closed
-  // set checked first, so /properties/lekki is the Lekki landing page and
-  // /properties/2-bedroom-apartment-lekki is the listing.
   const area = findLocationLanding(slug)
   if (area) {
     return <LocationLandingPage content={area} />
@@ -159,7 +152,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
       : []),
     { label: 'Serviced', value: property.serviced ? 'Yes' : 'No' },
     { label: 'Status', value: property.status },
-    { label: 'Reference', value: property.reference_code },
   ]
 
   return (
@@ -214,7 +206,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
               {priceDisplay}
             </p>
 
-            {/* Mobile action row; desktop equivalents live in the sticky card. */}
             <div className="mt-5 grid grid-cols-2 gap-2 lg:hidden">
               <a
                 href={propertyInquiryLink(property)}
@@ -238,8 +229,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
                 </div>
               </div>
 
-              {/* Realtors work from their phones — downloading the full photo set
-                  cannot be a desktop-only action. */}
               <DownloadImagesButton images={property.images} title={property.title} />
               <CompareButton propertyId={property.id} propertyTitle={property.title} />
             </div>
@@ -310,13 +299,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
 
           <aside className="mt-10 hidden lg:mt-0 lg:block">
             <div className="border-hairline sticky top-24 border bg-white">
-              <div className="border-hairline border-b p-5">
-                <p className="text-ink text-[26px] leading-none font-extrabold">{priceDisplay}</p>
-                <p className="text-muted mt-2 text-[13px]">
-                  {property.bedrooms} bed · {property.bathrooms} bath · {property.toilets} toilet
-                </p>
-              </div>
-
               <div className="space-y-2 p-5">
                 <a
                   href={propertyInquiryLink(property)}

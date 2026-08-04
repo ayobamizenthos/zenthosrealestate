@@ -8,7 +8,7 @@ import { useSavedProperties } from './SavedProvider'
 interface SaveButtonProps {
   propertyId: string
   propertyTitle: string
-  /** `overlay` sits on a photo; `inline` sits on a white surface. */
+
   tone?: 'overlay' | 'inline'
 }
 

@@ -2,15 +2,10 @@ const NAIRA = '₦'
 
 const nairaGrouping = new Intl.NumberFormat('en-NG', { maximumFractionDigits: 0 })
 
-/** Full price for detail pages and admin tables: ₦85,000,000 */
 export function formatNaira(amount: number): string {
   return `${NAIRA}${nairaGrouping.format(amount)}`
 }
 
-/**
- * Compact price for cards, push notifications and social card descriptions,
- * where the full figure would wrap: ₦85M, ₦1.2B, ₦850K.
- */
 export function formatNairaCompact(amount: number): string {
   if (amount >= 1_000_000_000) return `${NAIRA}${trimZero(amount / 1_000_000_000)}B`
   if (amount >= 1_000_000) return `${NAIRA}${trimZero(amount / 1_000_000)}M`
@@ -22,10 +17,6 @@ function trimZero(value: number): string {
   return value.toFixed(1).replace(/\.0$/, '')
 }
 
-/**
- * Prefers the admin-authored label so listings can read "Price on Request"
- * without inventing a sentinel price value.
- */
 export function displayPrice(price: number | null, priceLabel: string | null): string {
   if (priceLabel?.trim()) return priceLabel.trim()
   if (price === null) return 'Price on Request'
@@ -72,10 +63,6 @@ export function formatRelativeTime(value: string): string {
 
 const COMBINING_MARKS = /[̀-ͯ]/g
 
-/**
- * Builds the SEO slug for a property. Uniqueness is guaranteed by the database,
- * which appends a short discriminator when two listings collide.
- */
 export function toSlug(input: string): string {
   return input
     .normalize('NFKD')
@@ -92,7 +79,6 @@ export function truncateAtWord(text: string, maxLength: number): string {
   return `${clipped.slice(0, clipped.lastIndexOf(' '))}…`
 }
 
-/** Meta descriptions are capped at 160 characters by every major crawler. */
 export function toMetaDescription(text: string): string {
   return truncateAtWord(text.replace(/\s+/g, ' ').trim(), 157)
 }

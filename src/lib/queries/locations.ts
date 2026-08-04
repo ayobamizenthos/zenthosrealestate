@@ -14,10 +14,6 @@ export interface LocationShowcaseEntry {
   coverImage: string | null
 }
 
-/**
- * Returns one entry per configured location, including areas with no live
- * listings — an empty tile still earns its place as an SEO landing link.
- */
 export async function getLocationShowcase(
   supabase: ZenthosSupabaseClient
 ): Promise<LocationShowcaseEntry[]> {
@@ -77,27 +73,6 @@ export interface CatalogueStats {
   areasCovered: number
 }
 
-/**
- * Cheapest published listing, for the "from" figure on the homepage. Derived
- * from the whole catalogue rather than whatever happens to be featured, so the
- * price quoted is one a buyer can actually find.
- */
-export async function getLowestListedPrice(
-  supabase: ZenthosSupabaseClient
-): Promise<number | null> {
-  const { data, error } = await supabase
-    .from('properties')
-    .select('price')
-    .eq('published', true)
-    .not('price', 'is', null)
-    .order('price', { ascending: true })
-    .limit(1)
-    .maybeSingle()
-
-  if (error || !data) return null
-  return data.price
-}
-
 export interface PriceBand {
   label: string
   min: number | null
@@ -105,12 +80,6 @@ export interface PriceBand {
   propertyCount: number
 }
 
-/**
- * Budget is the first cut most buyers make, so the homepage offers it as a
- * shortcut. Counts are tallied from the live catalogue and empty bands are
- * dropped by the caller, which keeps the row honest as stock moves rather than
- * advertising a bracket with nothing in it.
- */
 const PRICE_BANDS: { label: string; min: number | null; max: number | null }[] = [
   { label: 'Under ₦100M', min: null, max: 100_000_000 },
   { label: '₦100M to ₦250M', min: 100_000_000, max: 250_000_000 },

@@ -22,10 +22,8 @@ export function SavedProvider({ children }: { children: ReactNode }) {
   const router = useRouter()
   const [loadedIds, setSavedIds] = useState<ReadonlySet<string>>(NO_IDS)
 
-  // Derived, so signing out clears the hearts without a setState in an effect.
   const savedIds = user ? loadedIds : NO_IDS
 
-  // Loaded client-side so the server layout never has to read auth cookies.
   useEffect(() => {
     if (!user) return
 
@@ -53,7 +51,6 @@ export function SavedProvider({ children }: { children: ReactNode }) {
 
       const wasSaved = savedIds.has(propertyId)
 
-      // Flip immediately so the heart animation is not gated on the network.
       setSavedIds(previous => {
         const next = new Set(previous)
         if (wasSaved) next.delete(propertyId)

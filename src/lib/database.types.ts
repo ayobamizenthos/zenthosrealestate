@@ -1,14 +1,3 @@
-/**
- * Hand-maintained mirror of supabase/migrations. Regenerate with
- * `npx supabase gen types typescript --project-id <id> > src/lib/database.types.ts`
- * once the CLI is linked; the shape below matches what it emits.
- *
- * These must stay `type` aliases, not interfaces — postgrest-js constrains every
- * Row to `Record<string, unknown>`, and only type aliases carry the implicit
- * index signature that satisfies it. Interfaces silently degrade the whole
- * schema to `never`.
- */
-
 type Timestamptz = string
 
 type EmptyRecord = { [_ in never]: never }

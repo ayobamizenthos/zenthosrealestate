@@ -1,4 +1,3 @@
-/** Reads a 1-based `?page=` value, rejecting anything that is not a real page. */
 export function readPageParam(params: Record<string, string | string[] | undefined>): number {
   const raw = params.page
   const value = Array.isArray(raw) ? raw[0] : raw

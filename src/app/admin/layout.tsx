@@ -9,11 +9,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-// Applies to every nested admin route — all of them read the session.
 export const dynamic = 'force-dynamic'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
-  // Gate every admin route in one place; individual pages assume an admin.
   await requireAdmin()
 
   return (

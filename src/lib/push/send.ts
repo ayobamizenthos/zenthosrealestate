@@ -26,11 +26,6 @@ function configureVapid(): boolean {
   return true
 }
 
-/**
- * Pushes a payload to every device belonging to the given users. Endpoints that
- * the push service has retired (404/410) are pruned so the table does not grow
- * a tail of dead subscriptions.
- */
 export async function sendPushToUsers(userIds: string[], payload: PushPayload): Promise<void> {
   if (!userIds.length) return
   if (!configureVapid()) return

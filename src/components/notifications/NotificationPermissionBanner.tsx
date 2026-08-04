@@ -8,16 +8,11 @@ import { useVisitCount } from '@/hooks/useVisitCount'
 import { createPromptDismissal } from '@/lib/local-store'
 
 const REPROMPT_AFTER_MS = 14 * 24 * 60 * 60 * 1000
-// Deliberately later than the install banner's threshold so the two prompts
-// never occupy the same corner on the same visit.
+
 const MIN_VISITS = 4
 
 const pushPrompt = createPromptDismissal('zenthos.push-prompt-dismissed-at', REPROMPT_AFTER_MS)
 
-/**
- * A styled in-app banner rather than firing the browser permission dialog on
- * load — an unexplained prompt gets denied, and a denial is permanent.
- */
 export function NotificationPermissionBanner() {
   const { user } = useAuth()
   const visitCount = useVisitCount()

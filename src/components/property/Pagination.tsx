@@ -9,10 +9,6 @@ interface PaginationProps {
   basePath: string
 }
 
-/**
- * Real anchors rather than buttons so crawlers can walk deeper pages and users
- * can open a page in a new tab.
- */
 export function Pagination({ filters, pageCount, basePath }: PaginationProps) {
   if (pageCount <= 1) return null
 

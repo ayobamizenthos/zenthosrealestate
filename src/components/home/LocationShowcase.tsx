@@ -9,11 +9,6 @@ const TILE_SIZES = '(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw'
 
 const ABUJA_AREAS: readonly string[] = LOCATIONS_BY_STATE.Abuja
 
-/**
- * Two-up on mobile, four-up on desktop. An earlier single-column portrait
- * treatment ran the homepage past 12,000px on a phone once the coverage grew
- * beyond four areas — at this density the whole footprint is one thumb-flick.
- */
 export function LocationShowcase({ locations }: { locations: LocationShowcaseEntry[] }) {
   return (
     <div className="grid grid-cols-2 gap-x-3 gap-y-6 md:grid-cols-3 md:gap-x-5 lg:grid-cols-4">

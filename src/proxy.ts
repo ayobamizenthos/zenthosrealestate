@@ -2,17 +2,8 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import { isSupabaseConfigured, publicEnv } from '@/lib/env'
 
-/**
- * `/compare` is deliberately absent. Comparison state lives in localStorage, so
- * a signed-out buyer can line up three houses and decide without an account
- * standing between them and the decision.
- */
-const PROTECTED_PREFIXES = ['/saved', '/profile', '/notifications', '/admin']
+const PROTECTED_PREFIXES = ['/profile', '/notifications', '/admin']
 
-/**
- * Next 16 renamed the middleware convention to `proxy`. This refreshes the
- * Supabase session cookie on every request and gates the signed-in routes.
- */
 export async function proxy(request: NextRequest) {
   const response = NextResponse.next({ request })
 

@@ -1,12 +1,3 @@
-/**
- * Applies every file in supabase/migrations in filename order, then optionally
- * the seed, through the Supabase Management API. Running over the API rather
- * than a Postgres connection avoids IPv6-only direct hosts and connection
- * string escaping entirely.
- *
- *   npm run db:migrate        schema only
- *   npm run db:reset          schema + sample listings
- */
 import { readFile, readdir } from 'node:fs/promises'
 import { join } from 'node:path'
 

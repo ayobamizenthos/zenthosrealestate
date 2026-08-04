@@ -10,11 +10,6 @@ function bandHref(band: PriceBand): string {
   return `/properties?${params.toString()}`
 }
 
-/**
- * Budget is the first cut most buyers make. Counts come from the catalogue, and
- * bands holding nothing are filtered out upstream so this never sends anyone to
- * an empty result set.
- */
 export function PriceBands({ bands }: { bands: PriceBand[] }) {
   if (!bands.length) return null
 

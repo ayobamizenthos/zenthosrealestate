@@ -16,11 +16,6 @@ const SUMMARY_COLUMNS =
 
 const DETAIL_COLUMNS = `${SUMMARY_COLUMNS}, amenities, featured, published, reference_code, title_document, updated_at`
 
-/**
- * The `location`, `property_type` and friends columns are plain text guarded by
- * CHECK constraints, so widening them back to their unions here is a restatement
- * of a database invariant rather than an unchecked assumption.
- */
 function toSummary(row: Pick<PropertiesRow, keyof PropertySummary>): PropertySummary {
   return {
     id: row.id,
@@ -62,10 +57,6 @@ export async function listProperties(
   supabase: ZenthosSupabaseClient,
   filters: PropertyFilters
 ): Promise<PropertyPage> {
-  // A text query resolves through the search function first — it understands
-  // "2bedroom", misspellings and reference codes in ways a column filter
-  // cannot. The matching ids then flow into the normal filtered query so
-  // structural filters and pagination behave identically either way.
   let matchedIds: string[] | null = null
 
   if (filters.query.trim()) {
@@ -106,8 +97,6 @@ export async function listProperties(
     query = query.gte('created_at', since)
   }
 
-  // Featured listings lead every ordering except an explicit price sort, where
-  // jumping a featured listing to the top would make the sort look broken.
   if (filters.sort === 'price-asc') {
     query = query.order('price', { ascending: true, nullsFirst: false })
   } else if (filters.sort === 'price-desc') {
@@ -168,7 +157,6 @@ export async function getPropertyBySlug(
   return data ? toProperty(data) : null
 }
 
-/** Admin editing reads drafts too, so it deliberately skips the published filter. */
 export async function getPropertyByIdForAdmin(
   supabase: ZenthosSupabaseClient,
   id: string
@@ -202,13 +190,6 @@ export async function getRelatedProperties(
   return (data ?? []).map(toSummary)
 }
 
-/**
- * The single search entry point. Delegates to the `search_properties` function
- * so the browser, the listing page and the overlay all resolve a query the same
- * way — bedroom counts parsed out of any spelling, full-text over every field,
- * substring matching while the user is still typing, and trigram fuzzy matching
- * for typos.
- */
 export async function searchProperties(
   supabase: ZenthosSupabaseClient,
   term: string,
@@ -238,7 +219,7 @@ export async function getPropertiesByIds(
   if (error) throw new Error(`Failed to load properties: ${error.message}`)
 
   const bySlugOrder = new Map((data ?? []).map(row => [row.id, toSummary(row)]))
-  // Preserve the order the caller asked for — compare columns must not reshuffle.
+
   return ids.map(id => bySlugOrder.get(id)).filter((row): row is PropertySummary => Boolean(row))
 }
 

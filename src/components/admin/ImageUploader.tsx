@@ -25,11 +25,6 @@ async function uploadToCloudinary(file: File): Promise<string> {
   return result.secure_url
 }
 
-/**
- * Uploads straight from the browser to Cloudinary with an unsigned preset, so
- * large photos never pass through the Vercel function and its body-size cap.
- * The resulting URLs ride along in a hidden field for the server action.
- */
 export function ImageUploader({ initialImages }: { initialImages: string[] }) {
   const [images, setImages] = useState<string[]>(initialImages)
   const [pendingCount, setPendingCount] = useState(0)
@@ -136,7 +131,6 @@ export function ImageUploader({ initialImages }: { initialImages: string[] }) {
                 <X size={14} aria-hidden="true" />
               </button>
 
-              {/* Touch-friendly alternative to dragging, which is unusable on phones. */}
               <div className="flex border-t border-hairline">
                 <button
                   type="button"

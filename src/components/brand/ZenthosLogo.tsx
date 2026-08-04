@@ -1,39 +1,42 @@
 import clsx from 'clsx'
 import Image from 'next/image'
 
-/**
- * The supplied artwork is a single lockup (monogram + wordmark), so the header
- * sizes it by height and lets the width follow. `showWordmark={false}` crops to
- * the monogram for tight spots like the install banner.
- */
+type LogoTone = 'burgundy' | 'white'
+
+const LOCKUP: Record<LogoTone, string> = {
+  burgundy: '/zenthos-lockup-burgundy.png',
+  white: '/zenthos-lockup-white.png',
+}
+
+const MARK: Record<LogoTone, string> = {
+  burgundy: '/zenthos-mark-burgundy.png',
+  white: '/zenthos-mark-white.png',
+}
+
 export function ZenthosLogo({
   showWordmark = true,
+  tone = 'burgundy',
   className,
 }: {
   showWordmark?: boolean
+  tone?: LogoTone
   className?: string
 }) {
   if (!showWordmark) {
     return (
-      <span className={clsx('relative block h-9 w-9 shrink-0', className)}>
-        <Image
-          src="/icons/icon-192.png"
-          alt=""
-          fill
-          sizes="36px"
-          className="rounded-lg object-contain"
-        />
+      <span className={clsx('relative block h-9 w-6 shrink-0', className)}>
+        <Image src={MARK[tone]} alt="" fill sizes="24px" className="object-contain" />
       </span>
     )
   }
 
   return (
-    <span className={clsx('relative block h-8 w-[132px] shrink-0 md:h-9 md:w-[150px]', className)}>
+    <span className={clsx('relative block h-9 w-[116px] shrink-0 md:h-10 md:w-[128px]', className)}>
       <Image
-        src="/zenthos-wordmark.png"
+        src={LOCKUP[tone]}
         alt="Zenthos Real Estate"
         fill
-        sizes="150px"
+        sizes="128px"
         priority
         className="object-contain object-left"
       />

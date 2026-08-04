@@ -1,20 +1,3 @@
-/**
- * Imports one property folder into Cloudinary and Supabase.
- *
- *   npm run import -- "public/2-bed apartment-Lekki 300M"
- *
- * Folder naming convention (this is the contract — keep to it and the import
- * needs no other input):
- *
- *   <bedrooms>-bed <property type>-<location> <price>
- *   e.g.  "2-bed apartment-Lekki 300M"
- *         "5-bed detached-Ikoyi 1.2B"
- *         "4-bed terraced-Victoria Island 285M"
- *
- * Image files must be named by their display order: 1.jpg, 2.jpg, 3.jpg …
- * File 1 becomes the cover. Every photo is expected to be 4:5 portrait —
- * anything else still imports, but will be centre-cropped to 4:5 on display.
- */
 import { readFile, readdir } from 'node:fs/promises'
 import { basename, extname, join } from 'node:path'
 
@@ -31,7 +14,6 @@ const PROPERTY_TYPES = [
   'Terraced Bungalow',
 ]
 
-/** Broad areas, longest first so 'Banana Island' wins over 'Ikoyi'. */
 const LOCATIONS = [
   'Victoria Island',
   'Banana Island',
@@ -60,8 +42,6 @@ const LOCATIONS = [
 
 const STATES = ['Lagos', 'Abuja']
 
-// npm drops the quotes around an argument containing spaces, so the folder
-// arrives as several argv entries. Re-join them.
 const folder = process.argv.slice(2).join(' ').trim()
 if (!folder) {
   console.error('Usage: npm run import -- "<folder>"')
@@ -77,7 +57,6 @@ if (!NEXT_PUBLIC_SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY || !cloudName || !up
   process.exit(1)
 }
 
-/** "300M" → 300000000, "1.2B" → 1200000000, "85000000" → 85000000 */
 function parsePrice(token) {
   const match = /^([\d.]+)\s*([mMbBkK]?)$/.exec(token.trim())
   if (!match) return null
@@ -94,11 +73,6 @@ function matchFromList(candidate, list) {
   return list.find(entry => entry.toLowerCase() === normalised) ?? null
 }
 
-/**
- * Splits "2 Bedroom Apartment 300M-Lekki Phase 1, Lagos" into its parts.
- *
- *   <bedrooms> Bedroom <Type> <Price>-<Street or estate>, <State>
- */
 function parseFolderName(name) {
   const shape = /^(\d+)\s+Bedrooms?\s+(.+?)\s+([\d.]+\s*[MmBbKk]?)\s*-\s*(.+?)\s*,\s*(.+)$/.exec(
     name.trim()
@@ -131,7 +105,6 @@ function parseFolderName(name) {
 
   const address = addressRaw.trim()
 
-  // "Lekki Phase 1" sits inside the broad Lekki area; match the longest name.
   const location = LOCATIONS.find(area => address.toLowerCase().includes(area.toLowerCase()))
   if (!location) {
     throw new Error(
@@ -168,7 +141,7 @@ console.log(
 
 const files = (await readdir(folder))
   .filter(name => /\.(jpe?g|png|webp)$/i.test(name))
-  // Numeric sort, so 10.jpg lands after 9.jpg rather than after 1.jpg.
+
   .sort((a, b) => {
     const toNumber = value => Number.parseInt(basename(value, extname(value)), 10)
     const left = toNumber(a)

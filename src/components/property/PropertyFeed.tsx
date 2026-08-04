@@ -2,10 +2,6 @@ import type { PropertySummary } from '@/lib/types'
 import { PropertyCard } from './PropertyCard'
 import { PropertySaveAction } from './PropertySaveAction'
 
-/**
- * Three-up grid on a desktop, two on a tablet, one on a phone. Shared by
- * browse, search, location pages and saved, so the rhythm cannot drift.
- */
 export function PropertyFeed({
   properties,
   showSaveAction = true,

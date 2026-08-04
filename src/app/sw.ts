@@ -22,8 +22,7 @@ const serwist = new Serwist({
   skipWaiting: true,
   clientsClaim: true,
   navigationPreload: true,
-  // defaultCache is network-first for pages and cache-first for images, which
-  // is exactly the split the spec asks for.
+
   runtimeCaching: defaultCache,
   fallbacks: {
     entries: [
@@ -57,7 +56,6 @@ self.addEventListener('push', event => {
         data: { url: payload.url },
       })
 
-      // Mirrors the unread count onto the installed app icon where supported.
       if ('setAppBadge' in navigator) {
         const unread = await self.registration.getNotifications()
         await navigator.setAppBadge?.(unread.length)
@@ -74,7 +72,6 @@ self.addEventListener('notificationclick', event => {
     (async () => {
       const clientList = await self.clients.matchAll({ type: 'window', includeUncontrolled: true })
 
-      // Reuse an open tab when one exists rather than stacking new windows.
       for (const client of clientList) {
         if ('focus' in client) {
           await client.focus()

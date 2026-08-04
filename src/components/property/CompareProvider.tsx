@@ -7,7 +7,6 @@ import { createLocalStore, useLocalStore } from '@/lib/local-store'
 
 const EMPTY_SELECTION: string[] = []
 
-/** Selection survives navigation and reloads; it is device-local by design. */
 const compareStore = createLocalStore<string[]>('zenthos.compare', EMPTY_SELECTION)
 
 interface CompareApi {
@@ -28,7 +27,7 @@ export function CompareProvider({ children }: { children: ReactNode }) {
       if (previous.includes(propertyId)) {
         return previous.filter(id => id !== propertyId)
       }
-      // Silently ignore the overflow; the button is already disabled at the cap.
+
       if (previous.length >= MAX_COMPARE_PROPERTIES) return previous
       return [...previous, propertyId]
     })

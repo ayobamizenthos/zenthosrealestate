@@ -32,7 +32,6 @@ export const EMPTY_FILTERS: PropertyFilters = {
   page: 1,
 }
 
-/** One-tap price bands covering how Lagos buyers actually describe budget. */
 export const PRICE_PRESETS: { label: string; min: number | null; max: number | null }[] = [
   { label: 'Under ₦25M', min: null, max: 25_000_000 },
   { label: '₦25M – ₦50M', min: 25_000_000, max: 50_000_000 },
@@ -65,7 +64,6 @@ function readParam(params: SearchParamsInput, key: string): string | undefined {
   return Array.isArray(value) ? value[0] : value
 }
 
-/** Only values present in the constant list survive — unknown input is dropped. */
 function readEnumList<T extends string>(
   params: SearchParamsInput,
   key: string,
@@ -121,7 +119,6 @@ export function parsePropertyFilters(params: SearchParamsInput): PropertyFilters
   }
 }
 
-/** Omits defaults so a clean browse URL stays clean — better for crawlers too. */
 export function filtersToSearchParams(filters: PropertyFilters): URLSearchParams {
   const params = new URLSearchParams()
 
@@ -169,11 +166,6 @@ export function hasActiveFilters(filters: PropertyFilters): boolean {
   return countActiveFilters(filters) > 0 || filters.query.length > 0
 }
 
-/**
- * Builds a Postgres tsquery with prefix matching on the final term so
- * autocomplete fires while the user is still typing. Input is reduced to
- * alphanumerics, which also makes it safe to interpolate.
- */
 export function toPrefixTsQuery(input: string): string {
   const terms = input
     .toLowerCase()

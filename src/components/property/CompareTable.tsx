@@ -14,14 +14,9 @@ import { createSupabaseBrowserClient } from '@/lib/supabase/client'
 import type { Property } from '@/lib/types'
 import { useCompare } from './CompareProvider'
 
-/**
- * The selection lives in localStorage, so the comparison is assembled in the
- * browser rather than on the server.
- */
 export function CompareTable() {
   const { compareIds, toggleCompare } = useCompare()
-  // Tagging the result with the selection it came from lets both "loading" and
-  // "stale" fall out of a render-time comparison instead of extra state.
+
   const [resolved, setResolved] = useState<{ key: string; properties: Property[] }>({
     key: '',
     properties: [],

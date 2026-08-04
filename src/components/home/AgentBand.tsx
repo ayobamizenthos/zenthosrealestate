@@ -4,7 +4,7 @@ import Link from 'next/link'
 const AGENT_BENEFITS = [
   {
     Icon: BellRing,
-    title: 'Alerted the moment stock lands',
+    title: 'Alerted the moment a listing goes live',
     body: 'Every new listing reaches you the second it publishes, on your phone, before it circulates.',
   },
   {
@@ -19,11 +19,6 @@ const AGENT_BENEFITS = [
   },
 ]
 
-/**
- * Cooperating brokers are the second audience for the catalogue. They do not
- * post here, they resell what we have already inspected, so the pitch is about
- * speed of access rather than listing tools.
- */
 export function AgentBand() {
   return (
     <section className="border-hairline border-y bg-white">
@@ -36,8 +31,8 @@ export function AgentBand() {
             Selling to a client who wants Lagos or Abuja?
           </h2>
           <p className="text-muted mt-5 max-w-md text-[15px] leading-relaxed md:text-[16px]">
-            Register as a cooperating agent and work from our inspected stock. You keep the client
-            relationship, we handle the inspection and the paperwork.
+            Register as a cooperating agent and work from our inspected listings. You keep the
+            client relationship, we handle the inspection and the paperwork.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -56,7 +51,7 @@ export function AgentBand() {
               href="/properties"
               className="border-hairline text-ink hover:border-ink rounded-control flex h-12 items-center border px-6 text-[15px] font-semibold transition-colors"
             >
-              Browse stock
+              Browse properties
             </Link>
           </div>
         </div>

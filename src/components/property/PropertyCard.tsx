@@ -17,7 +17,6 @@ import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { StatusBadge } from '@/components/ui/Badge'
-import { RelativeTime } from '@/components/ui/RelativeTime'
 import { propertyBlurPlaceholder, propertyCardImage } from '@/lib/cloudinary'
 import { SITE } from '@/lib/constants'
 import { displayPrice } from '@/lib/format'
@@ -43,11 +42,6 @@ function Spec({ icon, value, label }: { icon: ReactNode; value: string; label: s
   )
 }
 
-/**
- * Grid tile: photograph on top, then price, type, title, address and specs.
- * Three to a row on a desktop, which is the density Nigerian buyers are used
- * to scanning and lets the photography carry the listing.
- */
 export function PropertyCard({ property, priority = false, action }: PropertyCardProps) {
   const [activeImage, setActiveImage] = useState(0)
   const images = property.images.length ? property.images : []
@@ -58,10 +52,7 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
   }
 
   return (
-    <article className="group border-hairline hover:shadow-card-hover relative flex flex-col overflow-hidden rounded-card border bg-white transition-shadow">
-      {/* 4:3 here rather than the 4:5 the photographs are shot in: three
-          portrait frames to a row pushed price and specs below the fold. The
-          detail gallery still shows the full frame. */}
+    <article className="group shadow-card hover:shadow-card-hover relative flex flex-col overflow-hidden rounded-card bg-white transition-shadow">
       <div className="bg-surface relative aspect-[4/3] w-full shrink-0 overflow-hidden">
         {images.length > 0 ? (
           <Image
@@ -164,11 +155,7 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
           ) : null}
         </div>
 
-        <div className="border-hairline mt-auto flex items-center justify-between gap-3 border-t pt-3">
-          <p className="text-muted text-[12px]">
-            Added <RelativeTime iso={property.created_at} />
-          </p>
-
+        <div className="mt-auto flex items-center justify-end gap-2 pt-4">
           <div className="relative z-20 flex gap-2">
             <a
               href={`tel:+${SITE.whatsappNumber}`}

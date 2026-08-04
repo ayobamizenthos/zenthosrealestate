@@ -24,8 +24,7 @@ export async function generateMetadata({
     title: 'Property for Sale in Lagos',
     description:
       'Browse verified properties across Victoria Island, Lekki, Ikoyi and Ajah. Filter by location, price, bedrooms and property type.',
-    // Filter permutations are near-duplicates of each other; the location
-    // landing pages are the canonical entry points for crawlers.
+
     robots: isFiltered ? { index: false, follow: true } : undefined,
     alternates: { canonical: '/properties' },
   }

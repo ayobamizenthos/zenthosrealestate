@@ -1,4 +1,3 @@
-/** Lucide dropped brand marks in v1, so the WhatsApp glyph ships with the app. */
 export function WhatsAppIcon({ className }: { className?: string }) {
   return (
     <svg

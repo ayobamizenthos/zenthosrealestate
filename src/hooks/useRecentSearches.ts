@@ -6,7 +6,6 @@ import { createLocalStore, useLocalStore } from '@/lib/local-store'
 const MAX_ENTRIES = 5
 const EMPTY: string[] = []
 
-/** Recent searches stay on the device — they are never sent to the server. */
 const recentSearchStore = createLocalStore<string[]>('zenthos.recent-searches', EMPTY)
 
 export function useRecentSearches() {

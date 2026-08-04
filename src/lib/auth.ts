@@ -28,10 +28,6 @@ export async function requireUser(returnTo: string): Promise<User> {
   return user
 }
 
-/**
- * Gate for every /admin route. Non-admins are sent home rather than to the
- * login screen — telling them an admin area exists is a needless disclosure.
- */
 export async function requireAdmin(): Promise<{
   user: User
   supabase: ZenthosSupabaseClient

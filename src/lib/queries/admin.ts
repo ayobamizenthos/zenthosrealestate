@@ -17,7 +17,6 @@ export interface AdminPropertyFilters {
   location: PropertyLocation | 'All'
 }
 
-/** Unlike the public query this deliberately includes unpublished drafts. */
 export async function listPropertiesForAdmin(
   supabase: ZenthosSupabaseClient,
   filters: AdminPropertyFilters
@@ -32,7 +31,6 @@ export async function listPropertiesForAdmin(
   if (filters.location !== 'All') query = query.eq('location', filters.location)
 
   if (filters.search) {
-    // Escaped so a stray % or comma cannot reshape the PostgREST filter.
     const safeSearch = filters.search.replace(/[%,()]/g, ' ').trim()
     if (safeSearch) query = query.ilike('title', `%${safeSearch}%`)
   }

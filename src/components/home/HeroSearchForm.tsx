@@ -22,7 +22,6 @@ import { searchProperties } from '@/lib/queries/properties'
 import { createSupabaseBrowserClient } from '@/lib/supabase/client'
 import type { PropertySummary } from '@/lib/types'
 
-/** One column of the search card: uppercase label above a borderless select. */
 function Field({
   label,
   value,
@@ -60,11 +59,6 @@ function Field({
   )
 }
 
-/**
- * The single place anyone searches from. Free text, the four structured
- * filters and the area shortcuts all live in one card, so a buyer never has to
- * hunt the header for a second search box that did the same job.
- */
 export function HeroSearchForm() {
   const router = useRouter()
   const cardRef = useRef<HTMLDivElement>(null)
@@ -140,8 +134,6 @@ export function HeroSearchForm() {
   return (
     <div ref={cardRef} className="relative w-full max-w-4xl">
       <div className="rounded-xl bg-white p-2 shadow-2xl md:p-2.5">
-        {/* Free text sits above the structured filters: most people describe
-            what they want before they know which dropdown holds it. */}
         <div className="border-hairline flex items-center gap-2.5 border-b px-3 py-2.5 md:px-4">
           <Search size={18} aria-hidden="true" className="text-muted shrink-0" />
           <input

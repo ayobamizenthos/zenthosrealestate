@@ -5,13 +5,6 @@ import { useEffect, useState } from 'react'
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
 import { generalInquiryLink } from '@/lib/whatsapp'
 
-/**
- * Sits above the bottom tab bar on mobile and in the corner on desktop.
- *
- * Hidden for the first screenful: at the top of the homepage it landed directly
- * on top of the hero's Search button, so the floating shortcut was covering the
- * primary action it was meant to complement.
- */
 export function WhatsAppFab() {
   const [hasScrolledPastFold, setHasScrolledPastFold] = useState(false)
 

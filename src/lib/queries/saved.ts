@@ -40,7 +40,6 @@ export async function unsaveProperty(
   if (error) throw new Error(`Failed to remove saved property: ${error.message}`)
 }
 
-/** Users who saved a given listing — the audience for price and status alerts. */
 export async function getUsersWhoSaved(
   supabase: ZenthosSupabaseClient,
   propertyId: string

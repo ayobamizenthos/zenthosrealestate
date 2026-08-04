@@ -18,17 +18,17 @@ export interface Property {
   location: PropertyLocation
   state: PropertyState
   address: string
-  /** Null when the listing is marketed as "Price on Request". */
+
   price: number | null
   price_label: string | null
   property_type: PropertyType
   bedrooms: number
   bathrooms: number
   toilets: number
-  /** Built floor area in square metres; null when the agent has not measured it. */
+
   area_sqm: number | null
   serviced: boolean
-  /** Short quotable code, e.g. ZEN-4A2B91, for phone and WhatsApp enquiries. */
+
   reference_code: string
   title_document: TitleDocument | null
   furnished: FurnishedState
@@ -42,7 +42,6 @@ export interface Property {
   updated_at: string
 }
 
-/** Column subset the grid renders — keeps list payloads off the wire. */
 export type PropertySummary = Pick<
   Property,
   | 'id'
@@ -132,7 +131,6 @@ export interface AppNotification {
   created_at: string
 }
 
-/** Every filter the listing page understands, mirrored in the URL query string. */
 export interface PropertyFilters {
   states: PropertyState[]
   locations: PropertyLocation[]
@@ -145,7 +143,7 @@ export interface PropertyFilters {
   minBedrooms: number | null
   maxBedrooms: number | null
   servicedOnly: boolean
-  /** "Added within the last N days"; null means any time. */
+
   addedWithinDays: number | null
   query: string
   sort: PropertySort

@@ -5,11 +5,6 @@ import { createSupabaseServiceClient } from '@/lib/supabase/admin'
 import type { NotificationKind, Property } from '@/lib/types'
 import { sendPushToUsers, type PushPayload } from './send'
 
-/**
- * Every notification does two things: write a durable row for the in-app bell,
- * then attempt a push. Push failure must never lose the in-app record, so the
- * insert always happens first.
- */
 async function fanOut(
   userIds: string[],
   kind: NotificationKind,

@@ -41,8 +41,6 @@ export function AmenityList({ amenities }: { amenities: Amenity[] }) {
   return (
     <ul className="grid grid-cols-2 gap-x-4 gap-y-3 md:grid-cols-3">
       {amenities.map(amenity => {
-        // An amenity added in the database before the icon map catches up
-        // should still render, just without a glyph.
         const Icon = AMENITY_ICONS[amenity]
         return (
           <li key={amenity} className="text-ink flex items-center gap-2.5 text-[14px]">

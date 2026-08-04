@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    // useSearchParams needs a Suspense boundary to keep the shell static.
     <Suspense fallback={<Skeleton className="h-96 w-full" />}>
       <LoginForm />
     </Suspense>

@@ -1,4 +1,3 @@
-/** Lucide dropped its brand glyphs, so the mark is inlined the same way WhatsApp is. */
 export function InstagramIcon({ className }: { className?: string }) {
   return (
     <svg

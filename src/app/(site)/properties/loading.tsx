@@ -1,10 +1,5 @@
 import { PropertyFeedSkeleton, Skeleton } from '@/components/ui/Skeleton'
 
-/**
- * The listing page is the one route that stays dynamic, because filters and
- * search read the query string. Without this, changing a filter left the last
- * result set frozen on screen with no sign anything was happening.
- */
 export default function PropertiesLoading() {
   return (
     <>

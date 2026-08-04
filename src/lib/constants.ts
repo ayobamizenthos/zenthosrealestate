@@ -4,7 +4,7 @@ export const SITE = {
   tagline: 'Property brokerage in Lagos and Abuja',
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://zenthosrealestate.com.ng',
   email: 'info@zenthosrealestate.com.ng',
-  /** Displayed to humans; `whatsappNumber` is the wa.me wire format. */
+
   phoneDisplay: '0811 538 3780',
   whatsappNumber: '2348115383780',
 } as const
@@ -12,7 +12,6 @@ export const SITE = {
 export const STATES = ['Lagos', 'Abuja'] as const
 export type PropertyState = (typeof STATES)[number]
 
-/** Areas grouped by the market a buyer actually shops in. */
 export const LOCATIONS_BY_STATE = {
   Lagos: [
     'Victoria Island',
@@ -40,7 +39,6 @@ export const PROPERTY_LOCATIONS = [
 ] as const
 export type PropertyLocation = (typeof PROPERTY_LOCATIONS)[number]
 
-/** The vocabulary Nigerian buyers actually search in. */
 export const PROPERTY_TYPES = [
   'Apartment',
   'Studio Apartment',
@@ -55,7 +53,6 @@ export const PROPERTY_TYPES = [
 ] as const
 export type PropertyType = (typeof PROPERTY_TYPES)[number]
 
-/** The first question every serious Nigerian buyer asks. */
 export const TITLE_DOCUMENTS = [
   "Governor's Consent",
   'Certificate of Occupancy',
@@ -70,11 +67,6 @@ export type TitleDocument = (typeof TITLE_DOCUMENTS)[number]
 export const FURNISHED_STATES = ['Furnished', 'Unfurnished', 'Semi-furnished'] as const
 export type FurnishedState = (typeof FURNISHED_STATES)[number]
 
-/**
- * Zenthos brokers sales only. The database CHECK still permits Rent and
- * Shortlet so the column never needs a migration if that changes, but nothing
- * in the product offers them.
- */
 export const LISTING_TYPES = ['Sale'] as const
 export type ListingType = (typeof LISTING_TYPES)[number]
 
@@ -105,18 +97,12 @@ export type Amenity = (typeof AMENITIES)[number]
 
 export const BEDROOM_FILTER_OPTIONS = [1, 2, 3, 4, 5] as const
 
-/** Matches the paginate-by-20 requirement in the performance spec. */
 export const PROPERTIES_PER_PAGE = 20
 export const MAX_IMAGES_PER_PROPERTY = 15
 export const MAX_COMPARE_PROPERTIES = 3
 export const SEARCH_DEBOUNCE_MS = 160
 export const SEARCH_MIN_CHARS = 1
 
-/**
- * Location landing pages exist to rank for "properties for sale in {area}".
- * Each needs genuinely distinct copy — duplicated intros get treated as
- * doorway pages and suppressed.
- */
 export interface LocationLandingContent {
   name: PropertyLocation
   state: PropertyState
@@ -159,7 +145,7 @@ export const LOCATION_LANDING_PAGES: readonly LocationLandingContent[] = [
     metaDescription:
       'Find houses, duplexes and terraces for sale in Lekki Phase 1, Ikate, Chevron and Osapa London. Zenthos Real Estate listings.',
     intro:
-      'Lekki carries the widest range of stock on the peninsula. Lekki Phase 1 and Ikate suit buyers who want established infrastructure, while Chevron and Osapa London offer newer terraces and semi-detached homes at a lower entry point. It is the corridor most families search first, and inventory turns over fast.',
+      'Lekki carries the widest range of listings on the peninsula. Lekki Phase 1 and Ikate suit buyers who want established infrastructure, while Chevron and Osapa London offer newer terraces and semi-detached homes at a lower entry point. It is the corridor most families search first, and inventory turns over fast.',
   },
   {
     name: 'Ajah',
@@ -214,7 +200,7 @@ export const LOCATION_LANDING_PAGES: readonly LocationLandingContent[] = [
     metaDescription:
       'Luxury houses and duplexes for sale in Maitama, Abuja. The capital’s most established address, with verified title and Zenthos inspection.',
     intro:
-      "Maitama is Abuja's most established address, home to embassies, ministers and the quietest streets in the capital. Plots are large, densities low, and the housing stock is overwhelmingly detached. Values hold through cycles here better than anywhere else in the Federal Capital Territory.",
+      "Maitama is Abuja's most established address, home to embassies, ministers and the quietest streets in the capital. Plots are large, densities low, and the housing listings is overwhelmingly detached. Values hold through cycles here better than anywhere else in the Federal Capital Territory.",
   },
   {
     name: 'Asokoro',
@@ -257,7 +243,6 @@ export function findLocationLanding(slug: string): LocationLandingContent | unde
   return LOCATION_LANDING_PAGES.find(page => page.slug === slug)
 }
 
-/** Used by the four static landing routes, whose slugs are known at build time. */
 export function requireLocationLanding(slug: string): LocationLandingContent {
   const landing = findLocationLanding(slug)
   if (!landing) throw new Error(`Unknown location landing slug: ${slug}`)

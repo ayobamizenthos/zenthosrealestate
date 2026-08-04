@@ -9,11 +9,6 @@ const roleChange = z.object({
   role: z.enum(['buyer', 'agent']),
 })
 
-/**
- * Grants or revokes cooperating-broker access. Note what this deliberately
- * cannot do: it never touches `admin_users`, so no amount of agent access
- * confers the right to publish a listing.
- */
 export async function setUserRoleAction(formData: FormData): Promise<void> {
   const { supabase } = await requireAdmin()
 

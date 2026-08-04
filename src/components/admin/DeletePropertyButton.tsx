@@ -6,10 +6,6 @@ import { Button } from '@/components/ui/Button'
 import { deletePropertyAction } from '@/lib/actions/properties'
 import { useLockBodyScroll } from '@/hooks/useLockBodyScroll'
 
-/**
- * Deletion is irreversible, so it goes through an explicit confirmation naming
- * the listing rather than a bare `confirm()`.
- */
 export function DeletePropertyButton({ id, title }: { id: string; title: string }) {
   const [isConfirming, setIsConfirming] = useState(false)
   useLockBodyScroll(isConfirming)

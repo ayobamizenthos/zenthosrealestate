@@ -2,10 +2,6 @@
 
 import { useEffect } from 'react'
 
-/**
- * Freezes the page behind a sheet or overlay. Padding compensates for the
- * scrollbar on desktop so the layout does not jump when it disappears.
- */
 export function useLockBodyScroll(locked: boolean): void {
   useEffect(() => {
     if (!locked) return

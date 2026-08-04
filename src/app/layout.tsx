@@ -10,8 +10,6 @@ const jakarta = Plus_Jakarta_Sans({
   weight: ['400', '500', '600', '700', '800'],
 })
 
-// Display face. One weight only — at editorial sizes the serif's own contrast
-// does the work, and a second weight would only blunt it.
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
@@ -50,7 +48,7 @@ export const viewport: Viewport = {
   themeColor: '#800020',
   width: 'device-width',
   initialScale: 1,
-  // Lets the bottom tab bar sit flush against the home indicator on notched phones.
+
   viewportFit: 'cover',
 }
 

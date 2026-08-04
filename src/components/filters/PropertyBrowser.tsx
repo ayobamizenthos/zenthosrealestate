@@ -17,11 +17,6 @@ interface PropertyBrowserProps {
   children: ReactNode
 }
 
-/**
- * Filters live in the URL, so every result set is shareable and crawlable. A
- * change replaces the history entry rather than pushing, keeping the back
- * button tied to real navigation instead of every checkbox tick.
- */
 export function PropertyBrowser({
   filters,
   total,

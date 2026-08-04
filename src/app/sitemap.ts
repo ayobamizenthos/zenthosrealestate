@@ -4,8 +4,6 @@ import { isSupabaseConfigured } from '@/lib/env'
 import { getAllPropertySlugs } from '@/lib/queries/properties'
 import { createSupabasePublicClient } from '@/lib/supabase/public'
 
-// Regenerated hourly so newly published listings enter the sitemap without a
-// redeploy, while still being served from cache to crawlers.
 export const revalidate = 3600
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

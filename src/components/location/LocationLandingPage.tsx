@@ -19,12 +19,6 @@ async function loadLocationProperties(filters: PropertyFilters): Promise<Propert
   return listProperties(supabase, filters)
 }
 
-/**
- * Shared body for every area landing page. Deliberately unpaginated: reading
- * `searchParams` would opt the whole route out of static generation, and these
- * pages exist to be crawled and served instantly. Deeper stock is one link away
- * on the filtered listing.
- */
 export async function LocationLandingPage({ content }: { content: LocationLandingContent }) {
   const filters: PropertyFilters = { ...EMPTY_FILTERS, locations: [content.name] }
   const { properties, total } = await loadLocationProperties(filters)

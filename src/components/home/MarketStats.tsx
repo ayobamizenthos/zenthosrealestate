@@ -7,12 +7,6 @@ export interface MarketStat {
   href?: string
 }
 
-/**
- * Every figure here is read from the catalogue at request time. Nothing is
- * typed in by hand, so the band cannot drift out of step with what is actually
- * listed, and it degrades to fewer tiles rather than lying when a market is
- * empty.
- */
 export function MarketStats({ stats }: { stats: MarketStat[] }) {
   if (!stats.length) return null
 
@@ -44,7 +38,6 @@ export function MarketStats({ stats }: { stats: MarketStat[] }) {
   )
 }
 
-/** Shapes the raw catalogue figures into the tiles the band renders. */
 export function buildMarketStats(input: {
   totalListings: number
   areasCovered: number

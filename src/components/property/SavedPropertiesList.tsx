@@ -7,10 +7,6 @@ import { PropertyCard } from './PropertyCard'
 import { SaveButton } from './SaveButton'
 import { useSavedProperties } from './SavedProvider'
 
-/**
- * Server-rendered for the first paint, then narrowed client-side so unsaving a
- * property removes the card immediately instead of after a round trip.
- */
 export function SavedPropertiesList({ properties }: { properties: PropertySummary[] }) {
   const { savedIds } = useSavedProperties()
   const visible = properties.filter(property => savedIds.has(property.id))

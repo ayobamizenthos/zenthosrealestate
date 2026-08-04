@@ -25,8 +25,6 @@ export async function POST(request: Request) {
 
   const { endpoint, keys } = parsed.data
 
-  // The endpoint is unique, so re-subscribing on the same device updates the
-  // existing row rather than accumulating duplicates.
   const { error } = await supabase
     .from('push_subscriptions')
     .upsert(

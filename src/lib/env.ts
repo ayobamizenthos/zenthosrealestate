@@ -1,8 +1,3 @@
-/**
- * NEXT_PUBLIC_* values must be referenced as literal `process.env.X` expressions
- * for Next to inline them into the client bundle — destructuring or dynamic
- * lookup silently yields undefined in the browser.
- */
 export const publicEnv = {
   supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
   supabaseAnonKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? '',
@@ -23,7 +18,6 @@ export const isCloudinaryConfigured = Boolean(
 )
 export const isPushConfigured = Boolean(publicEnv.vapidPublicKey && serverEnv.vapidPrivateKey)
 
-/** Fails loudly at the point of use rather than producing a confusing 401 later. */
 export function assertSupabaseConfigured(): void {
   if (isSupabaseConfigured) return
   throw new Error(

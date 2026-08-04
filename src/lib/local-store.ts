@@ -12,15 +12,6 @@ export interface LocalStore<T> {
   update: (updater: (current: T) => T) => void
 }
 
-/**
- * localStorage exposed as a React external store. Reading through
- * `useSyncExternalStore` instead of an effect means the value is correct on the
- * first client render, hydration falls back to the server snapshot cleanly, and
- * two tabs stay in sync — none of which an effect-plus-setState achieves.
- *
- * `getSnapshot` must be referentially stable between changes or React will
- * re-render forever, hence the parsed-value cache.
- */
 export function createLocalStore<T>(key: string, fallback: T): LocalStore<T> {
   const listeners = new Set<Listener>()
   let cachedRaw: string | null = null
@@ -58,9 +49,7 @@ export function createLocalStore<T>(key: string, fallback: T): LocalStore<T> {
     const serialised = JSON.stringify(next)
     try {
       window.localStorage.setItem(key, serialised)
-    } catch {
-      // Storage blocked or full — the cache below still drives this session.
-    }
+    } catch {}
 
     hasRead = true
     cachedRaw = serialised
@@ -95,14 +84,6 @@ export function useLocalStore<T>(store: LocalStore<T>): T {
   return useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot)
 }
 
-/**
- * A dismissible prompt: remembers when the user waved it away and re-offers it
- * once the window has passed.
- *
- * The `Date.now()` comparison lives inside the snapshot rather than in a
- * component body, so consuming components stay pure. The server snapshot
- * reports "suppressed" because a prompt must never appear in server HTML.
- */
 export function createPromptDismissal(key: string, repromptAfterMs: number) {
   const store = createLocalStore<number>(key, 0)
 
@@ -122,11 +103,6 @@ export function createPromptDismissal(key: string, repromptAfterMs: number) {
 
 const neverChanges = () => () => {}
 
-/**
- * True only after hydration. Lets a component branch on browser-only facts
- * (standalone display mode, iOS detection) during render rather than syncing
- * them into state from an effect.
- */
 export function useIsClient(): boolean {
   return useSyncExternalStore(
     neverChanges,

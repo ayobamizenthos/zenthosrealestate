@@ -11,12 +11,6 @@ import { SavedProvider } from '@/components/property/SavedProvider'
 import { InstallBanner } from '@/components/pwa/InstallBanner'
 import { SearchProvider } from '@/components/search/SearchProvider'
 
-/**
- * Deliberately reads no cookies. Resolving the session here made every public
- * page dynamic and cost three serial Supabase round trips before the first byte
- * — measured at ~2.1s TTFB. The viewer is resolved in the browser instead, so
- * listings stay statically cacheable and personalised chrome fills in on mount.
- */
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthProvider>
@@ -24,7 +18,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         <CompareProvider>
           <SearchProvider>
             <SiteHeader />
-            {/* Bottom padding clears the fixed tab bar on mobile only. */}
+
             <main className="pb-tabbar flex-1 md:pb-0">{children}</main>
             <SiteFooter />
             <WhatsAppFab />

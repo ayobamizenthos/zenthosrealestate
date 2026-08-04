@@ -1,17 +1,11 @@
 import clsx from 'clsx'
 
-/** Burgundy-tinted rather than grey, so loading states stay on-brand. */
 export function Skeleton({ className }: { className?: string }) {
   return (
     <div aria-hidden="true" className={clsx('bg-surface animate-shimmer rounded-md', className)} />
   )
 }
 
-/**
- * Mirrors PropertyCard: a 4:3 frame above the detail stack. The shape has to
- * track the real card, otherwise the layout jumps the moment data lands, which
- * is worse than showing nothing.
- */
 export function PropertyCardSkeleton() {
   return (
     <div className="border-hairline overflow-hidden rounded-card border bg-white">

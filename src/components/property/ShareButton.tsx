@@ -9,11 +9,6 @@ interface ShareButtonProps {
   path: string
 }
 
-/**
- * Uses the native share sheet where it exists — one tap to WhatsApp, Instagram,
- * Telegram or anything else installed — and falls back to copying the link on
- * desktop browsers that have no share target.
- */
 export function ShareButton({ title, text, path }: ShareButtonProps) {
   const [justCopied, setJustCopied] = useState(false)
 
@@ -24,10 +19,7 @@ export function ShareButton({ title, text, path }: ShareButtonProps) {
       try {
         await navigator.share({ title, text, url })
         return
-      } catch {
-        // The user dismissed the sheet, or the browser refused the payload.
-        // Fall through to the clipboard so the action still does something.
-      }
+      } catch {}
     }
 
     try {

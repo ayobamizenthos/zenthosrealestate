@@ -9,10 +9,6 @@ import { useSearchOverlay } from '@/components/search/SearchProvider'
 const TAB_ITEM_CLASSES =
   'flex flex-1 flex-col items-center justify-center gap-1 text-[11px] font-semibold transition-colors'
 
-/**
- * Native-feeling bottom navigation — the four destinations are always one tap
- * away, which is why this replaces a hamburger menu entirely.
- */
 export function BottomTabBar() {
   const pathname = usePathname()
   const { openSearch } = useSearchOverlay()

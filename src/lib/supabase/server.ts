@@ -17,10 +17,7 @@ export async function createSupabaseServerClient() {
           for (const { name, value, options } of cookiesToSet) {
             cookieStore.set(name, value, options)
           }
-        } catch {
-          // Server Components cannot mutate cookies. The middleware refreshes
-          // the session on every request, so dropping the write is safe here.
-        }
+        } catch {}
       },
     },
   })

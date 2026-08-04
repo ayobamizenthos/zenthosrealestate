@@ -7,11 +7,6 @@ import { toSlug } from '@/lib/format'
 
 type DownloadState = 'idle' | 'working' | 'failed'
 
-/**
- * Bundles every photo into a zip so realtors can repost to Instagram or
- * WhatsApp status in one action. JSZip is ~28KB gzipped, so it is only pulled
- * in when the button is actually pressed.
- */
 export function DownloadImagesButton({ images, title }: { images: string[]; title: string }) {
   const [state, setState] = useState<DownloadState>('idle')
   const [progress, setProgress] = useState(0)

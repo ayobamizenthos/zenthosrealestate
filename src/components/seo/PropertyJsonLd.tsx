@@ -2,10 +2,6 @@ import { SITE } from '@/lib/constants'
 import { propertyGalleryImage } from '@/lib/cloudinary'
 import type { Property } from '@/lib/types'
 
-/**
- * RealEstateListing structured data drives Google's rich results for property
- * searches. Emitted server-side so crawlers see it in the initial HTML.
- */
 export function PropertyJsonLd({ property }: { property: Property }) {
   const schema = {
     '@context': 'https://schema.org',
@@ -42,7 +38,6 @@ export function PropertyJsonLd({ property }: { property: Property }) {
   return (
     <script
       type="application/ld+json"
-      // Values originate from our own database, not user input.
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
     />
   )

@@ -128,7 +128,7 @@ export async function createPropertyAction(
 
   if (parsed.data.published) {
     const created = await getPropertyByIdForAdmin(supabase, data.id)
-    // A failed fan-out must not roll back a successful publish.
+
     if (created) await notifyNewProperty(created).catch(() => undefined)
   }
 
@@ -167,7 +167,7 @@ export async function updatePropertyAction(
 
     if (droppedPrice) await notifyPriceDrop(after, before.price as number).catch(() => undefined)
     if (before.status !== after.status) await notifyStatusChange(after).catch(() => undefined)
-    // Publishing a previously hidden draft is the moment it becomes "new".
+
     if (!before.published && after.published) {
       await notifyNewProperty(after).catch(() => undefined)
     }

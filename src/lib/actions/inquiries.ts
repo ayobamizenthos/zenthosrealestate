@@ -92,7 +92,6 @@ export async function updateInquiryStatusAction(formData: FormData): Promise<voi
 
   if (error) return
 
-  // Only the first move off "New" is worth telling the sender about.
   if (parsed.data.status === 'Contacted' && data.user_id) {
     let propertyTitle: string | null = null
     let propertySlug: string | null = null

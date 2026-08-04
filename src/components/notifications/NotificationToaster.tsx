@@ -19,7 +19,6 @@ interface ListingToast {
   image: string | null
 }
 
-/** Shape of the realtime payload we care about; the row arrives untyped. */
 interface PropertyInsertPayload {
   id?: unknown
   slug?: unknown
@@ -54,11 +53,6 @@ function toToast(row: PropertyInsertPayload): ListingToast | null {
   }
 }
 
-/**
- * Live listing alerts for everyone on the site — signed in or not. When the
- * brokerage publishes a property it lands on every open device within a second,
- * with a bell, as a tappable card in the corner.
- */
 export function NotificationToaster() {
   const [toasts, setToasts] = useState<ListingToast[]>([])
 
@@ -66,7 +60,6 @@ export function NotificationToaster() {
     setToasts(current => current.filter(toast => toast.id !== id))
   }, [])
 
-  // Browsers block audio until the user has interacted; arm it on first gesture.
   useEffect(() => {
     const arm = () => unlockNotificationSound()
     window.addEventListener('pointerdown', arm, { once: true })

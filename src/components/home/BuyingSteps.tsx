@@ -1,7 +1,7 @@
 const STEPS = [
   {
     title: 'Tell us what you are looking for',
-    body: 'Area, budget, bedrooms. Message us on WhatsApp and a broker replies with what is actually available, including stock that has not been advertised yet.',
+    body: 'Area, budget, bedrooms. Message us on WhatsApp and a broker replies with what is actually available, including homes we have not advertised yet.',
   },
   {
     title: 'Inspect before you commit',
@@ -17,11 +17,6 @@ const STEPS = [
   },
 ]
 
-/**
- * The part of a Nigerian purchase buyers are actually anxious about is title
- * and payment, not browsing. Spelling out where the documents get checked and
- * when money moves does more for trust than any badge.
- */
 export function BuyingSteps() {
   return (
     <div className="grid gap-x-10 gap-y-10 md:grid-cols-2">

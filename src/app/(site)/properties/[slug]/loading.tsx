@@ -1,9 +1,5 @@
 import { Skeleton } from '@/components/ui/Skeleton'
 
-/**
- * Covers both shapes this route serves: a listing and an area landing page.
- * The gallery block dominates either one, so it anchors the skeleton.
- */
 export default function PropertyDetailLoading() {
   return (
     <>

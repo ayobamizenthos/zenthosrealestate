@@ -34,7 +34,17 @@ export function SiteHeader() {
             All properties
           </Link>
 
-          {LOCATION_LANDING_PAGES.slice(0, 4).map(location => {
+          <Link
+            href="/saved"
+            className={clsx(
+              'rounded-control px-3 py-2 text-[14px] font-semibold whitespace-nowrap transition-colors',
+              pathname === '/saved' ? 'text-brand' : 'text-ink hover:text-brand'
+            )}
+          >
+            Saved
+          </Link>
+
+          {LOCATION_LANDING_PAGES.slice(0, 3).map(location => {
             const href = `/properties/${location.slug}`
             return (
               <Link

@@ -1,7 +1,3 @@
-/**
- * Promotes an existing Supabase Auth user to super_admin.
- * Usage: npm run make-admin -- someone@example.com
- */
 const email = process.argv[2]
 if (!email) {
   console.error('Usage: npm run make-admin -- <email>')
@@ -16,8 +12,6 @@ if (!accessToken || !projectRef) {
   process.exit(1)
 }
 
-// Single-quotes are the only injection surface here and an email address that
-// contains one is not valid, but doubling them costs nothing.
 const safeEmail = email.replace(/'/g, "''")
 
 const response = await fetch(`https://api.supabase.com/v1/projects/${projectRef}/database/query`, {

@@ -53,7 +53,6 @@ export default async function AdminPropertiesPage({
         </ButtonLink>
       </div>
 
-      {/* A GET form keeps the filter state in the URL and needs no client JS. */}
       <form method="get" className="mt-5 flex flex-wrap gap-2">
         <input
           type="search"

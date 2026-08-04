@@ -9,7 +9,6 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 }
 
-// Session-scoped: never prerender, and never cache one user's list for another.
 export const dynamic = 'force-dynamic'
 
 export default async function NotificationsPage() {

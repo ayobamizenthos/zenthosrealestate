@@ -1,9 +1,5 @@
 import { SITE } from './constants'
 
-/**
- * wa.me requires a bare international number. Nigerian numbers are quoted three
- * ways in practice — 0811…, 234811…, +234 811 … — so normalise all of them.
- */
 export function toWhatsAppNumber(rawPhone: string): string {
   const digits = rawPhone.replace(/\D/g, '')
 
@@ -34,12 +30,6 @@ export interface InquiryDraft {
   message: string
 }
 
-/**
- * Formats a completed enquiry form as a WhatsApp message. Every field the buyer
- * filled in is laid out under a heading so a broker reading it on a phone can
- * act without opening a dashboard, and the reference is included so the listing
- * can be pulled up by code.
- */
 export function inquiryHandoffLink(
   property: { title: string; location: string; state: string; reference_code: string },
   draft: InquiryDraft
@@ -64,7 +54,6 @@ export function inquiryHandoffLink(
   return whatsappLink(lines.join('\n'))
 }
 
-/** Used from the admin inquiries table to reply to the sender directly. */
 export function inquiryReplyLink(inquiry: {
   name: string
   phone: string

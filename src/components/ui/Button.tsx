@@ -14,7 +14,6 @@ const VARIANT_CLASSES: Record<ButtonVariant, string> = {
 }
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  // 48px floor keeps every control above the 44px touch-target minimum.
   md: 'h-12 px-5 text-[16px]',
   lg: 'h-14 px-7 text-[17px]',
 }
@@ -91,7 +90,6 @@ export function ButtonLink({
 type ExternalButtonLinkProps = SharedButtonProps &
   Omit<ComponentProps<'a'>, 'className' | 'children'>
 
-/** For wa.me and other off-site destinations that must not be prefetched. */
 export function ExternalButtonLink({
   variant,
   size,
