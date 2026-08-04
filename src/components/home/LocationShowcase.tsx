@@ -2,12 +2,12 @@ import { ArrowUpRight } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { propertyBlurPlaceholder, propertyCardImage } from '@/lib/cloudinary'
-import { LOCATIONS_BY_STATE } from '@/lib/constants'
+import { LOCATIONS_BY_ZONE } from '@/lib/constants'
 import type { LocationShowcaseEntry } from '@/lib/queries/locations'
 
 const TILE_SIZES = '(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw'
 
-const ABUJA_AREAS: readonly string[] = LOCATIONS_BY_STATE.Abuja
+const MAINLAND_AREAS: readonly string[] = LOCATIONS_BY_ZONE.Mainland
 
 export function LocationShowcase({ locations }: { locations: LocationShowcaseEntry[] }) {
   return (
@@ -31,7 +31,7 @@ export function LocationShowcase({ locations }: { locations: LocationShowcaseEnt
           <div className="border-hairline mt-3 flex items-start justify-between gap-2 border-t pt-3">
             <div className="min-w-0">
               <p className="text-muted text-[11px] font-semibold tracking-wide uppercase">
-                {ABUJA_AREAS.includes(location.location) ? 'Abuja' : 'Lagos'}
+                {MAINLAND_AREAS.includes(location.location) ? 'Mainland' : 'Island'}
               </p>
               <h3 className="text-ink mt-1 truncate text-[17px] leading-tight font-bold md:text-[19px]">
                 {location.location}

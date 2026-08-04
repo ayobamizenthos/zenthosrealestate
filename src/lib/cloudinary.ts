@@ -2,12 +2,14 @@ const UPLOAD_SEGMENT = '/image/upload/'
 
 export const PROPERTY_ASPECT_RATIO = '4:5'
 
+const WATERMARK = 'l_zenthos:properties:zenthos_watermark,o_38,w_0.18,fl_relative,g_south_east,x_0.04,y_0.04'
+
 export const IMAGE_PRESETS = {
-  cardThumb: 'f_auto,q_auto,w_800,c_fill,ar_4:3,g_auto',
-  gallery: 'f_auto,q_auto,w_1400,c_fill,ar_4:5,g_auto',
-  lightbox: 'f_auto,q_auto:best,w_2400,c_limit',
-  socialCard: 'f_jpg,q_auto,w_1200,h_630,c_fill,g_auto',
-  blurPlaceholder: 'f_auto,q_auto:low,w_24,c_fill,ar_4:5,e_blur:400',
+  cardThumb: `f_auto,q_auto,w_800,c_fill,ar_4:3,g_auto/${WATERMARK}`,
+  gallery: `f_auto,q_auto,w_1400,c_fill,ar_4:5,g_auto/${WATERMARK}`,
+  lightbox: `f_auto,q_auto:best,w_2400,c_limit/${WATERMARK}`,
+  socialCard: `f_jpg,q_auto,w_1200,h_630,c_fill,g_auto/${WATERMARK}`,
+  blurPlaceholder: 'f_auto,q_10,w_24,c_fill,ar_4:3,e_blur:400',
 } as const
 
 export function isCloudinaryUrl(url: string): boolean {

@@ -10,8 +10,7 @@ import {
   AMENITIES,
   FURNISHED_STATES,
   LISTING_TYPES,
-  LOCATIONS_BY_STATE,
-  STATES,
+  LOCATIONS_BY_ZONE,
   TITLE_DOCUMENTS,
   PROPERTY_STATUSES,
   PROPERTY_TYPES,
@@ -84,31 +83,17 @@ export function PropertyForm({ action, property }: PropertyFormProps) {
             label="Area"
             name="location"
             required
-            defaultValue={property?.location ?? LOCATIONS_BY_STATE.Lagos[0]}
+            defaultValue={property?.location ?? LOCATIONS_BY_ZONE.Island[0]}
             error={state.fieldErrors?.location}
           >
-            {STATES.map(stateName => (
-              <optgroup key={stateName} label={stateName}>
-                {LOCATIONS_BY_STATE[stateName].map(location => (
+            {(Object.keys(LOCATIONS_BY_ZONE) as (keyof typeof LOCATIONS_BY_ZONE)[]).map(zone => (
+              <optgroup key={zone} label={zone}>
+                {LOCATIONS_BY_ZONE[zone].map(location => (
                   <option key={location} value={location}>
                     {location}
                   </option>
                 ))}
               </optgroup>
-            ))}
-          </SelectField>
-
-          <SelectField
-            label="State"
-            name="state"
-            required
-            defaultValue={property?.state ?? 'Lagos'}
-            error={state.fieldErrors?.state}
-          >
-            {STATES.map(stateName => (
-              <option key={stateName} value={stateName}>
-                {stateName}
-              </option>
             ))}
           </SelectField>
 
@@ -206,17 +191,6 @@ export function PropertyForm({ action, property }: PropertyFormProps) {
             required
             defaultValue={property?.toilets ?? 0}
             error={state.fieldErrors?.toilets}
-          />
-
-          <TextField
-            label="Floor area (m²)"
-            name="area_sqm"
-            type="number"
-            inputMode="numeric"
-            min={1}
-            defaultValue={property?.area_sqm ?? ''}
-            hint="Leave empty if not measured."
-            error={state.fieldErrors?.area_sqm}
           />
         </div>
 

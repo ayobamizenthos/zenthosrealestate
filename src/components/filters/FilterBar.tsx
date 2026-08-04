@@ -8,8 +8,7 @@ import {
   BEDROOM_FILTER_OPTIONS,
   SEARCH_DEBOUNCE_MS,
   FURNISHED_STATES,
-  LOCATIONS_BY_STATE,
-  STATES,
+  LOCATIONS_BY_ZONE,
   TITLE_DOCUMENTS,
   PROPERTY_TYPES,
   type FurnishedState,
@@ -345,26 +344,31 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
           <div className="border-hairline animate-fade-in border-t py-5">
             {openPanel === 'location' ? (
               <div className="space-y-5">
-                {STATES.map(stateName => (
-                  <div key={stateName}>
-                    <PanelLabel>{stateName}</PanelLabel>
-                    <div className="grid grid-cols-2 gap-x-6 md:grid-cols-4 lg:grid-cols-5">
-                      {LOCATIONS_BY_STATE[stateName].map(location => (
-                        <OptionRow
-                          key={location}
-                          label={location}
-                          checked={filters.locations.includes(location)}
-                          onToggle={() =>
-                            onChange({
-                              ...filters,
-                              locations: toggleEntry<PropertyLocation>(filters.locations, location),
-                            })
-                          }
-                        />
-                      ))}
+                {(Object.keys(LOCATIONS_BY_ZONE) as (keyof typeof LOCATIONS_BY_ZONE)[]).map(
+                  zone => (
+                    <div key={zone}>
+                      <PanelLabel>{zone}</PanelLabel>
+                      <div className="grid grid-cols-2 gap-x-6 md:grid-cols-4 lg:grid-cols-5">
+                        {LOCATIONS_BY_ZONE[zone].map(location => (
+                          <OptionRow
+                            key={location}
+                            label={location}
+                            checked={filters.locations.includes(location)}
+                            onToggle={() =>
+                              onChange({
+                                ...filters,
+                                locations: toggleEntry<PropertyLocation>(
+                                  filters.locations,
+                                  location
+                                ),
+                              })
+                            }
+                          />
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  )
+                )}
               </div>
             ) : null}
 

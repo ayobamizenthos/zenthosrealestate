@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { AdvertiseBand } from '@/components/home/AdvertiseBand'
 import { AgentBand } from '@/components/home/AgentBand'
 import { BuyingSteps } from '@/components/home/BuyingSteps'
 import { HomeHero } from '@/components/home/HomeHero'
@@ -117,6 +118,8 @@ export default async function HomePage() {
           <PriceBands bands={bandsWithHomes} />
         </section>
       ) : null}
+
+      <AdvertiseBand />
 
       <AgentBand />
 

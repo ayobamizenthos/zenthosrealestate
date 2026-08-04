@@ -1,4 +1,4 @@
-import { Bath, BedDouble, ChevronRight, MapPin, Maximize, Sofa, Toilet } from 'lucide-react'
+import { Bath, BedDouble, ChevronRight, MapPin, Sofa, Toilet } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -9,6 +9,7 @@ import { DownloadImagesButton } from '@/components/property/DownloadImagesButton
 import { InquiryForm } from '@/components/property/InquiryForm'
 import { PropertyFeed } from '@/components/property/PropertyFeed'
 import { PropertyGallery } from '@/components/property/PropertyGallery'
+import { PropertyMap } from '@/components/property/PropertyMap'
 import { SaveButton } from '@/components/property/SaveButton'
 import { ShareButton } from '@/components/property/ShareButton'
 import { LocationLandingPage } from '@/components/location/LocationLandingPage'
@@ -146,7 +147,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
     { label: 'Bathrooms', value: String(property.bathrooms) },
     { label: 'Toilets', value: String(property.toilets) },
     { label: 'Furnishing', value: property.furnished },
-    ...(property.area_sqm ? [{ label: 'Floor area', value: `${property.area_sqm} m²` }] : []),
     ...(property.title_document
       ? [{ label: 'Title document', value: property.title_document }]
       : []),
@@ -249,19 +249,11 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
                 value={String(property.toilets)}
                 label={property.toilets === 1 ? 'Toilet' : 'Toilets'}
               />
-              {property.area_sqm ? (
-                <SpecTile
-                  icon={<Maximize size={18} aria-hidden="true" />}
-                  value={`${property.area_sqm}`}
-                  label="Square metres"
-                />
-              ) : (
-                <SpecTile
-                  icon={<Sofa size={18} aria-hidden="true" />}
-                  value={property.furnished}
-                  label="Furnishing"
-                />
-              )}
+              <SpecTile
+                icon={<Sofa size={18} aria-hidden="true" />}
+                value={property.furnished}
+                label="Furnishing"
+              />
             </div>
 
             <section className="mt-10">
@@ -290,6 +282,10 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
                   </div>
                 ))}
               </dl>
+            </section>
+
+            <section className="mt-10">
+              <PropertyMap address={property.address} location={property.location} />
             </section>
 
             <section className="mt-10">
@@ -338,8 +334,8 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
         {related.length > 0 ? (
           <section className="mt-16">
             <SectionHeading
-              title="Similar properties"
-              description={`More in ${property.location} and comparable homes nearby.`}
+              title={`More properties in ${property.location}`}
+              description={`More homes in ${property.location}.`}
               linkHref="/properties"
               linkLabel="All properties"
             />

@@ -9,33 +9,19 @@ export const SITE = {
   whatsappNumber: '2348115383780',
 } as const
 
-export const STATES = ['Lagos', 'Abuja'] as const
+export const STATES = ['Lagos'] as const
 export type PropertyState = (typeof STATES)[number]
 
-export const LOCATIONS_BY_STATE = {
-  Lagos: [
-    'Victoria Island',
-    'Ikoyi',
-    'Banana Island',
-    'Eko Atlantic',
-    'Oniru',
-    'Lekki',
-    'Ajah',
-    'Ikeja',
-    'Yaba',
-    'Surulere',
-    'Magodo',
-    'Gbagada',
-    'Maryland',
-    'Ogudu',
-    'Omole',
-  ],
-  Abuja: ['Maitama', 'Asokoro', 'Wuse', 'Gwarinpa', 'Jabi', 'Katampe', 'Guzape', 'Lokogoma'],
+export const LOCATIONS_BY_ZONE = {
+  Island: ['Victoria Island', 'Ikoyi', 'Banana Island', 'Eko Atlantic', 'Oniru', 'Lekki', 'Ajah'],
+  Mainland: ['Ikeja', 'Magodo', 'Omole', 'Maryland', 'Gbagada'],
 } as const
 
+export type LocationZone = keyof typeof LOCATIONS_BY_ZONE
+
 export const PROPERTY_LOCATIONS = [
-  ...LOCATIONS_BY_STATE.Lagos,
-  ...LOCATIONS_BY_STATE.Abuja,
+  ...LOCATIONS_BY_ZONE.Island,
+  ...LOCATIONS_BY_ZONE.Mainland,
 ] as const
 export type PropertyLocation = (typeof PROPERTY_LOCATIONS)[number]
 
@@ -170,17 +156,6 @@ export const LOCATION_LANDING_PAGES: readonly LocationLandingContent[] = [
       'Ikeja is the state capital and the mainland address that holds its value. Ikeja GRA keeps the low-density, tree-lined character that predates the rest of the city, while Opebi, Allen and Oregun mix residential with commercial frontage. Proximity to the airport makes it the practical choice for buyers who fly weekly.',
   },
   {
-    name: 'Yaba',
-    state: 'Lagos',
-    slug: 'yaba',
-    heading: 'Property for Sale in Yaba, Lagos',
-    metaTitle: 'Property for Sale in Yaba, Lagos | Zenthos Real Estate',
-    metaDescription:
-      'Apartments and duplexes for sale in Yaba, Sabo and Akoka. Lagos mainland property close to the tech corridor and the university.',
-    intro:
-      "Yaba carries Lagos's tech corridor and the university, which keeps demand steady and rental yields firm. Stock ranges from converted family houses in Sabo to new apartment blocks aimed at young professionals. Buyers here are usually weighing yield rather than square metres.",
-  },
-  {
     name: 'Magodo',
     state: 'Lagos',
     slug: 'magodo',
@@ -190,50 +165,6 @@ export const LOCATION_LANDING_PAGES: readonly LocationLandingContent[] = [
       'Detached and semi-detached duplexes for sale in Magodo GRA Phase 1 and Phase 2. Gated mainland living with estate-managed security.',
     intro:
       'Magodo GRA is the mainland answer to a gated estate: planned layouts, wide roads and managed security across Phase 1 and Phase 2. Plot sizes run generous by Lagos standards, so detached duplexes with real compounds are the norm rather than the exception.',
-  },
-  {
-    name: 'Maitama',
-    state: 'Abuja',
-    slug: 'maitama',
-    heading: 'Property for Sale in Maitama, Abuja',
-    metaTitle: 'Luxury Property for Sale in Maitama, Abuja | Zenthos Real Estate',
-    metaDescription:
-      'Luxury houses and duplexes for sale in Maitama, Abuja. The capital’s most established address, with verified title and Zenthos inspection.',
-    intro:
-      "Maitama is Abuja's most established address, home to embassies, ministers and the quietest streets in the capital. Plots are large, densities low, and the housing listings is overwhelmingly detached. Values hold through cycles here better than anywhere else in the Federal Capital Territory.",
-  },
-  {
-    name: 'Asokoro',
-    state: 'Abuja',
-    slug: 'asokoro',
-    heading: 'Property for Sale in Asokoro, Abuja',
-    metaTitle: 'Property for Sale in Asokoro, Abuja | Zenthos Real Estate',
-    metaDescription:
-      'Detached duplexes and luxury homes for sale in Asokoro, Abuja. Diplomatic-zone security with verified documentation.',
-    intro:
-      'Asokoro sits beside the Presidential Villa, which gives it a level of ambient security no private estate can match. The district is almost entirely residential and almost entirely detached, favoured by buyers who want space in the city rather than on its edge.',
-  },
-  {
-    name: 'Wuse',
-    state: 'Abuja',
-    slug: 'wuse',
-    heading: 'Property for Sale in Wuse, Abuja',
-    metaTitle: 'Property for Sale in Wuse & Wuse 2, Abuja | Zenthos Real Estate',
-    metaDescription:
-      'Apartments and duplexes for sale in Wuse and Wuse 2, Abuja. Central capital living within walking distance of business districts.',
-    intro:
-      'Wuse and Wuse 2 are where Abuja actually works — offices, markets and apartments in the same grid. Stock skews towards apartments and serviced blocks rather than standalone houses, which suits buyers who want to be central and are not looking for a compound.',
-  },
-  {
-    name: 'Gwarinpa',
-    state: 'Abuja',
-    slug: 'gwarinpa',
-    heading: 'Property for Sale in Gwarinpa, Abuja',
-    metaTitle: 'Property for Sale in Gwarinpa Estate, Abuja | Zenthos Real Estate',
-    metaDescription:
-      'Duplexes and family homes for sale in Gwarinpa Estate, Abuja. West Africa’s largest housing estate, with room to grow into.',
-    intro:
-      'Gwarinpa is the largest single housing estate in West Africa, and the Abuja address most families settle on. Layouts are consistent, schools and markets are inside the estate, and prices sit well below the central districts for materially more space.',
   },
 ] as const
 

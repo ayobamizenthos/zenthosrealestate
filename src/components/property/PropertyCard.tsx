@@ -7,7 +7,6 @@ import {
   ChevronRight,
   Images,
   MapPin,
-  Maximize,
   Phone,
   Toilet,
 } from 'lucide-react'
@@ -146,13 +145,6 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
             value={String(property.toilets)}
             label="Toilets"
           />
-          {property.area_sqm ? (
-            <Spec
-              icon={<Maximize size={15} aria-hidden="true" />}
-              value={String(property.area_sqm)}
-              label="m²"
-            />
-          ) : null}
         </div>
 
         <div className="mt-auto flex items-center justify-end gap-2 pt-4">

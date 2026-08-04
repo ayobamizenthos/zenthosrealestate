@@ -174,20 +174,34 @@ export async function getPropertyByIdForAdmin(
 export async function getRelatedProperties(
   supabase: ZenthosSupabaseClient,
   property: Pick<Property, 'id' | 'location' | 'property_type'>,
-  limit = 4
+  limit = 3
 ): Promise<PropertySummary[]> {
-  const { data, error } = await supabase
+  const sameArea = await supabase
     .from('properties')
     .select(SUMMARY_COLUMNS)
     .eq('published', true)
+    .eq('location', property.location)
     .neq('id', property.id)
-    .or(`location.eq.${property.location},property_type.eq.${property.property_type}`)
-    .order('featured', { ascending: false })
     .order('created_at', { ascending: false })
     .limit(limit)
 
-  if (error) throw new Error(`Failed to load related properties: ${error.message}`)
-  return (data ?? []).map(toSummary)
+  if (sameArea.error) throw new Error(`Failed to load related properties: ${sameArea.error.message}`)
+
+  const found = (sameArea.data ?? []).map(toSummary)
+  if (found.length >= limit) return found
+
+  const fallback = await supabase
+    .from('properties')
+    .select(SUMMARY_COLUMNS)
+    .eq('published', true)
+    .eq('property_type', property.property_type)
+    .neq('id', property.id)
+    .not('id', 'in', `(${[property.id, ...found.map(entry => entry.id)].join(',')})`)
+    .order('created_at', { ascending: false })
+    .limit(limit - found.length)
+
+  if (fallback.error) return found
+  return [...found, ...(fallback.data ?? []).map(toSummary)]
 }
 
 export async function searchProperties(
