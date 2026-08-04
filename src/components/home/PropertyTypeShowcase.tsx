@@ -4,18 +4,18 @@ import Link from 'next/link'
 import { propertyBlurPlaceholder, propertyCardImage } from '@/lib/cloudinary'
 import type { PropertyTypeShowcaseEntry } from '@/lib/queries/locations'
 
-const TILE_SIZES = '(min-width: 1024px) 20vw, (min-width: 640px) 33vw, 50vw'
+const TILE_SIZES = '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'
 
 export function PropertyTypeShowcase({ types }: { types: PropertyTypeShowcaseEntry[] }) {
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
       {types.map(entry => (
         <Link
           key={entry.propertyType}
           href={`/properties?type=${encodeURIComponent(entry.propertyType)}`}
-          className="group border-hairline hover:border-ink block border bg-white transition-colors"
+          className="group shadow-card hover:shadow-card-hover rounded-card relative block overflow-hidden bg-white transition-shadow"
         >
-          <div className="bg-surface relative aspect-[4/5] overflow-hidden">
+          <div className="bg-surface relative aspect-[4/3] overflow-hidden">
             {entry.coverImage ? (
               <Image
                 src={propertyCardImage(entry.coverImage)}
@@ -24,19 +24,25 @@ export function PropertyTypeShowcase({ types }: { types: PropertyTypeShowcaseEnt
                 sizes={TILE_SIZES}
                 placeholder="blur"
                 blurDataURL={propertyBlurPlaceholder(entry.coverImage)}
-                className="ease-out-soft object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                className="ease-out-soft object-cover transition-transform duration-700 group-hover:scale-[1.04]"
               />
             ) : null}
           </div>
 
-          <div className="flex items-start justify-between gap-2 p-3.5">
-            <p className="text-ink min-w-0 truncate text-[14px] font-semibold">
-              {entry.propertyType}
-            </p>
+          <div className="flex items-center justify-between gap-3 p-5">
+            <span className="min-w-0">
+              <span className="text-ink block truncate text-[18px] font-bold">
+                {entry.propertyType}
+              </span>
+              <span className="text-muted mt-1 block text-[13px]">
+                {entry.propertyCount} {entry.propertyCount === 1 ? 'listing' : 'listings'}
+              </span>
+            </span>
+
             <ArrowUpRight
-              size={16}
+              size={20}
               aria-hidden="true"
-              className="text-muted group-hover:text-brand mt-0.5 shrink-0 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+              className="text-muted group-hover:text-brand shrink-0 transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             />
           </div>
         </Link>

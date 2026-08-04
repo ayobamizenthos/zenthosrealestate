@@ -31,7 +31,9 @@ export function ZenthosLogo({
   }
 
   return (
-    <span className={clsx('relative block h-9 w-[116px] shrink-0 md:h-10 md:w-[128px]', className)}>
+    <span
+      className={clsx('relative block h-10 w-[130px] shrink-0 md:h-11 md:w-[145px]', className)}
+    >
       <Image
         src={LOCKUP[tone]}
         alt="Zenthos Real Estate"

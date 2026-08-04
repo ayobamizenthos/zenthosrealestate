@@ -1,28 +1,26 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import { useAuth } from '@/components/auth/AuthProvider'
+import { createLocalStore, useLocalStore } from '@/lib/local-store'
 import { getSavedPropertyIds, saveProperty, unsaveProperty } from '@/lib/queries/saved'
 import { createSupabaseBrowserClient } from '@/lib/supabase/client'
 
 interface SavedPropertiesApi {
-  savedIds: ReadonlySet<string>
+  savedIds: readonly string[]
+  savedCount: number
   isSaved: (propertyId: string) => boolean
   toggleSaved: (propertyId: string) => Promise<void>
 }
 
 const SavedPropertiesContext = createContext<SavedPropertiesApi | null>(null)
 
-const NO_IDS: ReadonlySet<string> = new Set()
+const savedStore = createLocalStore<string[]>('zenthos.saved-properties', [])
 
 export function SavedProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth()
-  const router = useRouter()
-  const [loadedIds, setSavedIds] = useState<ReadonlySet<string>>(NO_IDS)
-
-  const savedIds = user ? loadedIds : NO_IDS
+  const savedIds = useLocalStore(savedStore)
 
   useEffect(() => {
     if (!user) return
@@ -30,12 +28,11 @@ export function SavedProvider({ children }: { children: ReactNode }) {
     let cancelled = false
 
     getSavedPropertyIds(createSupabaseBrowserClient(), user.id)
-      .then(ids => {
-        if (!cancelled) setSavedIds(new Set(ids))
+      .then(remote => {
+        if (cancelled || remote.length === 0) return
+        savedStore.update(current => [...new Set([...current, ...remote])])
       })
-      .catch(() => {
-        if (!cancelled) setSavedIds(NO_IDS)
-      })
+      .catch(() => undefined)
 
     return () => {
       cancelled = true
@@ -44,40 +41,30 @@ export function SavedProvider({ children }: { children: ReactNode }) {
 
   const toggleSaved = useCallback(
     async (propertyId: string) => {
-      if (!user) {
-        router.push(`/login?next=${encodeURIComponent(window.location.pathname)}`)
-        return
-      }
+      const wasSaved = savedStore.getSnapshot().includes(propertyId)
 
-      const wasSaved = savedIds.has(propertyId)
+      savedStore.update(current =>
+        wasSaved ? current.filter(id => id !== propertyId) : [...current, propertyId]
+      )
 
-      setSavedIds(previous => {
-        const next = new Set(previous)
-        if (wasSaved) next.delete(propertyId)
-        else next.add(propertyId)
-        return next
-      })
+      if (!user) return
 
       try {
         const supabase = createSupabaseBrowserClient()
         if (wasSaved) await unsaveProperty(supabase, user.id, propertyId)
         else await saveProperty(supabase, user.id, propertyId)
       } catch {
-        setSavedIds(previous => {
-          const next = new Set(previous)
-          if (wasSaved) next.add(propertyId)
-          else next.delete(propertyId)
-          return next
-        })
+        return
       }
     },
-    [router, savedIds, user]
+    [user]
   )
 
   const api = useMemo<SavedPropertiesApi>(
     () => ({
       savedIds,
-      isSaved: (propertyId: string) => savedIds.has(propertyId),
+      savedCount: savedIds.length,
+      isSaved: (propertyId: string) => savedIds.includes(propertyId),
       toggleSaved,
     }),
     [savedIds, toggleSaved]

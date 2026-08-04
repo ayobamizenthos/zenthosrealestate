@@ -28,7 +28,7 @@ export function AgentBand() {
             For agents
           </p>
           <h2 className="text-ink mt-4 text-[30px] leading-[1.08] font-extrabold md:text-[40px]">
-            Selling to a client who wants Lagos or Abuja?
+            Selling to a client who wants Lagos?
           </h2>
           <p className="text-muted mt-5 max-w-md text-[15px] leading-relaxed md:text-[16px]">
             Register as a cooperating agent and work from our inspected listings. You keep the

@@ -1,17 +1,19 @@
 'use client'
 
 import clsx from 'clsx'
-import { Bell } from 'lucide-react'
+import { Bell, Heart } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useAuth } from '@/components/auth/AuthProvider'
 import { ZenthosLogo } from '@/components/brand/ZenthosLogo'
+import { useSavedProperties } from '@/components/property/SavedProvider'
 import { useUnreadNotificationCount } from '@/hooks/useUnreadNotificationCount'
 import { LOCATION_LANDING_PAGES } from '@/lib/constants'
 
 export function SiteHeader() {
   const { user } = useAuth()
   const unreadCount = useUnreadNotificationCount()
+  const { savedCount } = useSavedProperties()
   const pathname = usePathname()
 
   return (
@@ -34,17 +36,7 @@ export function SiteHeader() {
             All properties
           </Link>
 
-          <Link
-            href="/saved"
-            className={clsx(
-              'rounded-control px-3 py-2 text-[14px] font-semibold whitespace-nowrap transition-colors',
-              pathname === '/saved' ? 'text-brand' : 'text-ink hover:text-brand'
-            )}
-          >
-            Saved
-          </Link>
-
-          {LOCATION_LANDING_PAGES.slice(0, 3).map(location => {
+          {LOCATION_LANDING_PAGES.slice(0, 4).map(location => {
             const href = `/properties/${location.slug}`
             return (
               <Link
@@ -60,6 +52,19 @@ export function SiteHeader() {
             )
           })}
         </nav>
+
+        <Link
+          href="/saved"
+          aria-label={savedCount > 0 ? `Saved, ${savedCount} properties` : 'Saved properties'}
+          className="text-brand hover:text-brand-hover relative flex h-11 w-11 items-center justify-center"
+        >
+          <Heart size={20} aria-hidden="true" fill={savedCount > 0 ? 'currentColor' : 'none'} />
+          {savedCount > 0 ? (
+            <span className="bg-brand ring-canvas absolute top-1.5 right-1.5 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white ring-2">
+              {savedCount > 9 ? '9+' : savedCount}
+            </span>
+          ) : null}
+        </Link>
 
         {user ? (
           <Link

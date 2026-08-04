@@ -76,11 +76,11 @@ export function SiteFooter() {
     <footer className="bg-brand relative mt-24 flex flex-col justify-between overflow-hidden rounded-t-[60px] px-6 pt-20 pb-[130px] text-white md:rounded-t-[120px] md:px-12 md:pt-28 md:pb-[220px]">
       <div className="relative z-20 mx-auto grid w-full max-w-6xl gap-12 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <ZenthosLogo tone="white" />
+          <ZenthosLogo tone="white" className="h-14 w-[190px] md:h-16 md:w-[215px]" />
 
           <p className="mt-6 max-w-xs text-[14px] leading-relaxed text-white/65">
-            Residential property across Lagos and Abuja. Every home is inspected and its title
-            checked before it reaches this site.
+            Residential property across Lagos island and mainland. Every home is inspected and its
+            title checked before it reaches this site.
           </p>
 
           <div className="mt-7 flex items-center gap-3">

@@ -13,11 +13,11 @@ const jakarta = Plus_Jakarta_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.name} | Property for Sale in Lagos & Abuja`,
+    default: `${SITE.name} | Property for Sale in Lagos`,
     template: `%s | ${SITE.name}`,
   },
   description:
-    'Browse houses, duplexes and apartments for sale across Lagos island, Lagos mainland and Abuja. Every listing is inspected and its title checked. Speak to a Zenthos broker on WhatsApp today.',
+    'Browse houses, duplexes and apartments for sale across Lagos island and mainland. Every listing is inspected and its title checked. Speak to a Zenthos broker on WhatsApp today.',
   applicationName: SITE.name,
   manifest: '/manifest.webmanifest',
   icons: {

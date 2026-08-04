@@ -27,9 +27,9 @@ import type { PropertySummary } from '@/lib/types'
 export const metadata: Metadata = {
   alternates: { canonical: '/' },
   openGraph: {
-    title: `${SITE.name} | Property for Sale in Lagos & Abuja`,
+    title: `${SITE.name} | Property for Sale in Lagos`,
     description:
-      'Inspected homes for sale across Lagos island, Lagos mainland and Abuja. Speak to a broker on WhatsApp.',
+      'Inspected homes for sale across Lagos island and mainland. Speak to a broker on WhatsApp.',
     url: SITE.url,
   },
 }
@@ -103,7 +103,7 @@ export default async function HomePage() {
         <section className="app-shell py-16 md:py-20">
           <SectionHeading
             title="Where we sell"
-            description="Lagos island, Lagos mainland and Abuja. Each market prices differently and moves at its own speed."
+            description="Island and mainland. Each market prices differently and moves at its own speed."
           />
           <LocationShowcase locations={homepageAreas} />
         </section>

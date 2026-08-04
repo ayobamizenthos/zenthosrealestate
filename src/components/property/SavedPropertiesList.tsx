@@ -1,17 +1,50 @@
 'use client'
 
+import { useEffect, useMemo, useState } from 'react'
 import { ButtonLink } from '@/components/ui/Button'
 import { EmptyState, NoSavedIllustration } from '@/components/ui/EmptyState'
+import { PropertyFeedSkeleton } from '@/components/ui/Skeleton'
+import { getPropertiesByIds } from '@/lib/queries/properties'
+import { createSupabaseBrowserClient } from '@/lib/supabase/client'
 import type { PropertySummary } from '@/lib/types'
 import { PropertyCard } from './PropertyCard'
 import { SaveButton } from './SaveButton'
 import { useSavedProperties } from './SavedProvider'
 
-export function SavedPropertiesList({ properties }: { properties: PropertySummary[] }) {
+export function SavedPropertiesList() {
   const { savedIds } = useSavedProperties()
-  const visible = properties.filter(property => savedIds.has(property.id))
+  const [resolved, setResolved] = useState<{ ids: string[]; properties: PropertySummary[] } | null>(
+    null
+  )
 
-  if (!visible.length) {
+  const key = [...savedIds].sort().join(',')
+  const wanted = useMemo(() => (key ? key.split(',') : []), [key])
+
+  useEffect(() => {
+    if (wanted.length === 0) return
+
+    let cancelled = false
+
+    getPropertiesByIds(createSupabaseBrowserClient(), wanted)
+      .then(found => {
+        if (!cancelled) setResolved({ ids: wanted, properties: found })
+      })
+      .catch(() => {
+        if (!cancelled) setResolved({ ids: wanted, properties: [] })
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [key, wanted])
+
+  if (wanted.length > 0 && resolved?.ids.join(',') !== key) {
+    return <PropertyFeedSkeleton count={3} />
+  }
+
+  const properties = wanted.length === 0 ? [] : (resolved?.properties ?? [])
+
+  if (!properties.length) {
     return (
       <EmptyState
         illustration={<NoSavedIllustration />}
@@ -23,12 +56,12 @@ export function SavedPropertiesList({ properties }: { properties: PropertySummar
   }
 
   return (
-    <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-4 lg:grid-cols-3 lg:gap-6">
-      {visible.map((property, index) => (
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      {properties.map((property, index) => (
         <PropertyCard
           key={property.id}
           property={property}
-          priority={index < 2}
+          priority={index < 3}
           action={<SaveButton propertyId={property.id} propertyTitle={property.title} />}
         />
       ))}

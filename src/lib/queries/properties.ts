@@ -185,7 +185,8 @@ export async function getRelatedProperties(
     .order('created_at', { ascending: false })
     .limit(limit)
 
-  if (sameArea.error) throw new Error(`Failed to load related properties: ${sameArea.error.message}`)
+  if (sameArea.error)
+    throw new Error(`Failed to load related properties: ${sameArea.error.message}`)
 
   const found = (sameArea.data ?? []).map(toSummary)
   if (found.length >= limit) return found
