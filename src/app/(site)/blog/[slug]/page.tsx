@@ -88,15 +88,15 @@ export default async function BlogPostPage({ params }: { params: PageParams }) {
   return (
     <>
       <nav aria-label="Breadcrumb">
-        <ol className="app-shell text-muted flex items-center gap-1.5 py-3 text-[13px]">
+        <ol className="app-shell text-muted flex items-center gap-1.5 py-1 text-[13px]">
           <li>
-            <Link href="/" className="hover:text-brand transition-colors">
+            <Link href="/" className="hover:text-brand inline-flex min-h-9 items-center transition-colors">
               Home
             </Link>
           </li>
           <ChevronRight size={13} aria-hidden="true" className="shrink-0" />
           <li>
-            <Link href="/blog" className="hover:text-brand transition-colors">
+            <Link href="/blog" className="hover:text-brand inline-flex min-h-9 items-center transition-colors">
               Journal
             </Link>
           </li>
@@ -121,7 +121,7 @@ export default async function BlogPostPage({ params }: { params: PageParams }) {
         <div className="mx-auto mt-12 max-w-2xl border-t pt-8">
           <Link
             href="/blog"
-            className="text-ink hover:text-brand inline-flex items-center gap-2 text-[15px] font-semibold transition-colors"
+            className="text-ink hover:text-brand inline-flex min-h-11 items-center gap-2 text-[15px] font-semibold transition-colors"
           >
             <ArrowLeft size={17} aria-hidden="true" />
             All articles

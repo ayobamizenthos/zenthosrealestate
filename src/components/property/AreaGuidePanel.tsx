@@ -49,7 +49,7 @@ export function AreaGuidePanel({ guide, slug }: { guide: AreaGuide; slug?: strin
       {slug ? (
         <Link
           href={`/properties/${slug}`}
-          className="text-ink hover:text-brand mt-6 inline-flex text-[14px] font-semibold underline underline-offset-4 transition-colors"
+          className="text-ink hover:text-brand mt-5 inline-flex min-h-11 items-center text-[14px] font-semibold underline underline-offset-4 transition-colors"
         >
           See every property in {guide.location}
         </Link>
