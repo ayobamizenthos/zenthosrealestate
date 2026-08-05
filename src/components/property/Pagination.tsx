@@ -17,9 +17,15 @@ export function Pagination({ filters, pageCount, basePath }: PaginationProps) {
   if (pageCount <= 1) return null
 
   const hrefForPage = (page: number) => `${basePath}${filtersToQueryString({ ...filters, page })}`
-  const pages = Array.from({ length: pageCount }, (_, index) => index + 1).filter(
-    page => page === 1 || page === pageCount || Math.abs(page - filters.page) <= 1
-  )
+
+  const allPages = Array.from({ length: pageCount }, (_, index) => index + 1)
+  // Short runs read better in full; only long ones need the first/last window.
+  const pages =
+    pageCount <= 7
+      ? allPages
+      : allPages.filter(
+          page => page === 1 || page === pageCount || Math.abs(page - filters.page) <= 1
+        )
 
   const hasPrevious = filters.page > 1
   const hasNext = filters.page < pageCount

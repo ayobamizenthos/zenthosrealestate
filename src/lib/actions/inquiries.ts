@@ -1,5 +1,6 @@
 'use server'
 
+import { randomUUID } from 'node:crypto'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { requireAdmin } from '@/lib/auth'
@@ -41,19 +42,21 @@ export async function submitInquiryAction(
     data: { user },
   } = await supabase.auth.getUser()
 
-  const { data, error } = await supabase
-    .from('inquiries')
-    .insert({
-      property_id: parsed.data.propertyId,
-      user_id: user?.id ?? null,
-      name: parsed.data.name,
-      email: parsed.data.email,
-      phone: parsed.data.phone,
-      message: parsed.data.message,
-      source: 'website',
-    })
-    .select('id')
-    .single()
+  // Anonymous visitors may insert but never select, so the id is minted here
+  // rather than read back; asking PostgREST to return the row would fail the
+  // whole write and lose the lead.
+  const id = randomUUID()
+
+  const { error } = await supabase.from('inquiries').insert({
+    id,
+    property_id: parsed.data.propertyId,
+    user_id: user?.id ?? null,
+    name: parsed.data.name,
+    email: parsed.data.email,
+    phone: parsed.data.phone,
+    message: parsed.data.message,
+    source: 'website',
+  })
 
   if (error) return { error: 'Could not send your enquiry. Please try WhatsApp instead.' }
 
@@ -67,7 +70,7 @@ export async function submitInquiryAction(
     propertyTitle = property?.title ?? null
   }
 
-  await notifyNewInquiry({ id: data.id, name: parsed.data.name, propertyTitle }).catch(
+  await notifyNewInquiry({ id, name: parsed.data.name, propertyTitle }).catch(
     () => undefined
   )
 
