@@ -29,7 +29,7 @@ export function SiteHeader() {
 
         <div className="flex-1" />
 
-        <nav aria-label="Primary" className="hidden items-center lg:flex">
+        <nav aria-label="Main" className="hidden items-center lg:flex">
           <Link
             href="/properties"
             className={clsx(
