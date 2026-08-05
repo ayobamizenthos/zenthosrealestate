@@ -87,7 +87,7 @@ export function InquiryForm({ property }: { property: InquiryProperty }) {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="bg-whatsapp hover:bg-whatsapp-hover rounded-control mt-4 flex h-12 w-full items-center justify-center gap-2 text-[15px] font-bold text-white transition-colors disabled:opacity-60"
+        className="bg-brand hover:bg-brand-hover rounded-control mt-4 flex h-12 w-full items-center justify-center gap-2 text-[15px] font-bold text-white transition-colors disabled:opacity-60"
       >
         {isSubmitting ? (
           <LoaderCircle size={18} className="animate-spin" aria-hidden="true" />

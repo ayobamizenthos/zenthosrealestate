@@ -76,7 +76,7 @@ function InquiryRow({ inquiry }: { inquiry: InquiryWithProperty }) {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={`Reply to ${inquiry.name} on WhatsApp`}
-            className="bg-whatsapp flex h-10 w-10 items-center justify-center rounded-control text-white"
+            className="bg-brand flex h-10 w-10 items-center justify-center rounded-control text-white"
           >
             <WhatsAppIcon className="h-4 w-4" />
           </a>

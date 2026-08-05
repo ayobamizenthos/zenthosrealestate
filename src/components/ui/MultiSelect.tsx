@@ -109,8 +109,10 @@ export function MultiSelect({
       {isOpen ? (
         <div
           className={clsx(
-            'animate-fade-in z-50 overflow-hidden bg-white shadow-2xl',
-            'fixed inset-x-3 bottom-3 rounded-2xl md:absolute md:inset-x-auto md:bottom-auto md:left-0 md:w-full md:min-w-[16rem] md:rounded-xl',
+            'animate-sheet-up z-50 overflow-hidden bg-white shadow-2xl md:animate-fade-in',
+            // Clears the bottom tab bar on phones; sitting under it made the
+            // option list impossible to scroll with a thumb.
+            'fixed inset-x-3 bottom-[calc(64px+env(safe-area-inset-bottom)+12px)] rounded-2xl md:absolute md:inset-x-auto md:bottom-auto md:left-0 md:w-full md:min-w-[16rem] md:rounded-xl',
             dropUp ? 'md:top-auto md:bottom-full md:mb-2' : 'md:top-full md:mt-2'
           )}
         >
@@ -128,7 +130,7 @@ export function MultiSelect({
             </div>
           ) : null}
 
-          <div className="scrollbar-none max-h-[50vh] overflow-y-auto overscroll-contain pb-1 md:max-h-[17rem]">
+          <div className="scrollbar-none max-h-[44vh] overflow-y-auto overscroll-contain pb-1 md:max-h-[17rem]">
             {visible.map(group => (
               <div key={group.label}>
                 {groups.length > 1 ? (

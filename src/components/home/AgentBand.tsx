@@ -21,15 +21,15 @@ const AGENT_BENEFITS = [
 
 export function AgentBand() {
   return (
-    <section className="border-y bg-white">
+    <section className="bg-white">
       <div className="app-shell grid gap-12 py-16 md:py-20 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-16">
         <div>
-          <h2 className="text-ink text-[30px] leading-[1.08] font-extrabold md:text-[40px]">
+          <h2 className="text-ink text-[26px] leading-[1.1] font-extrabold sm:text-[30px] md:text-[38px] md:leading-[1.08]">
             Selling to a client who wants Lagos?
           </h2>
           <p className="text-muted mt-5 max-w-md text-[15px] leading-relaxed md:text-[16px]">
-            Register as a cooperating agent and work from our inspected listings. You keep the
-            client relationship, we handle the inspection and the paperwork.
+            Register as a cooperating agent and work from our inspected listings. Listing with us is
+            free. You keep the client relationship, we handle the inspection and the paperwork.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">

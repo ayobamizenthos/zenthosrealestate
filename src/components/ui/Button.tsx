@@ -8,7 +8,7 @@ export type ButtonSize = 'md' | 'lg'
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary: 'bg-brand text-brand-ink hover:bg-brand-hover',
   secondary: 'bg-canvas text-brand border-[1.5px] border-brand hover:bg-surface',
-  whatsapp: 'bg-whatsapp text-white hover:bg-whatsapp-hover',
+  whatsapp: 'bg-brand text-white hover:bg-brand-hover',
   ghost: 'bg-transparent text-brand hover:bg-surface',
   danger: 'bg-danger text-white hover:brightness-90',
 }

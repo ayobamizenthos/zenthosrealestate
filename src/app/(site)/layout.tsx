@@ -2,7 +2,7 @@ import { AuthProvider } from '@/components/auth/AuthProvider'
 import { BottomTabBar } from '@/components/layout/BottomTabBar'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { SiteHeader } from '@/components/layout/SiteHeader'
-import { WhatsAppFab } from '@/components/layout/WhatsAppFab'
+import { ContactFab } from '@/components/layout/ContactFab'
 import { NotificationPermissionBanner } from '@/components/notifications/NotificationPermissionBanner'
 import { NotificationToaster } from '@/components/notifications/NotificationToaster'
 import { CompareBar } from '@/components/property/CompareBar'
@@ -21,7 +21,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
 
             <main className="pb-tabbar flex-1 md:pb-0">{children}</main>
             <SiteFooter />
-            <WhatsAppFab />
+            <ContactFab />
             <CompareBar />
             <NotificationToaster />
             <InstallBanner />

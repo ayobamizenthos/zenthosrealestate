@@ -60,7 +60,7 @@ export function SiteHeader() {
         <Link
           href="/saved"
           aria-label={savedCount > 0 ? `Saved, ${savedCount} properties` : 'Saved properties'}
-          className="text-brand hover:text-brand-hover relative flex h-11 w-11 items-center justify-center"
+          className="text-brand hover:text-brand-hover relative hidden h-11 w-11 items-center justify-center md:flex"
         >
           <Bookmark size={20} aria-hidden="true" fill="currentColor" />
           {savedCount > 0 ? (

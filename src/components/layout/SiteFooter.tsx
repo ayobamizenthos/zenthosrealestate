@@ -62,7 +62,7 @@ function ContactAction({
       target={href.startsWith('http') ? '_blank' : undefined}
       rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
       aria-label={label}
-      className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20"
+      className="flex h-11 w-11 items-center justify-center rounded-full bg-white transition-transform hover:-translate-y-0.5"
     >
       {children}
     </a>
@@ -83,19 +83,19 @@ export function SiteFooter() {
 
           <div className="mt-7 flex items-center gap-3">
             <ContactAction href={`tel:+${SITE.whatsappNumber}`} label="Call Zenthos Real Estate">
-              <Phone size={18} aria-hidden="true" />
+              <Phone size={18} aria-hidden="true" className="text-brand" />
             </ContactAction>
             <ContactAction href={`mailto:${SITE.email}`} label="Email Zenthos Real Estate">
-              <Mail size={18} aria-hidden="true" />
+              <Mail size={18} aria-hidden="true" className="text-brand" />
             </ContactAction>
             <ContactAction href={generalInquiryLink()} label="Chat on WhatsApp">
-              <WhatsAppIcon className="h-[18px] w-[18px]" />
+              <WhatsAppIcon className="h-[19px] w-[19px] text-[#25D366]" />
             </ContactAction>
             <ContactAction
               href="https://instagram.com/zenthosrealestate"
               label="Zenthos Real Estate on Instagram"
             >
-              <InstagramIcon className="h-[18px] w-[18px]" />
+              <InstagramIcon brand className="h-[19px] w-[19px]" />
             </ContactAction>
           </div>
         </div>
@@ -117,9 +117,9 @@ export function SiteFooter() {
             <h2 className="text-[13px] font-semibold text-white/70">Get the app</h2>
             <Link
               href="/offline"
-              className="text-brand mt-5 inline-flex h-11 items-center gap-2 rounded-lg bg-white px-4 text-[13px] font-bold transition-colors hover:bg-white/90"
+              className="text-brand mt-4 inline-flex h-9 items-center gap-1.5 rounded-full bg-white px-3.5 text-[12px] font-bold transition-colors hover:bg-white/90"
             >
-              <Download size={15} aria-hidden="true" />
+              <Download size={14} aria-hidden="true" />
               Install app
             </Link>
           </div>
@@ -128,9 +128,9 @@ export function SiteFooter() {
 
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute bottom-[-0.15em] left-1/2 z-10 -translate-x-1/2 text-[26vw] leading-none font-black tracking-tighter whitespace-nowrap text-white/10 italic uppercase md:text-[clamp(13vw,21vw,340px)]"
+        className="pointer-events-none absolute inset-x-0 bottom-[0.06em] z-10 px-4 text-center text-[16.5vw] leading-none font-black tracking-tighter whitespace-nowrap text-white/10 italic uppercase md:text-[clamp(9vw,14vw,230px)]"
       >
-        Zenthos
+        Zenthos RE.
       </span>
     </footer>
   )

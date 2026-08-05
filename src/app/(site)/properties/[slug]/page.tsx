@@ -1,4 +1,4 @@
-import { Bath, BedDouble, ChevronRight, MapPin, Sofa, Toilet } from 'lucide-react'
+import { Bath, BedDouble, ChevronRight, MapPin, Phone, Sofa, Toilet } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -15,7 +15,6 @@ import { SaveButton } from '@/components/property/SaveButton'
 import { ShareButton } from '@/components/property/ShareButton'
 import { LocationLandingPage } from '@/components/location/LocationLandingPage'
 import { PropertyJsonLd } from '@/components/seo/PropertyJsonLd'
-import { StatusBadge } from '@/components/ui/Badge'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { propertySocialImage } from '@/lib/cloudinary'
 import { findLocationLanding, LOCATION_LANDING_PAGES, SITE } from '@/lib/constants'
@@ -147,6 +146,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
   const fullAddress = formatFullAddress(property)
 
   const detailRows: { label: string; value: string }[] = [
+    ...(property.reference_code ? [{ label: 'Reference', value: property.reference_code }] : []),
     { label: 'Property type', value: property.property_type },
     { label: 'Bedrooms', value: String(property.bedrooms) },
     { label: 'Bathrooms', value: String(property.bathrooms) },
@@ -155,8 +155,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
     ...(property.title_document
       ? [{ label: 'Title document', value: property.title_document }]
       : []),
-    { label: 'Serviced', value: property.serviced ? 'Yes' : 'No' },
-    { label: 'Status', value: property.status },
   ]
 
   return (
@@ -186,16 +184,16 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
 
         <div className="mt-8 lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start lg:gap-10">
           <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <StatusBadge status={property.status} />
-              <span className="text-brand text-[13px] font-semibold">
-                {property.property_type} for sale
-              </span>
-            </div>
+            <span className="text-brand text-[13px] font-semibold">
+              {property.property_type} for sale
+            </span>
 
-            <h1 className="text-ink mt-3 text-[28px] leading-tight md:text-[36px]">
-              {property.title}
-            </h1>
+            <div className="mt-3 flex items-start justify-between gap-4">
+              <h1 className="text-ink min-w-0 flex-1 text-[24px] leading-tight sm:text-[28px] md:text-[34px]">
+                {property.title}
+              </h1>
+              <SaveButton propertyId={property.id} propertyTitle={property.title} tone="icon" />
+            </div>
 
             <p className="text-muted mt-2 flex items-center gap-1.5 text-[14px]">
               <MapPin size={15} aria-hidden="true" className="shrink-0" />
@@ -211,22 +209,20 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
                 href={propertyInquiryLink(property)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-whatsapp hover:bg-whatsapp-hover col-span-2 flex h-12 items-center justify-center gap-2 rounded-control text-[15px] font-bold text-white transition-colors"
+                className="bg-brand hover:bg-brand-hover rounded-control flex h-12 items-center justify-center gap-2 text-[15px] font-bold text-white transition-colors"
               >
                 <WhatsAppIcon className="h-5 w-5" />
-                Message us on WhatsApp
+                WhatsApp
               </a>
               <a
                 href={`tel:+${SITE.whatsappNumber}`}
-                className="text-ink bg-surface hover:bg-hairline flex h-12 items-center justify-center rounded-control text-[15px] font-semibold transition-colors"
+                className="bg-ink rounded-control flex h-12 items-center justify-center gap-2 text-[15px] font-bold text-white transition-opacity hover:opacity-90"
               >
-                Call broker
+                <Phone size={18} aria-hidden="true" />
+                Call
               </a>
-              <div className="flex gap-2">
-                <SaveButton propertyId={property.id} propertyTitle={property.title} tone="inline" />
-                <div className="flex-1">
-                  <ShareButton title={shareTitle} text={shareTitle} path={canonicalPath} />
-                </div>
+              <div className="col-span-2">
+                <ShareButton title={shareTitle} text={shareTitle} path={canonicalPath} />
               </div>
 
               <DownloadImagesButton images={property.images} title={property.title} />
@@ -313,28 +309,22 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
                   href={propertyInquiryLink(property)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-whatsapp hover:bg-whatsapp-hover flex h-12 w-full items-center justify-center gap-2 rounded-control text-[15px] font-bold text-white transition-colors"
+                  className="bg-brand hover:bg-brand-hover rounded-control flex h-12 w-full items-center justify-center gap-2 text-[15px] font-bold text-white transition-colors"
                 >
                   <WhatsAppIcon className="h-5 w-5" />
-                  Message us on WhatsApp
+                  WhatsApp
                 </a>
 
                 <a
                   href={`tel:+${SITE.whatsappNumber}`}
-                  className="text-ink bg-surface hover:bg-hairline flex h-12 w-full items-center justify-center rounded-control text-[15px] font-semibold transition-colors"
+                  className="bg-ink rounded-control flex h-12 w-full items-center justify-center gap-2 text-[15px] font-bold text-white transition-opacity hover:opacity-90"
                 >
+                  <Phone size={18} aria-hidden="true" />
                   Call {SITE.phoneDisplay}
                 </a>
 
-                <div className="flex gap-2 pt-1">
-                  <SaveButton
-                    propertyId={property.id}
-                    propertyTitle={property.title}
-                    tone="inline"
-                  />
-                  <div className="flex-1">
-                    <ShareButton title={shareTitle} text={shareTitle} path={canonicalPath} />
-                  </div>
+                <div className="pt-1">
+                  <ShareButton title={shareTitle} text={shareTitle} path={canonicalPath} />
                 </div>
 
                 <DownloadImagesButton images={property.images} title={property.title} />

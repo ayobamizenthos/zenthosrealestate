@@ -5,7 +5,7 @@ const STEPS = [
   },
   {
     title: 'Inspect before you commit',
-    body: 'We arrange the viewing and go with you. Inspections are free and you are never asked for money to see a property.',
+    body: 'We arrange the inspection and go with you. Inspections are free and you are never asked for money to see a property.',
   },
   {
     title: 'We check the documents',

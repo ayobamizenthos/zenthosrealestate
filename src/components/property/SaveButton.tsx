@@ -9,7 +9,7 @@ interface SaveButtonProps {
   propertyId: string
   propertyTitle: string
 
-  tone?: 'overlay' | 'inline'
+  tone?: 'overlay' | 'inline' | 'icon'
 }
 
 export function SaveButton({ propertyId, propertyTitle, tone = 'overlay' }: SaveButtonProps) {
@@ -30,14 +30,14 @@ export function SaveButton({ propertyId, propertyTitle, tone = 'overlay' }: Save
       aria-pressed={saved}
       aria-label={saved ? `Remove ${propertyTitle} from saved` : `Save ${propertyTitle}`}
       className={clsx(
-        'flex h-11 w-11 items-center justify-center rounded-full transition-colors',
-        tone === 'overlay'
-          ? 'text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]'
-          : 'bg-surface hover:bg-hairline'
+        'flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors',
+        tone === 'overlay' && 'text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.5)]',
+        tone === 'inline' && 'bg-surface hover:bg-hairline',
+        tone === 'icon' && 'hover:bg-surface -mr-2'
       )}
     >
       <Bookmark
-        size={20}
+        size={tone === 'icon' ? 24 : 20}
         aria-hidden="true"
         fill={saved ? 'currentColor' : 'none'}
         className={clsx(

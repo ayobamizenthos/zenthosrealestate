@@ -156,7 +156,7 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Message us on WhatsApp about ${property.title}`}
-              className="bg-whatsapp hover:bg-whatsapp-hover flex h-10 w-10 items-center justify-center rounded-full text-white transition-colors"
+              className="bg-brand hover:bg-brand-hover flex h-10 w-10 items-center justify-center rounded-full text-white transition-colors"
             >
               <WhatsAppIcon className="h-[17px] w-[17px]" />
             </a>

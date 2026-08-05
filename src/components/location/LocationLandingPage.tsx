@@ -50,11 +50,6 @@ export async function LocationLandingPage({ content }: { content: LocationLandin
       <div className="bg-page min-h-screen">
         <div className="app-shell py-8">
           <div className="mb-6 flex flex-wrap items-baseline justify-between gap-3">
-            <p className="text-muted text-[14px]">
-              <span className="text-ink font-bold">{total}</span>{' '}
-              {total === 1 ? 'property' : 'properties'} for sale in {content.name}
-            </p>
-
             {total > properties.length ? (
               <Link
                 href={browseAllHref}

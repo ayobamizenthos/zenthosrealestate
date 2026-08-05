@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ButtonLink } from '@/components/ui/Button'
 import { EmptyState, NoSavedIllustration } from '@/components/ui/EmptyState'
-import { PropertyFeedSkeleton } from '@/components/ui/Skeleton'
+import { BrandLoader } from '@/components/ui/BrandLoader'
 import { getPropertiesByIds } from '@/lib/queries/properties'
 import { createSupabaseBrowserClient } from '@/lib/supabase/client'
 import type { PropertySummary } from '@/lib/types'
@@ -39,7 +39,7 @@ export function SavedPropertiesList() {
   }, [key, wanted])
 
   if (wanted.length > 0 && resolved?.ids.join(',') !== key) {
-    return <PropertyFeedSkeleton count={3} />
+    return <BrandLoader label="Loading saved properties" />
   }
 
   const properties = wanted.length === 0 ? [] : (resolved?.properties ?? [])

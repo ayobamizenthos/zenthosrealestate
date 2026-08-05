@@ -6,7 +6,6 @@ import { HomeHero } from '@/components/home/HomeHero'
 import { LocationShowcase } from '@/components/home/LocationShowcase'
 import { PriceBands } from '@/components/home/PriceBands'
 import { PropertyTypeShowcase } from '@/components/home/PropertyTypeShowcase'
-import { TrustBand } from '@/components/home/TrustBand'
 import { PropertyFeed } from '@/components/property/PropertyFeed'
 import { OrganizationJsonLd } from '@/components/seo/PropertyJsonLd'
 import { SectionHeading } from '@/components/ui/SectionHeading'
@@ -80,7 +79,7 @@ export default async function HomePage() {
       {availableTypes.length > 0 ? (
         <section className="app-shell py-16 md:py-20">
           <SectionHeading
-            title="Every kind of home we broker"
+            title="Every home type in Lagos"
             linkHref="/properties"
             linkLabel="See all"
           />
@@ -112,7 +111,7 @@ export default async function HomePage() {
       {bandsWithHomes.length > 0 ? (
         <section className="app-shell py-16 md:py-20">
           <SectionHeading
-            title="Browse by what you can spend"
+            title="Browse by your budget"
             description="Every bracket below has homes in it today."
           />
           <PriceBands bands={bandsWithHomes} />
@@ -125,13 +124,11 @@ export default async function HomePage() {
 
       <section className="app-shell py-16 md:py-20">
         <SectionHeading
-          title="From first message to keys"
+          title="From first message to acquisition"
           description="Where the documents get checked, and when money moves."
         />
         <BuyingSteps />
       </section>
-
-      <TrustBand />
     </>
   )
 }
