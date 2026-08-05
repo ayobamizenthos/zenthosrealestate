@@ -138,7 +138,7 @@ export const LOCATION_LANDING_PAGES: readonly LocationLandingContent[] = [
     state: 'Lagos',
     slug: 'eko-atlantic',
     heading: 'Property for Sale in Eko Atlantic City, Lagos',
-    metaTitle: 'Property for Sale in Eko Atlantic City, Lagos | Zenthos Real Estate',
+    metaTitle: 'Property for Sale in Eko Atlantic, Lagos | Zenthos Real Estate',
     metaDescription:
       'Apartments, penthouses and towers for sale in Eko Atlantic City. New-build waterfront property on Lagos island, verified by Zenthos.',
     intro:
@@ -204,7 +204,7 @@ export const LOCATION_LANDING_PAGES: readonly LocationLandingContent[] = [
     state: 'Lagos',
     slug: 'omole',
     heading: 'Property for Sale in Omole, Lagos',
-    metaTitle: 'Property for Sale in Omole Phase 1 and 2, Lagos | Zenthos Real Estate',
+    metaTitle: 'Property for Sale in Omole, Ikeja Lagos | Zenthos Real Estate',
     metaDescription:
       'Detached and semi-detached duplexes for sale in Omole Phase 1 and Phase 2, Ikeja. Quiet gated mainland estates verified by Zenthos.',
     intro:
