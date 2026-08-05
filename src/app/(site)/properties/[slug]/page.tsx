@@ -62,7 +62,7 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
   const area = findLocationLanding(slug)
   if (area) {
     return {
-      title: area.metaTitle,
+      title: { absolute: area.metaTitle },
       description: area.metaDescription,
       alternates: { canonical: `/properties/${area.slug}` },
       openGraph: {

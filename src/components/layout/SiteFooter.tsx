@@ -30,9 +30,7 @@ function FooterColumn({
 }) {
   return (
     <nav>
-      <h2 className="text-[13px] font-semibold text-white/70">
-        {heading}
-      </h2>
+      <h2 className="text-[13px] font-semibold text-white/70">{heading}</h2>
       <ul className="mt-3">
         {links.map(link => (
           <li key={link.href}>
@@ -116,9 +114,7 @@ export function SiteFooter() {
           <FooterColumn heading="Company" links={COMPANY_LINKS} />
 
           <div>
-            <h2 className="text-[13px] font-semibold text-white/70">
-              Get the app
-            </h2>
+            <h2 className="text-[13px] font-semibold text-white/70">Get the app</h2>
             <Link
               href="/offline"
               className="text-brand mt-5 inline-flex h-11 items-center gap-2 rounded-lg bg-white px-4 text-[13px] font-bold transition-colors hover:bg-white/90"
