@@ -26,7 +26,7 @@ async function trimTo(source, target) {
 async function bare(size, padding) {
   const inner = Math.max(1, Math.round(size * (1 - padding * 2)))
 
-  const trimmed = await sharp(SOURCES.markBurgundy).trim({ threshold: 10 }).toBuffer()
+  const trimmed = await sharp(SOURCES.markWhite).trim({ threshold: 10 }).toBuffer()
   const fitted = await sharp(trimmed)
     .resize(inner, inner, { fit: 'contain', background: TRANSPARENT })
     .toBuffer()
