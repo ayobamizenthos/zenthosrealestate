@@ -16,6 +16,7 @@ const POPULAR_SEARCHES = [
 
 const COMPANY_LINKS = [
   { label: 'All properties', href: '/properties' },
+  { label: 'Journal', href: '/blog' },
   { label: 'Saved', href: '/saved' },
   { label: 'Compare', href: '/compare' },
   { label: 'Agent access', href: '/register' },

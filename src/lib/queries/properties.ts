@@ -40,7 +40,7 @@ function toSummary(row: Pick<PropertiesRow, keyof PropertySummary>): PropertySum
   }
 }
 
-function toProperty(row: Omit<PropertiesRow, 'search_vector'>): Property {
+function toProperty(row: Omit<PropertiesRow, 'search_vector' | 'featured_rank'>): Property {
   return {
     ...toSummary(row),
     amenities: row.amenities as Amenity[],
@@ -134,6 +134,7 @@ export async function getFeaturedProperties(
     .eq('published', true)
     .eq('featured', true)
     .neq('status', 'Sold')
+    .order('featured_rank', { ascending: true, nullsFirst: false })
     .order('created_at', { ascending: false })
     .limit(limit)
 

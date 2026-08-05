@@ -22,6 +22,7 @@ export type PropertiesRow = {
   amenities: string[]
   images: string[]
   featured: boolean
+  featured_rank: number | null
   status: string
   listing_type: string
   published: boolean
@@ -33,9 +34,14 @@ export type PropertiesRow = {
 
 type PropertiesInsert = Omit<
   PropertiesRow,
-  'id' | 'slug' | 'search_vector' | 'reference_code' | 'created_at' | 'updated_at'
+  'id' | 'slug' | 'search_vector' | 'reference_code' | 'featured_rank' | 'created_at' | 'updated_at'
 > &
-  Partial<Pick<PropertiesRow, 'id' | 'slug' | 'reference_code' | 'created_at' | 'updated_at'>>
+  Partial<
+    Pick<
+      PropertiesRow,
+      'id' | 'slug' | 'reference_code' | 'featured_rank' | 'created_at' | 'updated_at'
+    >
+  >
 
 export type InquiriesRow = {
   id: string
@@ -103,12 +109,36 @@ export type AreaGuidesRow = {
   updated_at: Timestamptz
 }
 
+export type BlogPostsRow = {
+  id: string
+  slug: string
+  title: string
+  excerpt: string
+  body: string
+  cover_image: string | null
+  category: string
+  read_minutes: number
+  published: boolean
+  published_at: Timestamptz | null
+  created_at: Timestamptz
+  updated_at: Timestamptz
+}
+
+type BlogPostsInsert = Omit<BlogPostsRow, 'id' | 'created_at' | 'updated_at' | 'published_at'> &
+  Partial<Pick<BlogPostsRow, 'id' | 'created_at' | 'updated_at' | 'published_at'>>
+
 export type Database = {
   __InternalSupabase: {
     PostgrestVersion: '12'
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: BlogPostsRow
+        Insert: BlogPostsInsert
+        Update: Partial<BlogPostsInsert>
+        Relationships: []
+      }
       area_guides: {
         Row: AreaGuidesRow
         Insert: Omit<AreaGuidesRow, 'updated_at'> & Partial<Pick<AreaGuidesRow, 'updated_at'>>

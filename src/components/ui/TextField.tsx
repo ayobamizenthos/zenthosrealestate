@@ -21,8 +21,8 @@ export function TextField({ label, hint, error, id, ...rest }: TextFieldProps) {
         aria-invalid={error ? true : undefined}
         aria-describedby={describedBy}
         className={clsx(
-          'rounded-control mt-1.5 h-12 w-full border px-3.5 text-[16px] outline-none transition-colors',
-          error ? 'border-danger' : 'focus:border-brand'
+          'rounded-control bg-surface text-ink placeholder:text-muted mt-1.5 h-12 w-full px-3.5 text-[16px] outline-none transition-shadow focus:ring-2 focus:ring-brand/30',
+          error && 'ring-2 ring-danger/40'
         )}
         {...rest}
       />
@@ -61,8 +61,8 @@ export function TextArea({
         id={fieldId}
         aria-invalid={error ? true : undefined}
         className={clsx(
-          'rounded-control mt-1.5 w-full border px-3.5 py-3 text-[16px] outline-none transition-colors',
-          error ? 'border-danger' : 'focus:border-brand'
+          'rounded-control bg-surface text-ink placeholder:text-muted mt-1.5 w-full px-3.5 py-3 text-[16px] outline-none transition-shadow focus:ring-2 focus:ring-brand/30',
+          error && 'ring-2 ring-danger/40'
         )}
         {...rest}
       />
@@ -92,8 +92,8 @@ export function SelectField({
       <select
         id={fieldId}
         className={clsx(
-          'rounded-control mt-1.5 h-12 w-full border bg-white px-3 text-[16px] outline-none transition-colors',
-          error ? 'border-danger' : 'focus:border-brand'
+          'rounded-control bg-surface text-ink mt-1.5 h-12 w-full px-3 text-[16px] outline-none transition-shadow focus:ring-2 focus:ring-brand/30',
+          error && 'ring-2 ring-danger/40'
         )}
         {...rest}
       >

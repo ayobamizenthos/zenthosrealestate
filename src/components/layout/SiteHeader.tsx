@@ -40,7 +40,7 @@ export function SiteHeader() {
             All properties
           </Link>
 
-          {LOCATION_LANDING_PAGES.slice(0, 4).map(location => {
+          {LOCATION_LANDING_PAGES.slice(0, 3).map(location => {
             const href = `/properties/${location.slug}`
             return (
               <Link
@@ -55,6 +55,16 @@ export function SiteHeader() {
               </Link>
             )
           })}
+
+          <Link
+            href="/blog"
+            className={clsx(
+              'rounded-control px-3 py-2 text-[14px] font-semibold whitespace-nowrap transition-colors',
+              pathname.startsWith('/blog') ? 'text-brand' : 'text-ink hover:text-brand'
+            )}
+          >
+            Journal
+          </Link>
         </nav>
 
         <Link
