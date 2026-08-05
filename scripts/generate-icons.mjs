@@ -23,6 +23,20 @@ async function trimTo(source, target) {
   await writeFile(join(PUBLIC_DIR, target), buffer)
 }
 
+async function bare(size, padding) {
+  const inner = Math.max(1, Math.round(size * (1 - padding * 2)))
+
+  const trimmed = await sharp(SOURCES.markBurgundy).trim({ threshold: 10 }).toBuffer()
+  const fitted = await sharp(trimmed)
+    .resize(inner, inner, { fit: 'contain', background: TRANSPARENT })
+    .toBuffer()
+
+  return sharp({ create: { width: size, height: size, channels: 4, background: TRANSPARENT } })
+    .composite([{ input: fitted, gravity: 'centre' }])
+    .png()
+    .toBuffer()
+}
+
 async function tile(size, padding) {
   const inner = Math.max(1, Math.round(size * (1 - padding * 2)))
 
@@ -38,7 +52,7 @@ async function tile(size, padding) {
 }
 
 async function writeIco(target, sizes) {
-  const images = await Promise.all(sizes.map(size => tile(size, 0.08)))
+  const images = await Promise.all(sizes.map(size => bare(size, 0.04)))
 
   const header = Buffer.alloc(6)
   header.writeUInt16LE(0, 0)
@@ -66,7 +80,7 @@ async function writeIco(target, sizes) {
 
 await mkdir(ICONS_DIR, { recursive: true })
 
-await writeFile(join(APP_DIR, 'icon.png'), await tile(512, 0.08))
+await writeFile(join(APP_DIR, 'icon.png'), await bare(512, 0.04))
 await writeFile(join(APP_DIR, 'apple-icon.png'), await tile(180, 0.1))
 await writeIco(join(APP_DIR, 'favicon.ico'), [16, 32, 48])
 
