@@ -5,16 +5,21 @@ import { isSupabaseConfigured, publicEnv } from '@/lib/env'
 
 const PROTECTED_PREFIXES = ['/profile', '/admin']
 
-const SLUG_CACHE_TTL_MS = 300_000
-const knownSlugs = new Map<string, number>()
+const FOUND_TTL_MS = 300_000
+// Short, so a listing published seconds ago is reachable from its alert almost
+// immediately, but long enough that crawlers probing dead URLs cannot turn one
+// query per bad request into the steady state.
+const MISSING_TTL_MS = 30_000
+
+const slugChecks = new Map<string, { exists: boolean; until: number }>()
 
 // Next cannot set a 404 status once a page has begun streaming, so an unknown
 // listing would otherwise render "not found" behind a 200. Resolving the slug
-// here, before rendering starts, lets the router emit a real 404. Confirmed
-// slugs are held in memory so valid listings never pay for the lookup.
+// here, before rendering starts, lets the router emit a real 404. Results are
+// held in memory so a warm instance answers without touching the database.
 async function listingExists(slug: string): Promise<boolean> {
-  const cachedUntil = knownSlugs.get(slug)
-  if (cachedUntil && cachedUntil > Date.now()) return true
+  const cached = slugChecks.get(slug)
+  if (cached && cached.until > Date.now()) return cached.exists
 
   const endpoint = `${publicEnv.supabaseUrl}/rest/v1/properties?select=slug&published=is.true&slug=eq.${encodeURIComponent(slug)}&limit=1`
 
@@ -28,10 +33,14 @@ async function listingExists(slug: string): Promise<boolean> {
   if (!response.ok) return true
 
   const rows: unknown = await response.json()
-  const found = Array.isArray(rows) && rows.length > 0
-  if (found) knownSlugs.set(slug, Date.now() + SLUG_CACHE_TTL_MS)
+  const exists = Array.isArray(rows) && rows.length > 0
 
-  return found
+  slugChecks.set(slug, {
+    exists,
+    until: Date.now() + (exists ? FOUND_TTL_MS : MISSING_TTL_MS),
+  })
+
+  return exists
 }
 
 export async function proxy(request: NextRequest) {
