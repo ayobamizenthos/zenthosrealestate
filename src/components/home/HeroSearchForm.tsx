@@ -222,7 +222,7 @@ export function HeroSearchForm() {
               key={area.slug}
               type="button"
               onClick={() => router.push(`/properties/${area.slug}`)}
-              className="text-ink hover:border-ink hover:bg-surface shrink-0 rounded-full border px-3.5 py-1.5 text-[13px] font-medium whitespace-nowrap transition-colors"
+              className="text-ink hover:border-ink hover:bg-surface flex h-11 shrink-0 items-center rounded-full border px-4 text-[13px] font-medium whitespace-nowrap transition-colors"
             >
               {area.name}
             </button>
