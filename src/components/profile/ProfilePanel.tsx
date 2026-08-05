@@ -1,7 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
-import { Bell, Heart, LogOut, Scale, Settings } from 'lucide-react'
+import { Bell, Bookmark, LogOut, Scale, Settings } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -40,7 +40,7 @@ export function ProfilePanel({ fullName, email, phone, isAdmin }: ProfilePanelPr
           href="/saved"
           className="hover:bg-surface flex items-center gap-3 bg-white p-4 transition-colors"
         >
-          <Heart size={18} className="text-brand" aria-hidden="true" />
+          <Bookmark size={18} className="text-brand" fill="currentColor" aria-hidden="true" />
           <span className="text-ink flex-1 text-[15px] font-semibold">Saved properties</span>
         </Link>
 

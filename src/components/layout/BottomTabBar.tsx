@@ -1,7 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
-import { Heart, House, Search, User } from 'lucide-react'
+import { Bookmark, House, Search, User } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSearchOverlay } from '@/components/search/SearchProvider'
@@ -42,7 +42,7 @@ export function BottomTabBar() {
           className={clsx(TAB_ITEM_CLASSES, isSaved ? 'text-brand' : 'text-muted')}
           aria-current={isSaved ? 'page' : undefined}
         >
-          <Heart size={21} aria-hidden="true" />
+          <Bookmark size={21} aria-hidden="true" fill={isSaved ? 'currentColor' : 'none'} />
           Saved
         </Link>
 
