@@ -123,6 +123,39 @@ export const LOCATION_LANDING_PAGES: readonly LocationLandingContent[] = [
       'Ikoyi holds the highest values in Lagos and the tightest supply. Banana Island, Parkview Estate and Old Ikoyi offer generous plots, mature tree cover and estate-managed security, which is why listings here move on relationships rather than open advertising. Availability changes quickly, so speak to us early.',
   },
   {
+    name: 'Banana Island',
+    state: 'Lagos',
+    slug: 'banana-island',
+    heading: 'Property for Sale on Banana Island, Lagos',
+    metaTitle: 'Property for Sale on Banana Island, Ikoyi | Zenthos Real Estate',
+    metaDescription:
+      'Mansions, penthouses and waterfront duplexes for sale on Banana Island, Ikoyi. Verified title, discreet listings from Zenthos Real Estate.',
+    intro:
+      'Banana Island is reclaimed land off Ikoyi laid out on a single planned grid, with underground services, its own treatment plant and one controlled entry point. Roughly five hundred plots exist and almost none come to open market, so pricing is set privately and title is usually clean. Buyers here are trading up, not starting out.',
+  },
+  {
+    name: 'Eko Atlantic',
+    state: 'Lagos',
+    slug: 'eko-atlantic',
+    heading: 'Property for Sale in Eko Atlantic City, Lagos',
+    metaTitle: 'Property for Sale in Eko Atlantic City, Lagos | Zenthos Real Estate',
+    metaDescription:
+      'Apartments, penthouses and towers for sale in Eko Atlantic City. New-build waterfront property on Lagos island, verified by Zenthos.',
+    intro:
+      'Eko Atlantic is built on land reclaimed from the Atlantic behind the Great Wall of Lagos, with power, water and fibre laid before the first tower went up. Stock is almost entirely new-build apartments and penthouses sold off plan or on completion, which means clean documentation and service charges that reflect a fully managed city.',
+  },
+  {
+    name: 'Oniru',
+    state: 'Lagos',
+    slug: 'oniru',
+    heading: 'Property for Sale in Oniru, Lagos',
+    metaTitle: 'Property for Sale in Oniru, Victoria Island | Zenthos Real Estate',
+    metaDescription:
+      'Serviced apartments and duplexes for sale in Oniru, Victoria Island. Beachside Lagos living with verified title from Zenthos Real Estate.',
+    intro:
+      'Oniru sits between Victoria Island and Lekki Phase 1, close enough to walk to the beach and to Landmark. Supply leans towards serviced apartments and compact duplexes aimed at buyers who want island postcodes without Ikoyi pricing. Family land history means title work matters here, and we check it before a listing goes up.',
+  },
+  {
     name: 'Lekki',
     state: 'Lagos',
     slug: 'lekki',
@@ -165,6 +198,39 @@ export const LOCATION_LANDING_PAGES: readonly LocationLandingContent[] = [
       'Detached and semi-detached duplexes for sale in Magodo GRA Phase 1 and Phase 2. Gated mainland living with estate-managed security.',
     intro:
       'Magodo GRA is the mainland answer to a gated estate: planned layouts, wide roads and managed security across Phase 1 and Phase 2. Plot sizes run generous by Lagos standards, so detached duplexes with real compounds are the norm rather than the exception.',
+  },
+  {
+    name: 'Omole',
+    state: 'Lagos',
+    slug: 'omole',
+    heading: 'Property for Sale in Omole, Lagos',
+    metaTitle: 'Property for Sale in Omole Phase 1 and 2, Lagos | Zenthos Real Estate',
+    metaDescription:
+      'Detached and semi-detached duplexes for sale in Omole Phase 1 and Phase 2, Ikeja. Quiet gated mainland estates verified by Zenthos.',
+    intro:
+      'Omole Phase 1 and Phase 2 were laid out as residential estates and have stayed that way, which is rare this close to Ikeja. Roads are gated and largely commercial-free, so the streets stay quiet on weekdays. Most stock is owner-occupied detached and semi-detached duplexes, and turnover is slow because people who move here tend to stay.',
+  },
+  {
+    name: 'Maryland',
+    state: 'Lagos',
+    slug: 'maryland',
+    heading: 'Property for Sale in Maryland, Lagos',
+    metaTitle: 'Property for Sale in Maryland, Lagos | Zenthos Real Estate',
+    metaDescription:
+      'Apartments and duplexes for sale in Maryland, Lagos. Central mainland location with fast access to Ikeja, Yaba and the island.',
+    intro:
+      'Maryland is one of the best-connected addresses on the mainland, sitting where Ikorodu Road meets Mobolaji Bank Anthony Way. That puts Ikeja, Yaba and the Third Mainland Bridge all within a short run. Stock is a mix of older low-rise blocks and newer infill apartments, so condition varies widely and inspection matters more than usual.',
+  },
+  {
+    name: 'Gbagada',
+    state: 'Lagos',
+    slug: 'gbagada',
+    heading: 'Property for Sale in Gbagada, Lagos',
+    metaTitle: 'Property for Sale in Gbagada, Lagos | Zenthos Real Estate',
+    metaDescription:
+      'Duplexes, terraces and apartments for sale in Gbagada Phase 1, Phase 2 and Medina. Mainland homes minutes from the Third Mainland Bridge.',
+    intro:
+      'Gbagada is the mainland address islanders take seriously, mostly because the Third Mainland Bridge is minutes away. Phase 1, Phase 2, Medina and Soluyi each price differently, with newer terraces and duplexes appearing on redeveloped plots. It suits buyers who work on the island but will not pay peninsula prices to live there.',
   },
 ] as const
 
