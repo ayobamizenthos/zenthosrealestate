@@ -7,6 +7,7 @@ import { requireAdmin } from '@/lib/auth'
 export interface BlogActionState {
   error?: string
   saved?: string
+  savedAt?: number
 }
 
 const postSchema = z.object({
@@ -75,7 +76,7 @@ export async function saveBlogPost(
   }
 
   refresh(slug)
-  return { saved: parsed.data.published ? 'Published' : 'Saved as draft' }
+  return { saved: parsed.data.published ? 'Published' : 'Saved as draft', savedAt: Date.now() }
 }
 
 export async function deleteBlogPost(
@@ -91,5 +92,5 @@ export async function deleteBlogPost(
   if (error) return { error: error.message }
 
   refresh()
-  return { saved: 'Article deleted' }
+  return { saved: 'Article deleted', savedAt: Date.now() }
 }

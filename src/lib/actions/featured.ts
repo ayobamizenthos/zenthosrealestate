@@ -5,6 +5,10 @@ import { requireAdmin } from '@/lib/auth'
 
 export interface FeaturedActionState {
   error?: string
+  // Bumped on every success so the client can tell one save from the next and
+  // pull fresh server data; these pages are dynamic, so revalidatePath alone
+  // leaves the rendered list stale.
+  savedAt?: number
 }
 
 async function reorder(orderedIds: string[]): Promise<FeaturedActionState> {
@@ -21,7 +25,7 @@ async function reorder(orderedIds: string[]): Promise<FeaturedActionState> {
 
   revalidatePath('/')
   revalidatePath('/admin/featured')
-  return {}
+  return { savedAt: Date.now() }
 }
 
 export async function moveFeaturedProperty(
@@ -64,5 +68,5 @@ export async function setFeatured(
 
   revalidatePath('/')
   revalidatePath('/admin/featured')
-  return {}
+  return { savedAt: Date.now() }
 }

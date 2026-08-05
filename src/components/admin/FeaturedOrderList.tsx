@@ -2,7 +2,8 @@
 
 import { ArrowDown, ArrowUp, Star, StarOff } from 'lucide-react'
 import Image from 'next/image'
-import { useActionState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useActionState, useEffect } from 'react'
 import { moveFeaturedProperty, setFeatured, type FeaturedActionState } from '@/lib/actions/featured'
 import { propertyCardImage } from '@/lib/cloudinary'
 import { displayPriceCompact } from '@/lib/format'
@@ -16,8 +17,15 @@ interface FeaturedOrderListProps {
 }
 
 export function FeaturedOrderList({ featured, candidates }: FeaturedOrderListProps) {
+  const router = useRouter()
   const [moveState, moveAction, movePending] = useActionState(moveFeaturedProperty, EMPTY)
   const [toggleState, toggleAction, togglePending] = useActionState(setFeatured, EMPTY)
+
+  const savedAt = moveState.savedAt ?? toggleState.savedAt
+
+  useEffect(() => {
+    if (savedAt) router.refresh()
+  }, [savedAt, router])
 
   const order = featured.map(property => property.id).join(',')
   const error = moveState.error ?? toggleState.error

@@ -1,7 +1,8 @@
 'use client'
 
 import { Plus, Trash2 } from 'lucide-react'
-import { useActionState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useActionState, useEffect } from 'react'
 import { deleteBlogPost, saveBlogPost, type BlogActionState } from '@/lib/actions/blog'
 import { TextArea, TextField } from '@/components/ui/TextField'
 
@@ -82,8 +83,15 @@ function PostFields({ post }: { post?: AdminBlogPost }) {
 }
 
 export function BlogEditor({ posts }: { posts: AdminBlogPost[] }) {
+  const router = useRouter()
   const [saveState, saveAction, savePending] = useActionState(saveBlogPost, EMPTY)
   const [deleteState, deleteAction, deletePending] = useActionState(deleteBlogPost, EMPTY)
+
+  const savedAt = saveState.savedAt ?? deleteState.savedAt
+
+  useEffect(() => {
+    if (savedAt) router.refresh()
+  }, [savedAt, router])
 
   const message = saveState.error ?? deleteState.error ?? saveState.saved ?? deleteState.saved
   const isError = Boolean(saveState.error ?? deleteState.error)
