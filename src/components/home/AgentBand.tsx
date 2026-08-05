@@ -24,10 +24,7 @@ export function AgentBand() {
     <section className="border-y bg-white">
       <div className="app-shell grid gap-12 py-16 md:py-20 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-16">
         <div>
-          <p className="text-muted text-[11px] font-semibold tracking-[0.18em] uppercase">
-            For agents
-          </p>
-          <h2 className="text-ink mt-4 text-[30px] leading-[1.08] font-extrabold md:text-[40px]">
+          <h2 className="text-ink text-[30px] leading-[1.08] font-extrabold md:text-[40px]">
             Selling to a client who wants Lagos?
           </h2>
           <p className="text-muted mt-5 max-w-md text-[15px] leading-relaxed md:text-[16px]">

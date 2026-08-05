@@ -81,10 +81,8 @@ export function MultiSelect({
         : `${selected.length} selected`
 
   return (
-    <div ref={containerRef} className="relative flex-1 px-4 py-2.5 md:px-5 md:py-3">
-      <span className="text-muted block text-[11px] font-bold tracking-wider uppercase">
-        {label}
-      </span>
+    <div ref={containerRef} className="relative flex-1 px-4 py-2.5 text-left md:px-5 md:py-3">
+      <span className="text-muted block text-[12px] font-medium">{label}</span>
 
       <button
         type="button"
@@ -134,7 +132,7 @@ export function MultiSelect({
             {visible.map(group => (
               <div key={group.label}>
                 {groups.length > 1 ? (
-                  <p className="text-muted px-3 pt-3 pb-1.5 text-[10px] font-bold tracking-[0.14em] uppercase">
+                  <p className="text-muted px-3 pt-3 pb-1.5 text-[12px] font-semibold">
                     {group.label}
                   </p>
                 ) : null}

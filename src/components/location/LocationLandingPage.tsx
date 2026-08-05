@@ -35,10 +35,10 @@ export async function LocationLandingPage({ content }: { content: LocationLandin
     <>
       <div className="bg-canvas">
         <div className="app-shell pt-8 pb-8 md:pt-12">
-          <p className="text-muted text-eyebrow font-semibold uppercase">
+          <p className="text-muted text-[13px] font-medium">
             {content.state} · {content.name}
           </p>
-          <h1 className="text-ink mt-4 max-w-3xl text-[30px] leading-tight font-extrabold md:text-[42px]">
+          <h1 className="text-ink mt-3 max-w-3xl text-[30px] leading-tight font-extrabold md:text-[42px]">
             {content.heading}
           </h1>
           <p className="text-muted mt-5 max-w-2xl text-[15px] leading-relaxed md:text-[17px]">

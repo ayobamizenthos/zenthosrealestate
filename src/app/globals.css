@@ -53,11 +53,6 @@
   --text-display-3xl: 104px;
   --text-display-3xl--line-height: 0.9;
 
-  /* Letterspaced micro-label above a section — the editorial eyebrow. */
-  --text-eyebrow: 11px;
-  --text-eyebrow--line-height: 1.2;
-  --text-eyebrow--letter-spacing: 0.2em;
-
   --radius-control: 10px;
   --radius-card: 12px;
   --radius-sheet: 20px;

@@ -27,7 +27,6 @@ export function HeroSearch() {
       </button>
 
       <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2">
-        <span className="text-muted text-eyebrow font-semibold uppercase">Popular</span>
         {LOCATION_LANDING_PAGES.map(location => (
           <Link
             key={location.slug}

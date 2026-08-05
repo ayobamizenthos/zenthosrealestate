@@ -34,13 +34,11 @@ export function LocationShowcase({ locations }: { locations: LocationShowcaseEnt
 
           <div className="flex items-center justify-between gap-3 p-5">
             <span className="min-w-0">
-              <span className="text-muted block text-[11px] font-semibold tracking-wide uppercase">
-                {MAINLAND_AREAS.includes(location.location) ? 'Mainland' : 'Island'}
-              </span>
-              <span className="text-ink mt-1 block truncate text-[18px] font-bold">
+              <span className="text-ink block truncate text-[18px] font-bold">
                 {location.location}
               </span>
               <span className="text-muted mt-1 block text-[13px]">
+                Lagos {MAINLAND_AREAS.includes(location.location) ? 'Mainland' : 'Island'} ·{' '}
                 {location.propertyCount} {location.propertyCount === 1 ? 'listing' : 'listings'}
               </span>
             </span>

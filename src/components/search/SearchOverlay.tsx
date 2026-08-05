@@ -206,9 +206,7 @@ export function SearchOverlay({ onClose }: { onClose: () => void }) {
           {term.trim().length < SEARCH_MIN_CHARS && recentSearches.length > 0 ? (
             <div className="px-4 py-4">
               <div className="mb-2 flex items-center justify-between">
-                <h2 className="text-muted text-[12px] font-semibold tracking-wide uppercase">
-                  Recent searches
-                </h2>
+                <h2 className="text-ink text-[13px] font-semibold">Recent searches</h2>
                 <button
                   type="button"
                   onClick={clear}

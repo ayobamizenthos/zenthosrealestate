@@ -95,7 +95,7 @@ function OptionRow({
 }
 
 function PanelLabel({ children }: { children: string }) {
-  return <p className="text-muted text-eyebrow mb-3 font-semibold uppercase">{children}</p>
+  return <p className="text-ink mb-3 text-[13px] font-semibold">{children}</p>
 }
 
 function BedroomScale({
