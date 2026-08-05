@@ -25,7 +25,6 @@ export const EMPTY_FILTERS: PropertyFilters = {
   maxPrice: null,
   minBedrooms: null,
   maxBedrooms: null,
-  servicedOnly: false,
   addedWithinDays: null,
   query: '',
   sort: 'newest',
@@ -111,7 +110,6 @@ export function parsePropertyFilters(params: SearchParamsInput): PropertyFilters
     maxPrice: readPositiveInt(params, 'max'),
     minBedrooms: readPositiveInt(params, 'beds'),
     maxBedrooms: readPositiveInt(params, 'bedsmax'),
-    servicedOnly: readParam(params, 'serviced') === '1',
     addedWithinDays,
     query: (readParam(params, 'q') ?? '').trim().slice(0, 120),
     sort,
@@ -132,7 +130,6 @@ export function filtersToSearchParams(filters: PropertyFilters): URLSearchParams
   if (filters.maxPrice !== null) params.set('max', String(filters.maxPrice))
   if (filters.minBedrooms !== null) params.set('beds', String(filters.minBedrooms))
   if (filters.maxBedrooms !== null) params.set('bedsmax', String(filters.maxBedrooms))
-  if (filters.servicedOnly) params.set('serviced', '1')
   if (filters.addedWithinDays !== null) params.set('added', String(filters.addedWithinDays))
   if (filters.query) params.set('q', filters.query)
   if (filters.sort !== 'newest') params.set('sort', filters.sort)
@@ -157,7 +154,6 @@ export function countActiveFilters(filters: PropertyFilters): number {
     (filters.listingType !== 'All' ? 1 : 0) +
     (filters.minPrice !== null || filters.maxPrice !== null ? 1 : 0) +
     (filters.minBedrooms !== null || filters.maxBedrooms !== null ? 1 : 0) +
-    (filters.servicedOnly ? 1 : 0) +
     (filters.addedWithinDays !== null ? 1 : 0)
   )
 }

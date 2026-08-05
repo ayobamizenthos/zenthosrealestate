@@ -164,13 +164,19 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
       <nav aria-label="Breadcrumb">
         <ol className="app-shell text-muted flex items-center gap-1.5 py-1 text-[13px]">
           <li>
-            <Link href="/" className="hover:text-brand inline-flex min-h-9 items-center transition-colors">
+            <Link
+              href="/"
+              className="hover:text-brand inline-flex min-h-9 items-center transition-colors"
+            >
               Home
             </Link>
           </li>
           <ChevronRight size={13} aria-hidden="true" className="shrink-0" />
           <li>
-            <Link href="/properties" className="hover:text-brand inline-flex min-h-9 items-center transition-colors">
+            <Link
+              href="/properties"
+              className="hover:text-brand inline-flex min-h-9 items-center transition-colors"
+            >
               Property for sale
             </Link>
           </li>

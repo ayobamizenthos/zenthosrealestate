@@ -90,13 +90,19 @@ export default async function BlogPostPage({ params }: { params: PageParams }) {
       <nav aria-label="Breadcrumb">
         <ol className="app-shell text-muted flex items-center gap-1.5 py-1 text-[13px]">
           <li>
-            <Link href="/" className="hover:text-brand inline-flex min-h-9 items-center transition-colors">
+            <Link
+              href="/"
+              className="hover:text-brand inline-flex min-h-9 items-center transition-colors"
+            >
               Home
             </Link>
           </li>
           <ChevronRight size={13} aria-hidden="true" className="shrink-0" />
           <li>
-            <Link href="/blog" className="hover:text-brand inline-flex min-h-9 items-center transition-colors">
+            <Link
+              href="/blog"
+              className="hover:text-brand inline-flex min-h-9 items-center transition-colors"
+            >
               Journal
             </Link>
           </li>

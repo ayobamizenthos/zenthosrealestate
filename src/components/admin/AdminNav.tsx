@@ -1,7 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
-import { Building2, ChartNoAxesColumn, Compass, Inbox, Star, Users } from 'lucide-react'
+import { Building2, ChartNoAxesColumn, Compass, Inbox, Newspaper, Star, Users } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -9,6 +9,7 @@ const ADMIN_LINKS = [
   { href: '/admin', label: 'Dashboard', Icon: ChartNoAxesColumn, exact: true },
   { href: '/admin/properties', label: 'Properties', Icon: Building2, exact: false },
   { href: '/admin/featured', label: 'Homepage order', Icon: Star, exact: false },
+  { href: '/admin/blog', label: 'Journal', Icon: Newspaper, exact: false },
   { href: '/admin/inquiries', label: 'Inquiries', Icon: Inbox, exact: false },
   { href: '/admin/agents', label: 'Agents', Icon: Users, exact: false },
   { href: '/admin/area-guides', label: 'Area guides', Icon: Compass, exact: false },

@@ -193,10 +193,7 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
     return `Up to ${high} beds`
   }
 
-  const extraCount =
-    (filters.servicedOnly ? 1 : 0) +
-    (filters.addedWithinDays !== null ? 1 : 0) +
-    filters.furnished.length
+  const extraCount = (filters.addedWithinDays !== null ? 1 : 0) + filters.furnished.length
 
   const summaries: Record<FilterKey, string | null> = {
     location: filters.locations.length
@@ -519,15 +516,6 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
                       }
                     />
                   ))}
-                </div>
-
-                <div>
-                  <PanelLabel>Serviced</PanelLabel>
-                  <OptionRow
-                    label="Serviced only"
-                    checked={filters.servicedOnly}
-                    onToggle={() => onChange({ ...filters, servicedOnly: !filters.servicedOnly })}
-                  />
                 </div>
 
                 <div>

@@ -12,7 +12,7 @@ import type { ZenthosSupabaseClient } from '@/lib/supabase/types'
 import type { Property, PropertyFilters, PropertyPage, PropertySummary } from '@/lib/types'
 
 const SUMMARY_COLUMNS =
-  'id, slug, title, description, location, state, address, price, price_label, property_type, bedrooms, bathrooms, toilets, serviced, furnished, images, status, listing_type, created_at'
+  'id, slug, title, description, location, state, address, price, price_label, property_type, bedrooms, bathrooms, toilets, furnished, images, status, listing_type, created_at'
 
 const DETAIL_COLUMNS = `${SUMMARY_COLUMNS}, amenities, featured, published, reference_code, title_document, updated_at`
 
@@ -31,7 +31,6 @@ function toSummary(row: Pick<PropertiesRow, keyof PropertySummary>): PropertySum
     bedrooms: row.bedrooms,
     bathrooms: row.bathrooms,
     toilets: row.toilets,
-    serviced: row.serviced,
     furnished: row.furnished as FurnishedState,
     images: row.images,
     status: row.status as PropertyStatus,
@@ -89,7 +88,6 @@ export async function listProperties(
   if (filters.maxPrice !== null) query = query.lte('price', filters.maxPrice)
   if (filters.minBedrooms !== null) query = query.gte('bedrooms', filters.minBedrooms)
   if (filters.maxBedrooms !== null) query = query.lte('bedrooms', filters.maxBedrooms)
-  if (filters.servicedOnly) query = query.eq('serviced', true)
 
   if (filters.addedWithinDays !== null) {
     const since = new Date(Date.now() - filters.addedWithinDays * 86_400_000).toISOString()

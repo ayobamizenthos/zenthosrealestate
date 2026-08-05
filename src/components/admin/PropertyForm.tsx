@@ -265,12 +265,6 @@ export function PropertyForm({ action, property }: PropertyFormProps) {
           title="Feature on homepage"
           description="Featured listings lead the homepage showcase and rank first in browse."
         />
-        <FormToggle
-          name="serviced"
-          defaultChecked={property?.serviced}
-          title="Serviced"
-          description="Service charge covers power, water, security and common-area upkeep."
-        />
       </section>
 
       {state.error ? (

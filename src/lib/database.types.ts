@@ -16,7 +16,6 @@ export type PropertiesRow = {
   bedrooms: number
   bathrooms: number
   toilets: number
-  serviced: boolean
   reference_code: string
   furnished: string
   amenities: string[]
@@ -124,8 +123,11 @@ export type BlogPostsRow = {
   updated_at: Timestamptz
 }
 
-type BlogPostsInsert = Omit<BlogPostsRow, 'id' | 'created_at' | 'updated_at' | 'published_at'> &
-  Partial<Pick<BlogPostsRow, 'id' | 'created_at' | 'updated_at' | 'published_at'>>
+type BlogPostsInsert = Omit<
+  BlogPostsRow,
+  'id' | 'cover_image' | 'created_at' | 'updated_at' | 'published_at'
+> &
+  Partial<Pick<BlogPostsRow, 'id' | 'cover_image' | 'created_at' | 'updated_at' | 'published_at'>>
 
 export type Database = {
   __InternalSupabase: {

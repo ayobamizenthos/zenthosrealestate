@@ -25,7 +25,6 @@ export interface Property {
   bedrooms: number
   bathrooms: number
   toilets: number
-  serviced: boolean
 
   reference_code: string
   title_document: TitleDocument | null
@@ -55,7 +54,6 @@ export type PropertySummary = Pick<
   | 'bedrooms'
   | 'bathrooms'
   | 'toilets'
-  | 'serviced'
   | 'furnished'
   | 'images'
   | 'status'
@@ -139,7 +137,6 @@ export interface PropertyFilters {
   maxPrice: number | null
   minBedrooms: number | null
   maxBedrooms: number | null
-  servicedOnly: boolean
 
   addedWithinDays: number | null
   query: string
