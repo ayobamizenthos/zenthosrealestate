@@ -20,7 +20,12 @@ export function PropertyMap({ address, location }: { address: string; location: 
         className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left"
       >
         <span className="flex items-center gap-2.5">
-          <MapPin size={20} className="text-brand shrink-0" aria-hidden="true" fill="currentColor" />
+          <MapPin
+            size={20}
+            className="text-brand shrink-0"
+            aria-hidden="true"
+            fill="currentColor"
+          />
           <span className="text-ink text-[17px] font-bold">Map and location</span>
         </span>
         <ChevronDown
@@ -33,7 +38,12 @@ export function PropertyMap({ address, location }: { address: string; location: 
       {isOpen ? (
         <div className="px-5 pb-5">
           <p className="text-muted mb-3 flex items-center gap-1.5 text-[14px]">
-            <MapPin size={15} aria-hidden="true" className="text-brand shrink-0" fill="currentColor" />
+            <MapPin
+              size={15}
+              aria-hidden="true"
+              className="text-brand shrink-0"
+              fill="currentColor"
+            />
             {readable}
           </p>
 

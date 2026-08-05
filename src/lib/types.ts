@@ -25,8 +25,6 @@ export interface Property {
   bedrooms: number
   bathrooms: number
   toilets: number
-
-  area_sqm: number | null
   serviced: boolean
 
   reference_code: string
@@ -57,7 +55,6 @@ export type PropertySummary = Pick<
   | 'bedrooms'
   | 'bathrooms'
   | 'toilets'
-  | 'area_sqm'
   | 'serviced'
   | 'furnished'
   | 'images'

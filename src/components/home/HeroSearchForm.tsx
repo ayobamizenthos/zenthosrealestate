@@ -231,10 +231,12 @@ export function HeroSearchForm() {
       </div>
 
       {isOpen && isQueryReady ? (
-        <div className={clsx(
+        <div
+          className={clsx(
             'animate-fade-in absolute inset-x-0 z-50 overflow-hidden rounded-xl bg-white text-left shadow-2xl',
             resultsAbove ? 'bottom-full mb-2' : 'top-full mt-2'
-          )}>
+          )}
+        >
           {matches.length > 0 ? (
             <ul>
               {matches.map(property => {

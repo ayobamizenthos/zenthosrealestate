@@ -16,7 +16,6 @@ export type PropertiesRow = {
   bedrooms: number
   bathrooms: number
   toilets: number
-  area_sqm: number | null
   serviced: boolean
   reference_code: string
   furnished: string

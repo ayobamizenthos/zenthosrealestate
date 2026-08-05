@@ -71,17 +71,17 @@ export function SiteHeader() {
         </Link>
 
         <Link
-            href="/notifications"
-            aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : 'Notifications'}
-            className="text-ink hover:text-brand relative flex h-11 w-11 items-center justify-center"
-          >
-            <Bell size={19} aria-hidden="true" />
-            {unreadCount > 0 ? (
-              <span className="bg-brand ring-canvas absolute top-2 right-2 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white ring-2">
-                {unreadCount > 9 ? '9+' : unreadCount}
-              </span>
-            ) : null}
-          </Link>
+          href="/notifications"
+          aria-label={unreadCount > 0 ? `Notifications, ${unreadCount} unread` : 'Notifications'}
+          className="text-ink hover:text-brand relative flex h-11 w-11 items-center justify-center"
+        >
+          <Bell size={19} aria-hidden="true" />
+          {unreadCount > 0 ? (
+            <span className="bg-brand ring-canvas absolute top-2 right-2 flex h-4 min-w-4 items-center justify-center rounded-full px-1 text-[10px] font-bold text-white ring-2">
+              {unreadCount > 9 ? '9+' : unreadCount}
+            </span>
+          ) : null}
+        </Link>
 
         {user ? (
           <Link
