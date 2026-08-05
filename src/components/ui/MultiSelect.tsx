@@ -81,7 +81,7 @@ export function MultiSelect({
         : `${selected.length} selected`
 
   return (
-    <div ref={containerRef} className="relative flex-1 px-4 py-3 md:px-5">
+    <div ref={containerRef} className="relative flex-1 px-4 py-2.5 md:px-5 md:py-3">
       <span className="text-muted block text-[11px] font-bold tracking-wider uppercase">
         {label}
       </span>
@@ -91,7 +91,7 @@ export function MultiSelect({
         ref={triggerRef}
         onClick={() => (isOpen ? setIsOpen(false) : open())}
         aria-expanded={isOpen}
-        className="mt-1 flex w-full items-center justify-between gap-2 text-left"
+        className="mt-0.5 flex min-h-11 w-full items-center justify-between gap-2 text-left"
       >
         <span
           className={clsx(

@@ -33,12 +33,12 @@ function FooterColumn({
       <h2 className="text-[11px] font-semibold tracking-[0.18em] text-white/50 uppercase">
         {heading}
       </h2>
-      <ul className="mt-5 space-y-3">
+      <ul className="mt-3">
         {links.map(link => (
           <li key={link.href}>
             <Link
               href={link.href}
-              className="text-[14px] font-semibold tracking-wide text-white transition-colors hover:text-white/60"
+              className="flex min-h-11 items-center text-[14px] font-semibold tracking-wide text-white transition-colors hover:text-white/60"
             >
               {link.label}
             </Link>
