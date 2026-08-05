@@ -5,14 +5,14 @@ import { useState } from 'react'
 import clsx from 'clsx'
 
 export function PropertyMap({ address, location }: { address: string; location: string }) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
 
   const place = [address, location, 'Lagos', 'Nigeria'].filter(Boolean).join(', ')
   const embedSrc = `https://www.google.com/maps?q=${encodeURIComponent(place)}&output=embed`
   const readable = [address, location, 'Lagos'].filter(Boolean).join(', ')
 
   return (
-    <section className="rounded-card bg-surface overflow-hidden">
+    <section className="rounded-card shadow-card bg-white overflow-hidden">
       <button
         type="button"
         onClick={() => setIsOpen(open => !open)}
@@ -20,7 +20,7 @@ export function PropertyMap({ address, location }: { address: string; location: 
         className="flex w-full items-center justify-between gap-4 px-5 py-5 text-left"
       >
         <span className="flex items-center gap-2.5">
-          <MapPin size={19} className="text-brand shrink-0" aria-hidden="true" />
+          <MapPin size={20} className="text-brand shrink-0" aria-hidden="true" fill="currentColor" />
           <span className="text-ink text-[17px] font-bold">Map and location</span>
         </span>
         <ChevronDown
@@ -33,7 +33,7 @@ export function PropertyMap({ address, location }: { address: string; location: 
       {isOpen ? (
         <div className="px-5 pb-5">
           <p className="text-muted mb-3 flex items-center gap-1.5 text-[14px]">
-            <MapPin size={14} aria-hidden="true" className="shrink-0" />
+            <MapPin size={15} aria-hidden="true" className="text-brand shrink-0" fill="currentColor" />
             {readable}
           </p>
 
@@ -41,7 +41,7 @@ export function PropertyMap({ address, location }: { address: string; location: 
             <iframe
               src={embedSrc}
               title={`Map showing ${readable}`}
-              loading="lazy"
+              loading="eager"
               referrerPolicy="no-referrer-when-downgrade"
               className="block h-[280px] w-full border-0 md:h-[380px]"
             />
