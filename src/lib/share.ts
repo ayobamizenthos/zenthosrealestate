@@ -10,13 +10,15 @@ function toShorthandPrice(price: number | null, priceLabel: string | null): stri
   return String(price)
 }
 
+// Search results truncate past ~65 characters, and Next appends the brand on
+// top of whatever this returns, so the address is dropped in favour of the
+// area name and the price is kept in shorthand.
 export function buildShareTitle(
   property: Pick<Property, 'title' | 'price' | 'price_label' | 'address' | 'location' | 'state'>
 ): string {
   const price = toShorthandPrice(property.price, property.price_label)
-  const place = property.address?.trim() || property.location
 
-  return `${property.title} ${price}-${place}, ${property.state}`
+  return `${property.title}, ${property.location} - ${price}`
 }
 
 export function formatFullAddress(

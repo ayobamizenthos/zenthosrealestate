@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
   if (!post) return { title: 'Article not found', robots: { index: false, follow: false } }
 
   return {
-    title: post.title,
+    title: { absolute: post.title },
     description: post.excerpt,
     alternates: { canonical: `/blog/${post.slug}` },
     openGraph: {
