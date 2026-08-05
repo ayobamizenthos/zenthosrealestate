@@ -30,7 +30,7 @@ function FooterColumn({
 }) {
   return (
     <nav>
-      <h2 className="text-[11px] font-semibold tracking-[0.18em] text-white/50 uppercase">
+      <h2 className="text-[13px] font-semibold text-white/70">
         {heading}
       </h2>
       <ul className="mt-3">
@@ -116,7 +116,7 @@ export function SiteFooter() {
           <FooterColumn heading="Company" links={COMPANY_LINKS} />
 
           <div>
-            <h2 className="text-[11px] font-semibold tracking-[0.18em] text-white/50 uppercase">
+            <h2 className="text-[13px] font-semibold text-white/70">
               Get the app
             </h2>
             <Link
