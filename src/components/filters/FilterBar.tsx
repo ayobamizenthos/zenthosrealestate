@@ -257,13 +257,6 @@ export function FilterBar({ filters, total, onChange }: FilterBarProps) {
             ) : null}
           </div>
 
-          <p
-            className="text-muted hidden shrink-0 text-[13px] tabular-nums md:block"
-            aria-live="polite"
-          >
-            {total} {total === 1 ? 'result' : 'results'}
-          </p>
-
           <label className="hidden shrink-0 items-center gap-2 md:flex">
             <span className="text-muted text-[13px]">Sort</span>
             <select

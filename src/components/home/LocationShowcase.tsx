@@ -38,8 +38,7 @@ export function LocationShowcase({ locations }: { locations: LocationShowcaseEnt
                 {location.location}
               </span>
               <span className="text-muted mt-1 block text-[13px]">
-                Lagos {MAINLAND_AREAS.includes(location.location) ? 'Mainland' : 'Island'} ·{' '}
-                {location.propertyCount} {location.propertyCount === 1 ? 'listing' : 'listings'}
+                Lagos {MAINLAND_AREAS.includes(location.location) ? 'Mainland' : 'Island'}
               </span>
             </span>
 

@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { AreaGuidePanel } from '@/components/property/AreaGuidePanel'
+import { MoreListingsCta } from '@/components/property/MoreListingsCta'
 import { PropertyFeed } from '@/components/property/PropertyFeed'
 import { ButtonLink } from '@/components/ui/Button'
 import { EmptyState, NoResultsIllustration } from '@/components/ui/EmptyState'
@@ -55,7 +56,7 @@ export async function LocationLandingPage({ content }: { content: LocationLandin
                 href={browseAllHref}
                 className="text-ink hover:text-brand group flex items-center gap-1.5 border-current pb-0.5 text-[14px] font-semibold transition-colors"
               >
-                View all {total}
+                View all listings
                 <ArrowRight
                   size={15}
                   aria-hidden="true"
@@ -81,6 +82,8 @@ export async function LocationLandingPage({ content }: { content: LocationLandin
               <AreaGuidePanel guide={guide} />
             </div>
           ) : null}
+
+          <MoreListingsCta area={content.name} />
         </div>
       </div>
     </>

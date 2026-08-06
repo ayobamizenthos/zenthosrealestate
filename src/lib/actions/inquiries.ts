@@ -70,9 +70,7 @@ export async function submitInquiryAction(
     propertyTitle = property?.title ?? null
   }
 
-  await notifyNewInquiry({ id, name: parsed.data.name, propertyTitle }).catch(
-    () => undefined
-  )
+  await notifyNewInquiry({ id, name: parsed.data.name, propertyTitle }).catch(() => undefined)
 
   return { sent: true }
 }

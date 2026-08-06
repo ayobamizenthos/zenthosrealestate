@@ -34,9 +34,6 @@ export function PropertyTypeShowcase({ types }: { types: PropertyTypeShowcaseEnt
               <span className="text-ink block truncate text-[18px] font-bold">
                 {entry.propertyType}
               </span>
-              <span className="text-muted mt-1 block text-[13px]">
-                {entry.propertyCount} {entry.propertyCount === 1 ? 'listing' : 'listings'}
-              </span>
             </span>
 
             <ArrowUpRight

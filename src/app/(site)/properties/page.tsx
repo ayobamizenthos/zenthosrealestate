@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { PropertyBrowser } from '@/components/filters/PropertyBrowser'
+import { MoreListingsCta } from '@/components/property/MoreListingsCta'
 import { Pagination } from '@/components/property/Pagination'
 import { PropertyFeed } from '@/components/property/PropertyFeed'
 import { ButtonLink } from '@/components/ui/Button'
@@ -54,6 +55,7 @@ export default async function PropertiesPage({ searchParams }: { searchParams: S
         <>
           <PropertyFeed properties={properties} />
           <Pagination filters={filters} pageCount={pageCount} basePath="/properties" />
+          <MoreListingsCta />
         </>
       ) : (
         <EmptyState

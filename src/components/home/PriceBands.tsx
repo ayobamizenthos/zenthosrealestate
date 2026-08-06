@@ -30,11 +30,7 @@ export function PriceBands({ bands }: { bands: PriceBand[] }) {
             {band.label}
           </span>
 
-          <span className="flex items-end justify-between gap-3">
-            <span className="text-muted text-[13px]">
-              {band.propertyCount} {band.propertyCount === 1 ? 'home' : 'homes'}
-            </span>
-
+          <span className="flex items-end justify-end gap-3">
             <span className="bg-surface text-ink group-hover:bg-brand flex h-9 w-9 shrink-0 items-center justify-center rounded-full transition-colors group-hover:text-white">
               <ArrowUpRight size={17} aria-hidden="true" />
             </span>

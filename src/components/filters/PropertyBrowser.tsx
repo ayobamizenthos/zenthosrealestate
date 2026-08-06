@@ -57,14 +57,6 @@ export function PropertyBrowser({
 
       <div className="bg-page min-h-screen">
         <div className="app-shell py-6 md:py-8">
-          <p className="text-muted mb-5 text-[14px]" aria-live="polite">
-            <span className="text-ink font-bold">
-              {firstOnPage}–{lastOnPage}
-            </span>{' '}
-            of <span className="text-ink font-bold">{total}</span>{' '}
-            {total === 1 ? 'property' : 'properties'} for sale
-          </p>
-
           <div className={clsx('transition-opacity duration-200', isPending && 'opacity-40')}>
             {children}
           </div>
