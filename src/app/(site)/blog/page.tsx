@@ -21,7 +21,15 @@ async function loadPosts(): Promise<BlogPost[]> {
   return listBlogPosts(createSupabasePublicClient()).catch(() => [])
 }
 
-function PostCard({ post, isLead }: { post: BlogPost; isLead: boolean }) {
+function PostCard({
+  post,
+  isLead,
+  priority,
+}: {
+  post: BlogPost
+  isLead: boolean
+  priority: boolean
+}) {
   return (
     <article
       className={
@@ -43,7 +51,12 @@ function PostCard({ post, isLead }: { post: BlogPost; isLead: boolean }) {
             alt={post.cover_alt || ''}
             fill
             sizes={isLead ? '(min-width: 1024px) 50vw, 100vw' : '(min-width: 640px) 45vw, 100vw'}
-            priority={isLead}
+            priority={priority}
+            fetchPriority={priority ? 'high' : 'auto'}
+            loading={priority ? 'eager' : 'lazy'}
+            {...(post.cover_blur
+              ? { placeholder: 'blur' as const, blurDataURL: post.cover_blur }
+              : {})}
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           />
         </div>
@@ -112,8 +125,10 @@ export default async function BlogIndexPage() {
         <p className="text-muted mt-12 text-[15px]">New writing is on the way.</p>
       ) : (
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6 md:mt-10">
+          {/* The lead and the first row are above the fold on a phone, so they
+              load eagerly rather than waiting for the lazy observer. */}
           {posts.map((post, index) => (
-            <PostCard key={post.slug} post={post} isLead={index === 0} />
+            <PostCard key={post.slug} post={post} isLead={index === 0} priority={index < 3} />
           ))}
         </div>
       )}

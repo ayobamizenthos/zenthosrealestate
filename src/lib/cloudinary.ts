@@ -53,14 +53,22 @@ export function propertyOriginalImage(url: string): string {
   return transformCloudinary(url, 'f_auto,q_auto:best')
 }
 
+/*
+  Journal covers written by us are pre-sized webp files under public/journal, so
+  they need no transform at all. Covers uploaded through the admin editor still
+  arrive from Cloudinary and are transformed on the way out.
+*/
 export function journalCardImage(url: string): string {
+  if (!isCloudinaryUrl(url)) return url.replace('-hero.webp', '-card.webp')
   return transformCloudinary(url, IMAGE_PRESETS.journalCard)
 }
 
 export function journalHeroImage(url: string): string {
+  if (!isCloudinaryUrl(url)) return url
   return transformCloudinary(url, IMAGE_PRESETS.journalHero)
 }
 
-export function journalSocialImage(url: string): string {
+export function journalSocialImage(url: string, siteUrl: string): string {
+  if (!isCloudinaryUrl(url)) return new URL(url, siteUrl).toString()
   return transformCloudinary(url, IMAGE_PRESETS.journalSocial)
 }

@@ -19,6 +19,7 @@ export interface AdminBlogPost {
   cover_image: string | null
   cover_alt: string
   cover_credit: string
+  cover_blur: string
   read_minutes: number
   published: boolean
   published_at: string | null

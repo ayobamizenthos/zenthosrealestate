@@ -118,6 +118,7 @@ export type BlogPostsRow = {
   cover_image: string | null
   cover_alt: string
   cover_credit: string
+  cover_blur: string
   category: string
   read_minutes: number
   published: boolean
@@ -131,6 +132,7 @@ type BlogPostsOptional =
   | 'cover_image'
   | 'cover_alt'
   | 'cover_credit'
+  | 'cover_blur'
   | 'created_at'
   | 'updated_at'
   | 'published_at'

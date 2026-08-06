@@ -1,7 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
-import { Bookmark, House, Search, User } from 'lucide-react'
+import { Bookmark, House, Newspaper, Search, User } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -22,6 +22,7 @@ export function BottomTabBar() {
   const [isAtFooter, setIsAtFooter] = useState(false)
 
   const isHome = pathname === '/'
+  const isJournal = pathname.startsWith('/blog')
   const isSaved = pathname.startsWith('/saved')
   const isProfile = pathname.startsWith('/profile')
 
@@ -63,6 +64,15 @@ export function BottomTabBar() {
           <Search size={21} aria-hidden="true" />
           Search
         </button>
+
+        <Link
+          href="/blog"
+          className={clsx(TAB_ITEM_CLASSES, isJournal ? 'text-brand' : 'text-muted')}
+          aria-current={isJournal ? 'page' : undefined}
+        >
+          <Newspaper size={21} aria-hidden="true" />
+          Journal
+        </Link>
 
         <Link
           href="/saved"

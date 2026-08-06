@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
 
   if (!post) return { title: 'Article not found', robots: { index: false, follow: false } }
 
-  const socialImage = post.cover_image ? journalSocialImage(post.cover_image) : null
+  const socialImage = post.cover_image ? journalSocialImage(post.cover_image, SITE.url) : null
 
   return {
     title: { absolute: post.title },
@@ -202,6 +202,10 @@ export default async function BlogPostPage({ params }: { params: PageParams }) {
                 fill
                 sizes="(min-width: 1440px) 1344px, 100vw"
                 priority
+                fetchPriority="high"
+                {...(post.cover_blur
+                  ? { placeholder: 'blur' as const, blurDataURL: post.cover_blur }
+                  : {})}
                 className="object-cover"
               />
             </div>
