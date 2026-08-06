@@ -25,11 +25,44 @@ export function usePushSubscription() {
   useEffect(() => {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) return
 
-    void navigator.serviceWorker.ready.then(async registration => {
-      setPermission(Notification.permission as PushPermissionState)
+    let cancelled = false
+
+    /*
+      Permission is resolved before the worker finishes installing. Gating it on
+      `serviceWorker.ready` hid the prompt for the whole of a first visit, which
+      is the visit most likely to convert.
+    */
+    const sync = async () => {
+      let status: PermissionStatus | null = null
+
+      try {
+        status = await navigator.permissions.query({ name: 'notifications' as PermissionName })
+      } catch {
+        // Safari does not expose notifications through the Permissions API.
+        await Promise.resolve()
+      }
+
+      const read = (): PushPermissionState =>
+        status ? (status.state === 'prompt' ? 'default' : status.state) : Notification.permission
+
+      if (cancelled) return
+      setPermission(read())
+
+      // Granting through the browser's own UI should retire the prompt too.
+      status?.addEventListener('change', () => {
+        if (!cancelled) setPermission(read())
+      })
+
+      const registration = await navigator.serviceWorker.ready
       const existing = await registration.pushManager.getSubscription()
-      setIsSubscribed(Boolean(existing))
-    })
+      if (!cancelled) setIsSubscribed(Boolean(existing))
+    }
+
+    void sync()
+
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const subscribe = useCallback(async (): Promise<boolean> => {

@@ -1,32 +1,37 @@
 'use client'
 
 import { Bell, X } from 'lucide-react'
-import { useAuth } from '@/components/auth/AuthProvider'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import { usePushSubscription } from '@/hooks/usePushSubscription'
-import { useVisitCount } from '@/hooks/useVisitCount'
 import { createPromptDismissal } from '@/lib/local-store'
 
 const REPROMPT_AFTER_MS = 14 * 24 * 60 * 60 * 1000
 
-const MIN_VISITS = 4
+// Long enough that the visitor has seen the page and short enough that a single
+// session still converts. Asking on first paint gets dismissed reflexively.
+const PROMPT_DELAY_MS = 9000
 
 const pushPrompt = createPromptDismissal('zenthos.push-prompt-dismissed-at', REPROMPT_AFTER_MS)
 
+/*
+  Every visitor is asked, signed in or not. A subscription belongs to the device,
+  so a first-time visitor who allows notifications hears about new listings from
+  then on whether or not they ever open the site again.
+*/
 export function NotificationPermissionBanner() {
-  const { user } = useAuth()
-  const visitCount = useVisitCount()
   const isSuppressed = pushPrompt.useIsSuppressed()
   const { permission, isSubscribed, isBusy, subscribe } = usePushSubscription()
+  const [hasWaited, setHasWaited] = useState(false)
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setHasWaited(true), PROMPT_DELAY_MS)
+    return () => window.clearTimeout(timer)
+  }, [])
 
   const dismiss = () => pushPrompt.dismiss()
 
-  const shouldShow =
-    Boolean(user) &&
-    !isSuppressed &&
-    visitCount >= MIN_VISITS &&
-    permission === 'default' &&
-    !isSubscribed
+  const shouldShow = hasWaited && !isSuppressed && permission === 'default' && !isSubscribed
 
   if (!shouldShow) return null
 
@@ -39,10 +44,10 @@ export function NotificationPermissionBanner() {
           </span>
 
           <div className="min-w-0 flex-1">
-            <p className="text-ink text-[15px] font-bold">Get price alerts</p>
+            <p className="text-ink text-[15px] font-bold">Know first when we list</p>
             <p className="text-muted mt-1 text-[13px] leading-relaxed">
-              We&rsquo;ll tell you when a saved property drops in price or a new listing lands in an
-              area you follow.
+              Good Lagos property moves before it is advertised. Turn on alerts and every new
+              listing reaches you the moment it goes up.
             </p>
           </div>
 
@@ -56,7 +61,7 @@ export function NotificationPermissionBanner() {
           </button>
         </div>
 
-        <div className="mt-3 flex gap-2">
+        <div className="mt-3 flex items-center gap-2">
           <Button
             onClick={async () => {
               const granted = await subscribe()
@@ -67,9 +72,13 @@ export function NotificationPermissionBanner() {
           >
             {isBusy ? 'Enabling…' : 'Turn on alerts'}
           </Button>
-          <Button onClick={dismiss} variant="ghost">
+          <button
+            type="button"
+            onClick={dismiss}
+            className="text-muted hover:text-ink flex h-12 shrink-0 items-center px-3 text-[14px] font-semibold whitespace-nowrap transition-colors"
+          >
             Not now
-          </Button>
+          </button>
         </div>
       </div>
     </div>

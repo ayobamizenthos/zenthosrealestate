@@ -3,29 +3,38 @@ import 'server-only'
 import { displayPriceCompact } from '@/lib/format'
 import { createSupabaseServiceClient } from '@/lib/supabase/admin'
 import type { NotificationKind, Property } from '@/lib/types'
-import { sendPushToUsers, type PushPayload } from './send'
+import { sendPushToEveryone, sendPushToUsers, type PushPayload } from './send'
+
+async function recordInAppNotifications(
+  userIds: string[],
+  kind: NotificationKind,
+  payload: PushPayload
+): Promise<string[]> {
+  const recipients = [...new Set(userIds)].filter(Boolean)
+  if (!recipients.length) return []
+
+  await createSupabaseServiceClient()
+    .from('notifications')
+    .insert(
+      recipients.map(userId => ({
+        user_id: userId,
+        kind,
+        title: payload.title,
+        body: payload.body,
+        url: payload.url,
+      }))
+    )
+
+  return recipients
+}
 
 async function fanOut(
   userIds: string[],
   kind: NotificationKind,
   payload: PushPayload
 ): Promise<void> {
-  const recipients = [...new Set(userIds)].filter(Boolean)
-  if (!recipients.length) return
-
-  const supabase = createSupabaseServiceClient()
-
-  await supabase.from('notifications').insert(
-    recipients.map(userId => ({
-      user_id: userId,
-      kind,
-      title: payload.title,
-      body: payload.body,
-      url: payload.url,
-    }))
-  )
-
-  await sendPushToUsers(recipients, payload)
+  const recipients = await recordInAppNotifications(userIds, kind, payload)
+  if (recipients.length) await sendPushToUsers(recipients, payload)
 }
 
 async function usersFollowingLocation(location: string): Promise<string[]> {
@@ -57,15 +66,22 @@ async function adminUserIds(): Promise<string[]> {
   return (data ?? []).map(row => row.user_id)
 }
 
+/*
+  A new listing is the one event that goes to the whole audience: every device
+  that has allowed notifications, signed in or not, open or closed. Registered
+  users following the area also get a row in their in-app notification list.
+*/
 export async function notifyNewProperty(property: Property): Promise<void> {
-  const audience = await usersFollowingLocation(property.location)
-
-  await fanOut(audience, 'new_property', {
-    title: `New property in ${property.location}`,
-    body: `${property.title} at ${displayPriceCompact(property.price, property.price_label)}`,
+  const payload: PushPayload = {
+    title: `New in ${property.location}`,
+    body: `${property.title}, ${displayPriceCompact(property.price, property.price_label)}`,
     url: `/properties/${property.slug}`,
     tag: `new-property-${property.id}`,
-  })
+  }
+
+  const followers = await usersFollowingLocation(property.location)
+  await recordInAppNotifications(followers, 'new_property', payload)
+  await sendPushToEveryone(payload)
 }
 
 export async function notifyPriceDrop(property: Property, previousPrice: number): Promise<void> {
