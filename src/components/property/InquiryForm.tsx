@@ -40,7 +40,7 @@ export function InquiryForm({ property }: { property: InquiryProperty }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-card shadow-card bg-white p-5 md:p-6">
+    <form onSubmit={handleSubmit} className="rounded-card shadow-card bg-white p-4 md:p-6">
       <h2 className="text-ink text-[17px] font-bold">Enquire about this property</h2>
       <p className="text-muted mt-1 text-[14px] leading-relaxed">
         Fill this in and we will open WhatsApp with your details already written out. A broker

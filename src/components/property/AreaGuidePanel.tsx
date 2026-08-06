@@ -15,7 +15,7 @@ export function AreaGuidePanel({ guide, slug }: { guide: AreaGuide; slug?: strin
   )
 
   return (
-    <section className="bg-surface rounded-card p-5 md:p-7">
+    <section className="bg-surface rounded-card p-4 md:p-7">
       <div className="flex items-start gap-2.5">
         <Compass size={19} className="text-brand mt-0.5 shrink-0" aria-hidden="true" />
         <div className="min-w-0">
@@ -29,13 +29,13 @@ export function AreaGuidePanel({ guide, slug }: { guide: AreaGuide; slug?: strin
       </div>
 
       {guide.overview ? (
-        <p className="text-ink mt-5 text-[15px] leading-relaxed">{guide.overview}</p>
+        <p className="text-ink mt-4 text-[15px] leading-relaxed md:mt-5">{guide.overview}</p>
       ) : null}
 
       {entries.length > 0 ? (
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
+        <div className="mt-5 grid gap-3 md:mt-6 md:grid-cols-2 md:gap-4">
           {entries.map(({ key, label, Icon, body }) => (
-            <div key={key} className="rounded-card bg-white p-5">
+            <div key={key} className="rounded-card bg-white p-4 md:p-5">
               <h3 className="text-ink flex items-center gap-2 text-[14px] font-bold">
                 <Icon size={15} className="text-brand shrink-0" aria-hidden="true" />
                 {label}

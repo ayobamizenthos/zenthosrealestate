@@ -110,12 +110,12 @@ export async function generateMetadata({ params }: { params: PageParams }): Prom
 
 function SpecTile({ icon, value, label }: { icon: React.ReactNode; value: string; label: string }) {
   return (
-    <div className="bg-surface rounded-card flex items-center gap-3 px-4 py-4">
-      <span className="text-brand shrink-0">{icon}</span>
-      <span className="min-w-0">
-        <span className="text-ink block text-[16px] leading-tight font-bold">{value}</span>
-        <span className="text-muted block text-[12px]">{label}</span>
+    <div className="bg-surface rounded-card flex flex-col items-center gap-1 px-1.5 py-3 text-center md:gap-1.5 md:py-4">
+      <span className="text-brand">{icon}</span>
+      <span className="text-ink text-[14px] leading-tight font-bold text-balance md:text-[15px]">
+        {value}
       </span>
+      <span className="text-muted text-[11px] leading-tight md:text-[12px]">{label}</span>
     </div>
   )
 }
@@ -163,8 +163,8 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
       <PropertyJsonLd property={property} />
 
       <nav aria-label="Breadcrumb">
-        <ol className="app-shell text-muted flex items-center gap-1.5 py-1 text-[13px]">
-          <li>
+        <ol className="app-shell text-muted flex items-center gap-1.5 py-1 text-[13px] whitespace-nowrap">
+          <li className="shrink-0">
             <Link
               href="/"
               className="hover:text-brand inline-flex min-h-9 items-center transition-colors"
@@ -173,7 +173,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
             </Link>
           </li>
           <ChevronRight size={13} aria-hidden="true" className="shrink-0" />
-          <li>
+          <li className="shrink-0">
             <Link
               href="/properties"
               className="hover:text-brand inline-flex min-h-9 items-center transition-colors"
@@ -182,14 +182,14 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
             </Link>
           </li>
           <ChevronRight size={13} aria-hidden="true" className="shrink-0" />
-          <li className="text-ink truncate font-medium">{property.title}</li>
+          <li className="text-ink min-w-0 truncate font-medium">{property.title}</li>
         </ol>
       </nav>
 
-      <article className="app-shell py-6 md:py-8">
+      <article className="app-shell pb-8 md:py-8">
         <PropertyGallery images={property.images} title={property.title} />
 
-        <div className="mt-8 lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start lg:gap-10">
+        <div className="mt-6 lg:mt-8 lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start lg:gap-10">
           <div className="min-w-0">
             <span className="text-brand text-[13px] font-semibold">
               {property.property_type} for sale
@@ -240,61 +240,62 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
               <CompareButton propertyId={property.id} propertyTitle={property.title} />
             </div>
 
-            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div className="mt-6 grid grid-cols-4 gap-1.5 sm:gap-3 md:mt-8">
               <SpecTile
-                icon={<BedDouble size={18} aria-hidden="true" />}
+                icon={<BedDouble size={17} aria-hidden="true" />}
                 value={String(property.bedrooms)}
                 label={property.bedrooms === 1 ? 'Bedroom' : 'Bedrooms'}
               />
               <SpecTile
-                icon={<Bath size={18} aria-hidden="true" />}
+                icon={<Bath size={17} aria-hidden="true" />}
                 value={String(property.bathrooms)}
                 label={property.bathrooms === 1 ? 'Bathroom' : 'Bathrooms'}
               />
               <SpecTile
-                icon={<Toilet size={18} aria-hidden="true" />}
+                icon={<Toilet size={17} aria-hidden="true" />}
                 value={String(property.toilets)}
                 label={property.toilets === 1 ? 'Toilet' : 'Toilets'}
               />
               <SpecTile
-                icon={<Sofa size={18} aria-hidden="true" />}
+                icon={<Sofa size={17} aria-hidden="true" />}
                 value={property.furnished}
                 label="Furnishing"
               />
             </div>
 
-            <section className="mt-10">
-              <h2 className="text-ink text-[19px] font-bold">About this property</h2>
+            <section className="mt-8 md:mt-10">
+              <h2 className="text-ink text-[18px] font-bold md:text-[19px]">About this property</h2>
               <p className="text-ink mt-3 text-[15px] leading-relaxed whitespace-pre-line">
                 {property.description}
               </p>
             </section>
 
             {property.amenities.length > 0 ? (
-              <section className="mt-10">
-                <h2 className="text-ink text-[19px] font-bold">Amenities</h2>
-                <div className="mt-4">
+              <section className="mt-8 md:mt-10">
+                <h2 className="text-ink text-[18px] font-bold md:text-[19px]">Amenities</h2>
+                <div className="mt-3.5">
                   <AmenityList amenities={property.amenities} />
                 </div>
               </section>
             ) : null}
 
-            <section className="mt-10">
-              <h2 className="text-ink text-[19px] font-bold">Property details</h2>
-              <dl className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <section className="mt-8 md:mt-10">
+              <h2 className="text-ink text-[18px] font-bold md:text-[19px]">Property details</h2>
+              <dl className="bg-surface rounded-card mt-3.5 grid px-4 md:grid-cols-2 md:gap-x-8 md:px-5">
                 {detailRows.map(({ label, value }) => (
-                  <div key={label} className="bg-surface rounded-card px-4 py-3.5">
-                    <dt className="text-muted text-[12px] font-medium tracking-wide uppercase">
-                      {label}
-                    </dt>
-                    <dd className="text-ink mt-1 text-[15px] font-bold">{value}</dd>
+                  <div
+                    key={label}
+                    className="border-hairline flex items-baseline justify-between gap-4 border-b py-2.5 last:border-b-0 md:py-3"
+                  >
+                    <dt className="text-muted shrink-0 text-[13px]">{label}</dt>
+                    <dd className="text-ink text-right text-[14px] font-semibold">{value}</dd>
                   </div>
                 ))}
               </dl>
             </section>
 
             {areaGuide ? (
-              <section className="mt-10">
+              <section className="mt-8 md:mt-10">
                 <AreaGuidePanel
                   guide={areaGuide}
                   slug={
@@ -304,11 +305,11 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
               </section>
             ) : null}
 
-            <section className="mt-10">
+            <section className="mt-8 md:mt-10">
               <PropertyMap address={property.address} location={property.location} />
             </section>
 
-            <section className="mt-10">
+            <section className="mt-8 md:mt-10">
               <InquiryForm property={property} />
             </section>
           </div>
@@ -342,7 +343,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
         </div>
 
         {related.length > 0 ? (
-          <section className="mt-16">
+          <section className="mt-12 md:mt-16">
             <SectionHeading
               title={`More properties in ${property.location}`}
               description={`More homes in ${property.location}.`}
