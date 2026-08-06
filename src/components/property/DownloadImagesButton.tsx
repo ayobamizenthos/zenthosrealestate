@@ -57,7 +57,7 @@ export function DownloadImagesButton({ images, title }: { images: string[]; titl
       type="button"
       onClick={() => void downloadAll()}
       disabled={state === 'working'}
-      className="text-ink bg-surface hover:bg-hairline rounded-control flex h-12 items-center justify-center gap-2 px-4 text-[15px] font-semibold transition-colors disabled:opacity-60"
+      className="text-ink bg-surface hover:bg-hairline rounded-control flex h-12 w-full items-center justify-center gap-2 px-3 text-[14px] font-semibold whitespace-nowrap transition-colors disabled:opacity-60"
     >
       {state === 'working' ? (
         <>
@@ -69,7 +69,7 @@ export function DownloadImagesButton({ images, title }: { images: string[]; titl
       ) : (
         <>
           <Download size={17} aria-hidden="true" />
-          Download all photos
+          Download photos
         </>
       )}
     </button>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { MoreListingsCta } from '@/components/property/MoreListingsCta'
 import { SavedPropertiesList } from '@/components/property/SavedPropertiesList'
 
 export const metadata: Metadata = {
@@ -17,6 +18,7 @@ export default function SavedPage() {
       </header>
 
       <SavedPropertiesList />
+      <MoreListingsCta />
     </div>
   )
 }

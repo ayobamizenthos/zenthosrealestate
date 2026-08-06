@@ -151,6 +151,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
     { label: 'Bedrooms', value: String(property.bedrooms) },
     { label: 'Bathrooms', value: String(property.bathrooms) },
     { label: 'Toilets', value: String(property.toilets) },
+    ...(property.area_sqm ? [{ label: 'Floor area', value: `${property.area_sqm} sqm` }] : []),
     { label: 'Furnishing', value: property.furnished },
     ...(property.title_document
       ? [{ label: 'Title document', value: property.title_document }]
@@ -198,7 +199,15 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
               <h1 className="text-ink min-w-0 flex-1 text-[24px] leading-tight sm:text-[28px] md:text-[34px]">
                 {property.title}
               </h1>
-              <SaveButton propertyId={property.id} propertyTitle={property.title} tone="icon" />
+              <span className="flex shrink-0 items-center">
+                <SaveButton propertyId={property.id} propertyTitle={property.title} tone="icon" />
+                <ShareButton
+                  title={shareTitle}
+                  text={shareTitle}
+                  path={canonicalPath}
+                  tone="icon"
+                />
+              </span>
             </div>
 
             <p className="text-muted mt-2 flex items-center gap-1.5 text-[14px]">
@@ -227,10 +236,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
                 <Phone size={18} aria-hidden="true" />
                 Call
               </a>
-              <div className="col-span-2">
-                <ShareButton title={shareTitle} text={shareTitle} path={canonicalPath} />
-              </div>
-
               <DownloadImagesButton images={property.images} title={property.title} />
               <CompareButton propertyId={property.id} propertyTitle={property.title} />
             </div>
@@ -328,10 +333,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
                   <Phone size={18} aria-hidden="true" />
                   Call {SITE.phoneDisplay}
                 </a>
-
-                <div className="pt-1">
-                  <ShareButton title={shareTitle} text={shareTitle} path={canonicalPath} />
-                </div>
 
                 <DownloadImagesButton images={property.images} title={property.title} />
                 <CompareButton propertyId={property.id} propertyTitle={property.title} />

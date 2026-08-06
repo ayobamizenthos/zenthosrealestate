@@ -16,7 +16,7 @@ const POPULAR_SEARCHES = [
 
 const COMPANY_LINKS = [
   { label: 'All properties', href: '/properties' },
-  { label: 'Journal', href: '/blog' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Saved', href: '/saved' },
   { label: 'Compare', href: '/compare' },
   { label: 'Agent access', href: '/register' },
@@ -103,7 +103,7 @@ export function SiteFooter() {
 
         <FooterColumn
           heading="Areas"
-          links={LOCATION_LANDING_PAGES.slice(0, 6).map(area => ({
+          links={LOCATION_LANDING_PAGES.map(area => ({
             label: area.name,
             href: `/properties/${area.slug}`,
           }))}
@@ -129,7 +129,7 @@ export function SiteFooter() {
 
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-[0.06em] z-10 px-4 text-center text-[16.5vw] leading-none font-black tracking-tighter whitespace-nowrap text-white/10 italic uppercase md:text-[clamp(9vw,14vw,230px)]"
+        className="pointer-events-none absolute inset-x-0 bottom-[0.06em] z-10 px-6 text-center text-[15vw] leading-none font-black tracking-tighter whitespace-nowrap text-white/10 italic uppercase md:text-[clamp(8vw,13vw,215px)]"
       >
         Zenthos RE.
       </span>

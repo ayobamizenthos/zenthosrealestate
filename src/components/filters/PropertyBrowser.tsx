@@ -15,12 +15,7 @@ interface PropertyBrowserProps {
   children: ReactNode
 }
 
-export function PropertyBrowser({
-  filters,
-  heading,
-  intro,
-  children,
-}: PropertyBrowserProps) {
+export function PropertyBrowser({ filters, heading, intro, children }: PropertyBrowserProps) {
   const router = useRouter()
   const pathname = usePathname()
   const [isPending, startTransition] = useTransition()

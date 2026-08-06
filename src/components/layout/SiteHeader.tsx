@@ -10,7 +10,18 @@ import { useSavedProperties } from '@/components/property/SavedProvider'
 import { useUnreadNotificationCount } from '@/hooks/useUnreadNotificationCount'
 import { listingAlerts } from '@/lib/listing-alerts'
 import { useLocalStore } from '@/lib/local-store'
-import { LOCATION_LANDING_PAGES } from '@/lib/constants'
+import { LOCATIONS_BY_ZONE } from '@/lib/constants'
+
+function zoneHref(zone: keyof typeof LOCATIONS_BY_ZONE): string {
+  return `/properties?location=${LOCATIONS_BY_ZONE[zone].map(encodeURIComponent).join(',')}`
+}
+
+const PRIMARY_NAV = [
+  { label: 'All properties', href: '/properties', zone: null },
+  { label: 'Island', href: zoneHref('Island'), zone: 'Island' },
+  { label: 'Mainland', href: zoneHref('Mainland'), zone: 'Mainland' },
+  { label: 'Blog', href: '/blog', zone: null },
+] as const
 
 export function SiteHeader() {
   const { user } = useAuth()
@@ -30,41 +41,26 @@ export function SiteHeader() {
         <div className="flex-1" />
 
         <nav aria-label="Main" className="hidden items-center lg:flex">
-          <Link
-            href="/properties"
-            className={clsx(
-              'rounded-control px-3 py-2 text-[14px] font-semibold whitespace-nowrap transition-colors',
-              pathname === '/properties' ? 'text-brand' : 'text-ink hover:text-brand'
-            )}
-          >
-            All properties
-          </Link>
+          {PRIMARY_NAV.map(item => {
+            const isActive = item.zone
+              ? false
+              : item.href === '/properties'
+                ? pathname === '/properties'
+                : pathname.startsWith(item.href)
 
-          {LOCATION_LANDING_PAGES.slice(0, 3).map(location => {
-            const href = `/properties/${location.slug}`
             return (
               <Link
-                key={location.slug}
-                href={href}
+                key={item.label}
+                href={item.href}
                 className={clsx(
                   'rounded-control px-3 py-2 text-[14px] font-semibold whitespace-nowrap transition-colors',
-                  pathname === href ? 'text-brand' : 'text-ink hover:text-brand'
+                  isActive ? 'text-brand' : 'text-ink hover:text-brand'
                 )}
               >
-                {location.name}
+                {item.label}
               </Link>
             )
           })}
-
-          <Link
-            href="/blog"
-            className={clsx(
-              'rounded-control px-3 py-2 text-[14px] font-semibold whitespace-nowrap transition-colors',
-              pathname.startsWith('/blog') ? 'text-brand' : 'text-ink hover:text-brand'
-            )}
-          >
-            Journal
-          </Link>
         </nav>
 
         <Link

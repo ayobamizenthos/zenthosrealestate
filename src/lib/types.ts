@@ -25,6 +25,7 @@ export interface Property {
   bedrooms: number
   bathrooms: number
   toilets: number
+  area_sqm: number | null
 
   reference_code: string
   title_document: TitleDocument | null
@@ -54,6 +55,7 @@ export type PropertySummary = Pick<
   | 'bedrooms'
   | 'bathrooms'
   | 'toilets'
+  | 'area_sqm'
   | 'furnished'
   | 'images'
   | 'status'

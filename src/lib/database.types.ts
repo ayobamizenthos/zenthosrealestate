@@ -16,6 +16,7 @@ export type PropertiesRow = {
   bedrooms: number
   bathrooms: number
   toilets: number
+  area_sqm: number | null
   reference_code: string
   furnished: string
   amenities: string[]
@@ -38,7 +39,7 @@ type PropertiesInsert = Omit<
   Partial<
     Pick<
       PropertiesRow,
-      'id' | 'slug' | 'reference_code' | 'featured_rank' | 'created_at' | 'updated_at'
+      'id' | 'slug' | 'reference_code' | 'area_sqm' | 'featured_rank' | 'created_at' | 'updated_at'
     >
   >
 

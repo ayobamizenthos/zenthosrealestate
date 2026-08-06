@@ -46,6 +46,13 @@ const propertySchema = z.object({
   bedrooms: z.coerce.number().int().min(0).max(50),
   bathrooms: z.coerce.number().int().min(0).max(50),
   toilets: z.coerce.number().int().min(0).max(50),
+  area_sqm: z
+    .string()
+    .trim()
+    .transform(value => (value === '' ? null : Number.parseInt(value, 10)))
+    .refine(value => value === null || (Number.isFinite(value) && value > 0), {
+      message: 'Floor area must be a positive whole number',
+    }),
   furnished: z.enum(FURNISHED_STATES),
   listing_type: z.enum(LISTING_TYPES),
   status: z.enum(PROPERTY_STATUSES),

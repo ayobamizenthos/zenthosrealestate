@@ -66,7 +66,7 @@ export default async function HomePage() {
   const { featured, locations, propertyTypes, priceBands } = await loadHomepageData()
 
   const availableTypes = propertyTypes.filter(entry => entry.propertyCount > 0)
-  const homepageAreas = [...locations].sort((a, b) => b.propertyCount - a.propertyCount).slice(0, 6)
+  const homepageAreas = [...locations].sort((a, b) => b.propertyCount - a.propertyCount)
 
   const bandsWithHomes = priceBands.filter(band => band.propertyCount > 0)
 

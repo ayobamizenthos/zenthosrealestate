@@ -7,9 +7,10 @@ interface ShareButtonProps {
   title: string
   text: string
   path: string
+  tone?: 'full' | 'icon'
 }
 
-export function ShareButton({ title, text, path }: ShareButtonProps) {
+export function ShareButton({ title, text, path, tone = 'full' }: ShareButtonProps) {
   const [justCopied, setJustCopied] = useState(false)
 
   const share = async () => {
@@ -35,17 +36,22 @@ export function ShareButton({ title, text, path }: ShareButtonProps) {
     <button
       type="button"
       onClick={() => void share()}
-      className="text-ink bg-surface hover:bg-hairline rounded-control flex h-12 items-center justify-center gap-2 px-4 text-[15px] font-semibold transition-colors"
+      aria-label={tone === 'icon' ? 'Share this property' : undefined}
+      className={
+        tone === 'icon'
+          ? 'text-ink hover:bg-surface flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors'
+          : 'text-ink bg-surface hover:bg-hairline rounded-control flex h-12 items-center justify-center gap-2 px-4 text-[15px] font-semibold transition-colors'
+      }
     >
       {justCopied ? (
         <>
-          <Check size={17} aria-hidden="true" className="text-success" />
-          Link copied
+          <Check size={tone === 'icon' ? 20 : 17} aria-hidden="true" className="text-success" />
+          {tone === 'icon' ? null : 'Link copied'}
         </>
       ) : (
         <>
-          <Share2 size={17} aria-hidden="true" />
-          Share
+          <Share2 size={tone === 'icon' ? 20 : 17} aria-hidden="true" />
+          {tone === 'icon' ? null : 'Share'}
         </>
       )}
     </button>

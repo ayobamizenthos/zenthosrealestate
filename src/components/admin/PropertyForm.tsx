@@ -192,6 +192,16 @@ export function PropertyForm({ action, property }: PropertyFormProps) {
             defaultValue={property?.toilets ?? 0}
             error={state.fieldErrors?.toilets}
           />
+          <TextField
+            label="Floor area (sqm)"
+            name="area_sqm"
+            type="number"
+            inputMode="numeric"
+            min={1}
+            hint="Optional"
+            defaultValue={property?.area_sqm ?? ''}
+            error={state.fieldErrors?.area_sqm}
+          />
         </div>
 
         <div className="grid gap-4 md:grid-cols-3">

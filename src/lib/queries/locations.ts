@@ -84,7 +84,10 @@ const PRICE_BANDS: { label: string; min: number | null; max: number | null }[] =
   { label: 'Under ₦100M', min: null, max: 100_000_000 },
   { label: '₦100M to ₦250M', min: 100_000_000, max: 250_000_000 },
   { label: '₦250M to ₦500M', min: 250_000_000, max: 500_000_000 },
-  { label: 'Above ₦500M', min: 500_000_000, max: null },
+  { label: '₦500M to ₦1B', min: 500_000_000, max: 1_000_000_000 },
+  { label: '₦1B to ₦2B', min: 1_000_000_000, max: 2_000_000_000 },
+  { label: '₦2B to ₦3B', min: 2_000_000_000, max: 3_000_000_000 },
+  { label: 'Above ₦3B', min: 3_000_000_000, max: null },
 ]
 
 export async function getPriceBands(supabase: ZenthosSupabaseClient): Promise<PriceBand[]> {
