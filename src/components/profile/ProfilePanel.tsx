@@ -80,7 +80,7 @@ export function ProfilePanel({ fullName, email, phone, isAdmin }: ProfilePanelPr
                 ? 'This browser does not support push notifications. On iPhone, add Zenthos to your Home Screen first.'
                 : permission === 'denied'
                   ? 'Notifications are blocked in your browser settings for this site.'
-                  : 'Price drops, status changes and new listings in areas you follow.'}
+                  : 'Every new listing as it goes up, plus price drops and status changes on properties you have saved.'}
             </p>
           </div>
 

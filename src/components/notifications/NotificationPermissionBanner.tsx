@@ -2,7 +2,6 @@
 
 import { Bell, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { Button } from '@/components/ui/Button'
 import { usePushSubscription } from '@/hooks/usePushSubscription'
 import { createPromptDismissal } from '@/lib/local-store'
 
@@ -36,18 +35,15 @@ export function NotificationPermissionBanner() {
   if (!shouldShow) return null
 
   return (
-    <div className="fixed inset-x-0 bottom-[calc(64px+env(safe-area-inset-bottom))] z-50 px-4 md:bottom-6 md:left-6 md:w-96 md:px-0">
-      <div className="border-hairline shadow-card-hover rounded-card border bg-white p-4">
-        <div className="flex items-start gap-3">
-          <span className="bg-surface text-brand flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
-            <Bell size={18} aria-hidden="true" />
-          </span>
+    <div className="fixed inset-x-0 bottom-[calc(64px+env(safe-area-inset-bottom))] z-50 px-3 md:bottom-6 md:left-6 md:w-80 md:px-0">
+      <div className="border-hairline shadow-card-hover rounded-card border bg-white px-3.5 py-3">
+        <div className="flex items-start gap-2.5">
+          <Bell size={16} aria-hidden="true" className="text-brand mt-0.5 shrink-0" />
 
           <div className="min-w-0 flex-1">
-            <p className="text-ink text-[15px] font-bold">Know first when we list</p>
-            <p className="text-muted mt-1 text-[13px] leading-relaxed">
-              Good Lagos property moves before it is advertised. Turn on alerts and every new
-              listing reaches you the moment it goes up.
+            <p className="text-ink text-[14px] font-bold">Know first when we list</p>
+            <p className="text-muted mt-0.5 text-[12.5px] leading-snug">
+              Every new listing, the moment it goes up.
             </p>
           </div>
 
@@ -55,27 +51,28 @@ export function NotificationPermissionBanner() {
             type="button"
             onClick={dismiss}
             aria-label="Dismiss notification prompt"
-            className="text-muted hover:text-ink -mt-1 -mr-1 flex h-9 w-9 shrink-0 items-center justify-center"
+            className="text-muted hover:text-ink -mt-1.5 -mr-2 flex h-9 w-9 shrink-0 items-center justify-center"
           >
-            <X size={17} aria-hidden="true" />
+            <X size={16} aria-hidden="true" />
           </button>
         </div>
 
-        <div className="mt-3 flex items-center gap-2">
-          <Button
+        <div className="mt-2.5 flex items-center gap-2 pl-[26px]">
+          <button
+            type="button"
             onClick={async () => {
               const granted = await subscribe()
               if (granted) dismiss()
             }}
             disabled={isBusy}
-            fullWidth
+            className="bg-brand hover:bg-brand-hover rounded-pill flex h-9 items-center px-4 text-[13px] font-bold text-white transition-colors disabled:opacity-60"
           >
             {isBusy ? 'Enabling…' : 'Turn on alerts'}
-          </Button>
+          </button>
           <button
             type="button"
             onClick={dismiss}
-            className="text-muted hover:text-ink flex h-12 shrink-0 items-center px-3 text-[14px] font-semibold whitespace-nowrap transition-colors"
+            className="text-muted hover:text-ink flex h-9 shrink-0 items-center px-2 text-[13px] font-semibold whitespace-nowrap transition-colors"
           >
             Not now
           </button>

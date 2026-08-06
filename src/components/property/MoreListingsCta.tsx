@@ -8,7 +8,8 @@ export function MoreListingsCta({ area }: { area?: string }) {
         Cannot find what you want{area ? ` in ${area}` : ''}?
       </p>
       <p className="text-muted mx-auto mt-1.5 max-w-sm text-[14px]">
-        Message us for listings held off market.
+        This is a fraction of what we have access to. Tell us what you are after and we will source
+        it.
       </p>
 
       <a

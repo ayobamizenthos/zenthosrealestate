@@ -39,8 +39,8 @@ export function ShareButton({ title, text, path, tone = 'full' }: ShareButtonPro
       aria-label={tone === 'icon' ? 'Share this property' : undefined}
       className={
         tone === 'icon'
-          ? 'text-ink hover:bg-surface flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors'
-          : 'text-ink bg-surface hover:bg-hairline rounded-control flex h-12 items-center justify-center gap-2 px-4 text-[15px] font-semibold transition-colors'
+          ? 'text-brand hover:bg-surface flex h-11 w-11 shrink-0 items-center justify-center rounded-full transition-colors'
+          : 'text-brand bg-surface hover:bg-hairline rounded-control flex h-12 items-center justify-center gap-2 px-4 text-[15px] font-semibold transition-colors'
       }
     >
       {justCopied ? (
