@@ -34,11 +34,14 @@ export function PropertyBrowser({ filters, heading, intro, children }: PropertyB
   return (
     <>
       <div className="bg-canvas">
-        <div className="app-shell pt-8 pb-6 md:pt-12">
-          <h1 className="text-ink text-[30px] leading-tight font-extrabold md:text-[40px]">
+        {/* Kept short on phones so results start above the fold. */}
+        <div className="app-shell pt-5 pb-4 md:pt-12 md:pb-6">
+          <h1 className="text-ink text-[26px] leading-tight font-extrabold sm:text-[30px] md:text-[40px]">
             {heading}
           </h1>
-          <p className="text-muted mt-3 max-w-3xl text-[15px] leading-relaxed">{intro}</p>
+          <p className="text-muted mt-2 line-clamp-2 max-w-3xl text-[14px] leading-relaxed sm:line-clamp-none md:mt-3 md:text-[15px]">
+            {intro}
+          </p>
         </div>
       </div>
 
