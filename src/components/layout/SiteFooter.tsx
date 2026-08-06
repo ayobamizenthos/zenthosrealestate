@@ -14,6 +14,10 @@ const POPULAR_SEARCHES = [
   { label: 'Newest listings', href: '/properties?sort=newest' },
 ]
 
+// Oniru still has its own landing page for search, but it is too thin a market
+// to earn a slot in the footer alongside the areas we actively list in.
+const FOOTER_HIDDEN_AREAS = new Set(['Oniru'])
+
 const COMPANY_LINKS = [
   { label: 'All properties', href: '/properties' },
   { label: 'Blog', href: '/blog' },
@@ -103,10 +107,12 @@ export function SiteFooter() {
 
         <FooterColumn
           heading="Areas"
-          links={LOCATION_LANDING_PAGES.map(area => ({
-            label: area.name,
-            href: `/properties/${area.slug}`,
-          }))}
+          links={LOCATION_LANDING_PAGES.filter(area => !FOOTER_HIDDEN_AREAS.has(area.name)).map(
+            area => ({
+              label: area.name,
+              href: `/properties/${area.slug}`,
+            })
+          )}
         />
 
         <FooterColumn heading="Popular" links={POPULAR_SEARCHES} />

@@ -48,7 +48,7 @@ export default async function PropertiesPage({ searchParams }: { searchParams: S
     <PropertyBrowser
       filters={filters}
       heading="Property for Sale in Lagos"
-      intro="Every listing here has been inspected by a Zenthos broker and its title document checked. Filter by area, price, bedrooms, property type or title to narrow the list."
+      intro="Every listing here has been inspected by a Zenthos RE broker and its title document checked. Filter by area, price, bedrooms, property type or title to narrow the list."
     >
       {properties.length > 0 ? (
         <>

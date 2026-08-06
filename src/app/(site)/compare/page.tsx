@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { MoreListingsCta } from '@/components/property/MoreListingsCta'
 import { CompareTable } from '@/components/property/CompareTable'
 import { MAX_COMPARE_PROPERTIES } from '@/lib/constants'
 
@@ -19,7 +18,6 @@ export default function ComparePage() {
       </header>
 
       <CompareTable />
-      <MoreListingsCta />
     </div>
   )
 }

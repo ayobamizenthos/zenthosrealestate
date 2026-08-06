@@ -164,7 +164,7 @@ for (const [index, file] of files.entries()) {
 }
 
 const title = `${details.bedrooms} Bedroom ${details.propertyType}`
-const description = `${details.bedrooms} bedroom ${details.propertyType.toLowerCase()} at ${details.address}, ${details.state}. Inspected by a Zenthos broker with documentation verified. Message us on WhatsApp to arrange a viewing.`
+const description = `${details.bedrooms} bedroom ${details.propertyType.toLowerCase()} at ${details.address}, ${details.state}. Inspected by a Zenthos RE broker with documentation verified. Message us on WhatsApp to arrange a viewing.`
 
 const payload = {
   title,

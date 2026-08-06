@@ -61,8 +61,10 @@ export function TextArea({
         id={fieldId}
         aria-invalid={error ? true : undefined}
         className={clsx(
-          'rounded-control bg-surface text-ink placeholder:text-muted mt-1.5 w-full px-3.5 py-3 text-[16px] outline-none transition-shadow focus:ring-2 focus:ring-brand/30',
-          error && 'ring-2 ring-danger/40'
+          // The field itself stays at 16px so iOS does not zoom on focus; only
+          // the placeholder steps down to sit with the surrounding copy.
+          'rounded-control bg-surface text-ink placeholder:text-muted focus:ring-brand/30 mt-1.5 w-full px-3.5 py-3 text-[16px] leading-relaxed outline-none transition-shadow placeholder:text-[14px] focus:ring-2',
+          error && 'ring-danger/40 ring-2'
         )}
         {...rest}
       />

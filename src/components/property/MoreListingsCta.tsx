@@ -3,7 +3,7 @@ import { generalInquiryLink } from '@/lib/whatsapp'
 
 export function MoreListingsCta({ area }: { area?: string }) {
   return (
-    <section className="mt-12 border-t pt-8 text-center">
+    <section className="mt-12 text-center">
       <p className="text-ink text-[16px] font-bold md:text-[18px]">
         Cannot find what you want{area ? ` in ${area}` : ''}?
       </p>

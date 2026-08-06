@@ -518,17 +518,6 @@ export function FilterBar({ filters, onChange }: FilterBarProps) {
                 </button>
               ) : null}
             </div>
-
-            {hasAnyFilter ? (
-              <button
-                type="button"
-                onClick={clearAll}
-                className="text-muted hover:text-brand flex h-10 shrink-0 items-center gap-1 text-[13.5px] font-medium whitespace-nowrap transition-colors md:h-11"
-              >
-                <X size={14} aria-hidden="true" />
-                Clear
-              </button>
-            ) : null}
           </div>
 
           {/* The rail bleeds to the page edge at every width so a chip that runs
@@ -548,6 +537,17 @@ export function FilterBar({ filters, onChange }: FilterBarProps) {
                 onClick={() => togglePanel(key)}
               />
             ))}
+
+            {hasAnyFilter ? (
+              <button
+                type="button"
+                onClick={clearAll}
+                className="text-muted hover:text-ink flex h-10 shrink-0 items-center gap-1 rounded-pill px-3 text-[13.5px] font-medium whitespace-nowrap transition-colors"
+              >
+                <X size={14} aria-hidden="true" />
+                Clear all
+              </button>
+            ) : null}
           </div>
         </div>
       </div>
@@ -598,7 +598,8 @@ export function FilterBar({ filters, onChange }: FilterBarProps) {
                     <button
                       type="button"
                       onClick={() => clearPanel(openPanel)}
-                      className="text-muted hover:text-ink h-11 text-[14px] font-semibold transition-colors"
+                      disabled={!summaries[openPanel]}
+                      className="border-hairline text-ink hover:border-ink rounded-pill h-11 border px-5 text-[14px] font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-40"
                     >
                       Reset
                     </button>

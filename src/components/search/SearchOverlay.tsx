@@ -106,7 +106,7 @@ export function SearchOverlay({ onClose }: { onClose: () => void }) {
             onKeyDown={event => {
               if (event.key === 'Enter') runSearch(term)
             }}
-            placeholder="Search properties in Victoria Island, Lekki, Ikoyi, Ajah..."
+            placeholder="Search by area, street or property type"
             aria-label="Search properties"
             className="text-ink placeholder:text-muted h-11 min-w-0 flex-1 bg-transparent text-[16px] outline-none"
           />

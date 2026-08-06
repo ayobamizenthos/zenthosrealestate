@@ -78,7 +78,7 @@ export function InquiryForm({ property }: { property: InquiryProperty }) {
           label="Message"
           name="message"
           rows={3}
-          placeholder={`When can I inspect ${property.title}?`}
+          placeholder="Tell us when you would like to inspect, and anything you want confirmed before the visit."
           value={message}
           onChange={event => setMessage(event.target.value)}
         />

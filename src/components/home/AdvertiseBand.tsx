@@ -12,8 +12,8 @@ export function AdvertiseBand() {
 
           <p className="mt-4 text-[15px] leading-relaxed text-white/70 md:text-[16px]">
             Agents, developers and private owners list with us at no cost. Create an account and
-            send us the address, the asking price and the documents. A Zenthos broker inspects the
-            property and verifies the title before it goes live, then puts it in front of buyers
+            send us the address, the asking price and the documents. A Zenthos RE broker inspects
+            the property and verifies the title before it goes live, then puts it in front of buyers
             already searching that area.
           </p>
         </div>
