@@ -6,7 +6,7 @@ import { usePushSubscription } from '@/hooks/usePushSubscription'
 import { createPromptDismissal } from '@/lib/local-store'
 import { claimPromptSlot, releasePromptSlot, usePromptSlotHolder } from '@/lib/prompt-slot'
 
-const REPROMPT_AFTER_MS = 14 * 24 * 60 * 60 * 1000
+const REPROMPT_AFTER_MS = 24 * 60 * 60 * 1000
 
 // Long enough that the visitor has seen the page and short enough that a single
 // session still converts. Asking on first paint gets dismissed reflexively.
