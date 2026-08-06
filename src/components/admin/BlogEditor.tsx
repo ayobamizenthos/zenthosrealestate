@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useActionState, useEffect } from 'react'
 import { deleteBlogPost, saveBlogPost, type BlogActionState } from '@/lib/actions/blog'
 import { TextArea, TextField } from '@/components/ui/TextField'
+import { CoverImagePicker } from './CoverImagePicker'
 
 const EMPTY: BlogActionState = {}
 
@@ -15,6 +16,9 @@ export interface AdminBlogPost {
   category: string
   excerpt: string
   body: string
+  cover_image: string | null
+  cover_alt: string
+  cover_credit: string
   read_minutes: number
   published: boolean
   published_at: string | null
@@ -60,21 +64,40 @@ function PostFields({ post }: { post?: AdminBlogPost }) {
         hint="Shown on the article card and used as the meta description."
       />
 
+      <CoverImagePicker name="cover_image" initialImage={post?.cover_image ?? ''} />
+
+      <div className="grid gap-4 sm:grid-cols-2">
+        <TextField
+          name="cover_alt"
+          label="Cover description"
+          defaultValue={post?.cover_alt}
+          maxLength={160}
+          hint="What the photograph shows. Read aloud by screen readers."
+        />
+        <TextField
+          name="cover_credit"
+          label="Photo credit"
+          defaultValue={post?.cover_credit}
+          maxLength={160}
+          hint="Photographer and licence, printed under the image."
+        />
+      </div>
+
       <TextArea
         name="body"
         label="Article"
         rows={16}
         defaultValue={post?.body}
         required
-        hint="Leave a blank line between paragraphs. Start a line with ## to make it a subheading."
+        hint="Blank line between paragraphs. ## for a subheading, > for a pull quote, - for a list item."
       />
 
-      <label className="flex items-center gap-3 text-[14px]">
+      <label className="flex min-h-11 cursor-pointer items-center gap-3 text-[14px]">
         <input
           type="checkbox"
           name="published"
           defaultChecked={post?.published ?? false}
-          className="accent-brand h-4 w-4"
+          className="accent-brand h-5 w-5"
         />
         <span className="text-ink font-semibold">Publish to the site</span>
       </label>

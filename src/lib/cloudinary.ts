@@ -11,6 +11,11 @@ export const IMAGE_PRESETS = {
   lightbox: `f_auto,q_auto:best,w_2400,c_limit/${WATERMARK}`,
   socialCard: `f_jpg,q_auto,w_1200,h_630,c_fill,g_auto/${WATERMARK}`,
   blurPlaceholder: 'f_auto,q_10,w_24,c_fill,ar_4:3,e_blur:400',
+  // Journal photography is licensed from third parties, so it carries a printed
+  // credit instead of the Zenthos watermark.
+  journalCard: 'f_auto,q_auto,w_900,c_fill,ar_3:2,g_auto',
+  journalHero: 'f_auto,q_auto,w_1800,c_fill,ar_16:9,g_auto',
+  journalSocial: 'f_jpg,q_auto,w_1200,h_630,c_fill,g_auto',
 } as const
 
 export function isCloudinaryUrl(url: string): boolean {
@@ -46,4 +51,16 @@ export function propertyBlurPlaceholder(url: string): string {
 
 export function propertyOriginalImage(url: string): string {
   return transformCloudinary(url, 'f_auto,q_auto:best')
+}
+
+export function journalCardImage(url: string): string {
+  return transformCloudinary(url, IMAGE_PRESETS.journalCard)
+}
+
+export function journalHeroImage(url: string): string {
+  return transformCloudinary(url, IMAGE_PRESETS.journalHero)
+}
+
+export function journalSocialImage(url: string): string {
+  return transformCloudinary(url, IMAGE_PRESETS.journalSocial)
 }

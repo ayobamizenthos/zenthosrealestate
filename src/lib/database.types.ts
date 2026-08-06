@@ -116,6 +116,8 @@ export type BlogPostsRow = {
   excerpt: string
   body: string
   cover_image: string | null
+  cover_alt: string
+  cover_credit: string
   category: string
   read_minutes: number
   published: boolean
@@ -124,11 +126,17 @@ export type BlogPostsRow = {
   updated_at: Timestamptz
 }
 
-type BlogPostsInsert = Omit<
-  BlogPostsRow,
-  'id' | 'cover_image' | 'created_at' | 'updated_at' | 'published_at'
-> &
-  Partial<Pick<BlogPostsRow, 'id' | 'cover_image' | 'created_at' | 'updated_at' | 'published_at'>>
+type BlogPostsOptional =
+  | 'id'
+  | 'cover_image'
+  | 'cover_alt'
+  | 'cover_credit'
+  | 'created_at'
+  | 'updated_at'
+  | 'published_at'
+
+type BlogPostsInsert = Omit<BlogPostsRow, BlogPostsOptional> &
+  Partial<Pick<BlogPostsRow, BlogPostsOptional>>
 
 export type Database = {
   __InternalSupabase: {

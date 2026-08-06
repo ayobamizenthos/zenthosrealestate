@@ -15,6 +15,9 @@ const postSchema = z.object({
   category: z.string().trim().min(2).max(40),
   excerpt: z.string().trim().min(10, 'Write a short summary').max(400),
   body: z.string().trim().min(50, 'The article body is too short'),
+  cover_image: z.union([z.url(), z.literal('')]).transform(value => value || null),
+  cover_alt: z.string().trim().max(160),
+  cover_credit: z.string().trim().max(160),
   read_minutes: z.coerce.number().int().min(1).max(60),
   published: z.boolean(),
 })
@@ -34,6 +37,9 @@ function readForm(formData: FormData) {
     category: String(formData.get('category') ?? ''),
     excerpt: String(formData.get('excerpt') ?? ''),
     body: String(formData.get('body') ?? ''),
+    cover_image: String(formData.get('cover_image') ?? ''),
+    cover_alt: String(formData.get('cover_alt') ?? ''),
+    cover_credit: String(formData.get('cover_credit') ?? ''),
     read_minutes: String(formData.get('read_minutes') ?? '4'),
     published: formData.get('published') === 'on',
   }

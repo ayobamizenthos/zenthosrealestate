@@ -6,12 +6,15 @@ export interface BlogPost {
   excerpt: string
   body: string
   cover_image: string | null
+  cover_alt: string
+  cover_credit: string
   category: string
   read_minutes: number
   published_at: string | null
 }
 
-const COLUMNS = 'slug, title, excerpt, body, cover_image, category, read_minutes, published_at'
+const COLUMNS =
+  'slug, title, excerpt, body, cover_image, cover_alt, cover_credit, category, read_minutes, published_at'
 
 export async function listBlogPosts(supabase: ZenthosSupabaseClient): Promise<BlogPost[]> {
   const { data, error } = await supabase
