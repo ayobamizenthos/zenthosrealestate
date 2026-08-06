@@ -31,13 +31,13 @@ export default async function AdminFeaturedPage() {
   const candidates = (candidateResult.data ?? []) as unknown as PropertySummary[]
 
   return (
-    <div className="app-shell py-8">
-      <h1 className="text-ink text-[24px] font-extrabold">Homepage order</h1>
+    <div>
+      <h1 className="text-title md:text-display text-brand font-extrabold">Homepage order</h1>
       <p className="text-muted mt-1.5 max-w-2xl text-[14px]">
         Control which listings appear on the homepage and the order buyers see them in.
       </p>
 
-      <div className="mt-8">
+      <div className="mt-6 md:mt-8">
         <FeaturedOrderList featured={featured} candidates={candidates} />
       </div>
     </div>

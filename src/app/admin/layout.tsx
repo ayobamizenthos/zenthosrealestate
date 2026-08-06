@@ -17,7 +17,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className="flex min-h-screen flex-col">
       <header className="border-hairline bg-canvas sticky top-0 z-40 border-b">
-        <div className="app-shell flex h-16 items-center gap-4">
+        <div className="app-shell flex h-14 items-center gap-3 md:h-16 md:gap-4">
           <Link href="/admin" aria-label="Zenthos admin dashboard" className="shrink-0">
             <ZenthosLogo />
           </Link>
@@ -29,18 +29,21 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
           <Link
             href="/"
-            className="text-muted hover:text-brand text-[14px] font-semibold transition-colors"
+            className="text-muted hover:text-brand -mr-2 flex min-h-11 shrink-0 items-center px-2 text-[14px] font-semibold transition-colors"
           >
             View site
           </Link>
         </div>
 
-        <div className="app-shell pb-3">
+        <div className="app-shell pb-2 md:pb-3">
           <AdminNav />
         </div>
       </header>
 
-      <main className="flex-1">{children}</main>
+      {/* Every admin screen sits on the same shell so none can forget its gutters. */}
+      <main className="flex-1">
+        <div className="app-shell py-6 md:py-10">{children}</div>
+      </main>
     </div>
   )
 }

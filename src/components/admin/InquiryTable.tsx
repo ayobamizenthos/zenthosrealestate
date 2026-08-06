@@ -15,12 +15,12 @@ function InquiryRow({ inquiry }: { inquiry: InquiryWithProperty }) {
 
   return (
     <li className="bg-white">
-      <div className="flex flex-wrap items-start gap-3 p-4">
+      <div className="flex flex-wrap items-start gap-x-3 gap-y-2 p-4">
         <button
           type="button"
           onClick={() => setIsExpanded(open => !open)}
           aria-expanded={isExpanded}
-          className="min-w-0 flex-1 text-left"
+          className="min-w-0 flex-1 basis-full text-left sm:basis-0"
         >
           <span className="flex items-center gap-1.5">
             <span className="text-ink text-[15px] font-semibold">{inquiry.name}</span>
@@ -49,7 +49,7 @@ function InquiryRow({ inquiry }: { inquiry: InquiryWithProperty }) {
           ) : null}
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="ml-auto flex shrink-0 items-center gap-2">
           <form action={updateInquiryStatusAction}>
             <input type="hidden" name="id" value={inquiry.id} />
             <select
@@ -57,7 +57,7 @@ function InquiryRow({ inquiry }: { inquiry: InquiryWithProperty }) {
               defaultValue={inquiry.status}
               aria-label={`Status for ${inquiry.name}`}
               onChange={event => event.currentTarget.form?.requestSubmit()}
-              className="border-hairline rounded-control h-10 border bg-white px-2.5 text-[13px] font-semibold"
+              className="border-hairline rounded-control h-10 border bg-white px-2.5 text-[16px] font-semibold"
             >
               {INQUIRY_STATUSES.map(status => (
                 <option key={status} value={status}>
@@ -85,7 +85,7 @@ function InquiryRow({ inquiry }: { inquiry: InquiryWithProperty }) {
 
       {isExpanded ? (
         <div className="border-hairline bg-surface border-t px-4 py-4">
-          <dl className="grid gap-3 md:grid-cols-3">
+          <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <div>
               <dt className="text-muted text-[12px] font-semibold">Email</dt>
               <dd className="text-ink mt-0.5 text-[14px]">

@@ -25,7 +25,7 @@ export default async function AdminInquiriesPage({ searchParams }: { searchParam
   const inquiries = await listInquiries(supabase, statusFilter).catch(() => [])
 
   return (
-    <div className="app-shell py-6 md:py-10">
+    <div>
       <h1 className="text-title md:text-display text-brand font-extrabold">Inquiries</h1>
 
       <div className="mt-5 flex flex-wrap gap-2">

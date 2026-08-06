@@ -44,7 +44,7 @@ export function FeaturedOrderList({ featured, candidates }: FeaturedOrderListPro
         </p>
 
         {featured.length === 0 ? (
-          <p className="text-muted rounded-card mt-5 bg-white p-8 text-center text-[14px]">
+          <p className="text-muted border-hairline rounded-card mt-5 border bg-white p-8 text-center text-[14px]">
             Nothing is featured yet. Add a listing from the list below.
           </p>
         ) : (
@@ -52,7 +52,7 @@ export function FeaturedOrderList({ featured, candidates }: FeaturedOrderListPro
             {featured.map((property, index) => (
               <li
                 key={property.id}
-                className="rounded-card shadow-card flex flex-wrap items-center gap-3 bg-white p-3 sm:flex-nowrap"
+                className="border-hairline rounded-card flex flex-wrap items-center gap-x-3 gap-y-2 border bg-white p-3"
               >
                 <span className="bg-brand text-brand-ink flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[13px] font-bold">
                   {index + 1}
@@ -70,7 +70,7 @@ export function FeaturedOrderList({ featured, candidates }: FeaturedOrderListPro
                   ) : null}
                 </span>
 
-                <span className="min-w-0 flex-1">
+                <span className="min-w-0 flex-1 basis-40">
                   <span className="text-ink block truncate text-[14px] font-semibold">
                     {property.title}
                   </span>
@@ -80,7 +80,7 @@ export function FeaturedOrderList({ featured, candidates }: FeaturedOrderListPro
                   </span>
                 </span>
 
-                <span className="flex shrink-0 items-center gap-1.5">
+                <span className="ml-auto flex shrink-0 items-center gap-1.5">
                   <form action={moveAction}>
                     <input type="hidden" name="id" value={property.id} />
                     <input type="hidden" name="order" value={order} />
@@ -122,7 +122,7 @@ export function FeaturedOrderList({ featured, candidates }: FeaturedOrderListPro
                       min={1}
                       max={featured.length}
                       defaultValue={index + 1}
-                      className="bg-surface text-ink h-9 w-14 rounded-lg px-2 text-center text-[14px] font-semibold outline-none"
+                      className="bg-surface text-ink h-10 w-14 rounded-lg px-2 text-center text-[16px] font-semibold outline-none"
                     />
                     <button
                       type="submit"
@@ -160,7 +160,7 @@ export function FeaturedOrderList({ featured, candidates }: FeaturedOrderListPro
         </p>
 
         {candidates.length === 0 ? (
-          <p className="text-muted rounded-card mt-5 bg-white p-8 text-center text-[14px]">
+          <p className="text-muted border-hairline rounded-card mt-5 border bg-white p-8 text-center text-[14px]">
             Every published listing is already featured.
           </p>
         ) : (
@@ -168,7 +168,7 @@ export function FeaturedOrderList({ featured, candidates }: FeaturedOrderListPro
             {candidates.map(property => (
               <li
                 key={property.id}
-                className="rounded-card shadow-card flex items-center gap-3 bg-white p-3"
+                className="border-hairline rounded-card flex items-center gap-3 border bg-white p-3"
               >
                 <span className="bg-surface relative h-12 w-16 shrink-0 overflow-hidden rounded-md">
                   {property.images[0] ? (

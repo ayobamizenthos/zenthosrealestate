@@ -49,59 +49,62 @@ export default async function AgentsPage() {
           No registered accounts yet.
         </p>
       ) : (
-        <div className="border-hairline overflow-x-auto rounded-card border bg-white">
-          <table className="w-full min-w-[34rem] text-left">
-            <thead className="border-hairline bg-surface border-b">
-              <tr className="text-muted text-[12px] font-semibold tracking-wide uppercase">
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Phone</th>
-                <th className="px-4 py-3">Joined</th>
-                <th className="px-4 py-3 text-right">Access</th>
-              </tr>
-            </thead>
-            <tbody className="divide-hairline divide-y">
-              {accounts.map(account => {
-                const isAgent = account.role === 'agent'
-                return (
-                  <tr key={account.id}>
-                    <td className="px-4 py-3">
-                      <span className="text-ink flex items-center gap-2 text-[14px] font-semibold">
-                        {isAgent ? (
-                          <ShieldCheck size={15} className="text-brand" aria-hidden="true" />
-                        ) : (
-                          <UserRound size={15} className="text-muted" aria-hidden="true" />
-                        )}
-                        {account.full_name || 'Unnamed'}
-                      </span>
-                    </td>
-                    <td className="text-muted px-4 py-3 text-[14px]">
-                      {account.phone || 'Not given'}
-                    </td>
-                    <td className="text-muted px-4 py-3 text-[14px]">
-                      {formatDate(account.created_at)}
-                    </td>
-                    <td className="px-4 py-3 text-right">
-                      <form action={setUserRoleAction} className="inline">
-                        <input type="hidden" name="userId" value={account.id} />
-                        <input type="hidden" name="role" value={isAgent ? 'buyer' : 'agent'} />
-                        <button
-                          type="submit"
-                          className={
-                            isAgent
-                              ? 'border-brand text-brand hover:bg-surface rounded-pill border px-3.5 py-2 text-[13px] font-semibold transition-colors'
-                              : 'border-hairline text-ink hover:border-ink rounded-pill border px-3.5 py-2 text-[13px] font-semibold transition-colors'
-                          }
-                        >
-                          {isAgent ? 'Revoke agent' : 'Make agent'}
-                        </button>
-                      </form>
-                    </td>
-                  </tr>
-                )
-              })}
-            </tbody>
-          </table>
-        </div>
+        /*
+          Phones get one card per account; the four-column table only appears once
+          there is room for it. Neither view scrolls sideways.
+        */
+        <ul className="border-hairline divide-hairline divide-y overflow-hidden rounded-card border bg-white">
+          <li className="text-muted bg-surface hidden px-4 py-3 text-[12px] font-semibold tracking-wide uppercase md:grid md:grid-cols-[minmax(0,2fr)_minmax(0,1.4fr)_minmax(0,1fr)_auto] md:gap-4">
+            <span>Name</span>
+            <span>Phone</span>
+            <span>Joined</span>
+            <span className="text-right">Access</span>
+          </li>
+
+          {accounts.map(account => {
+            const isAgent = account.role === 'agent'
+
+            return (
+              <li
+                key={account.id}
+                className="flex flex-wrap items-center gap-x-4 gap-y-3 px-4 py-3.5 md:grid md:grid-cols-[minmax(0,2fr)_minmax(0,1.4fr)_minmax(0,1fr)_auto] md:items-center"
+              >
+                <span className="text-ink flex min-w-0 flex-1 items-center gap-2 text-[14px] font-semibold md:flex-none">
+                  {isAgent ? (
+                    <ShieldCheck size={15} className="text-brand shrink-0" aria-hidden="true" />
+                  ) : (
+                    <UserRound size={15} className="text-muted shrink-0" aria-hidden="true" />
+                  )}
+                  <span className="truncate">{account.full_name || 'Unnamed'}</span>
+                </span>
+
+                <span className="text-muted order-last w-full text-[13px] md:order-none md:w-auto md:text-[14px]">
+                  <span className="md:hidden">Joined {formatDate(account.created_at)} · </span>
+                  {account.phone || 'No phone'}
+                </span>
+
+                <span className="text-muted hidden text-[14px] md:block">
+                  {formatDate(account.created_at)}
+                </span>
+
+                <form action={setUserRoleAction} className="shrink-0 md:text-right">
+                  <input type="hidden" name="userId" value={account.id} />
+                  <input type="hidden" name="role" value={isAgent ? 'buyer' : 'agent'} />
+                  <button
+                    type="submit"
+                    className={
+                      isAgent
+                        ? 'border-brand text-brand hover:bg-surface rounded-pill flex h-10 items-center border px-3.5 text-[13px] font-semibold transition-colors'
+                        : 'border-hairline text-ink hover:border-ink rounded-pill flex h-10 items-center border px-3.5 text-[13px] font-semibold transition-colors'
+                    }
+                  >
+                    {isAgent ? 'Revoke agent' : 'Make agent'}
+                  </button>
+                </form>
+              </li>
+            )
+          })}
+        </ul>
       )}
     </div>
   )

@@ -20,6 +20,23 @@ function readParam(params: Record<string, string | string[] | undefined>, key: s
   return (Array.isArray(value) ? value[0] : value) ?? ''
 }
 
+function PropertyThumb({ image }: { image: string | undefined }) {
+  return (
+    <span className="bg-surface relative h-11 w-16 shrink-0 overflow-hidden rounded-md">
+      {image ? (
+        <Image src={propertyCardImage(image)} alt="" fill sizes="64px" className="object-cover" />
+      ) : null}
+    </span>
+  )
+}
+
+function PropertyStatus({ status }: { status: PropertyStatus }) {
+  if (status === 'Available') {
+    return <span className="text-success text-[13px] font-semibold">Available</span>
+  }
+  return <StatusBadge status={status} />
+}
+
 export default async function AdminPropertiesPage({
   searchParams,
 }: {
@@ -44,7 +61,7 @@ export default async function AdminPropertiesPage({
   const properties = await listPropertiesForAdmin(supabase, filters).catch(() => [])
 
   return (
-    <div className="app-shell py-6 md:py-10">
+    <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-title md:text-display text-brand font-extrabold">Properties</h1>
         <ButtonLink href="/admin/properties/new">
@@ -53,21 +70,21 @@ export default async function AdminPropertiesPage({
         </ButtonLink>
       </div>
 
-      <form method="get" className="mt-5 flex flex-wrap gap-2">
+      <form method="get" className="mt-5 grid gap-2 sm:grid-cols-2 lg:flex lg:flex-wrap">
         <input
           type="search"
           name="q"
           defaultValue={filters.search}
           placeholder="Search by title…"
           aria-label="Search properties by title"
-          className="border-hairline focus:border-brand rounded-control h-11 min-w-0 flex-1 border px-3.5 text-[15px] outline-none md:max-w-xs"
+          className="border-hairline focus:border-brand rounded-control h-11 min-w-0 border px-3.5 text-[16px] outline-none sm:col-span-2 lg:w-64 lg:flex-1 lg:col-span-1"
         />
 
         <select
           name="status"
           defaultValue={filters.status}
           aria-label="Filter by status"
-          className="border-hairline rounded-control h-11 border bg-white px-3 text-[15px]"
+          className="border-hairline rounded-control h-11 min-w-0 border bg-white px-3 text-[16px] lg:w-44"
         >
           <option value="All">All statuses</option>
           {PROPERTY_STATUSES.map(status => (
@@ -81,7 +98,7 @@ export default async function AdminPropertiesPage({
           name="location"
           defaultValue={filters.location}
           aria-label="Filter by location"
-          className="border-hairline rounded-control h-11 border bg-white px-3 text-[15px]"
+          className="border-hairline rounded-control h-11 min-w-0 border bg-white px-3 text-[16px] lg:w-44"
         >
           <option value="All">All locations</option>
           {PROPERTY_LOCATIONS.map(location => (
@@ -93,7 +110,7 @@ export default async function AdminPropertiesPage({
 
         <button
           type="submit"
-          className="bg-brand text-brand-ink rounded-control h-11 px-4 text-[15px] font-semibold"
+          className="bg-brand text-brand-ink rounded-control h-11 px-4 text-[15px] font-semibold sm:col-span-2 lg:col-span-1 lg:w-24"
         >
           Apply
         </button>
@@ -104,98 +121,83 @@ export default async function AdminPropertiesPage({
           No properties match. Adjust the filters or add a new listing.
         </p>
       ) : (
-        <div className="border-hairline mt-6 overflow-x-auto rounded-card border">
-          <table className="w-full min-w-[720px] border-collapse bg-white text-left">
-            <thead className="bg-surface">
-              <tr className="text-muted text-[12px] font-semibold tracking-wide uppercase">
-                <th scope="col" className="px-4 py-3">
-                  Property
-                </th>
-                <th scope="col" className="px-4 py-3">
-                  Location
-                </th>
-                <th scope="col" className="px-4 py-3">
-                  Price
-                </th>
-                <th scope="col" className="px-4 py-3">
-                  Status
-                </th>
-                <th scope="col" className="px-4 py-3">
-                  Added
-                </th>
-                <th scope="col" className="px-4 py-3 text-right">
-                  <span className="sr-only">Actions</span>
-                </th>
-              </tr>
-            </thead>
+        /*
+          A five-column table only fits from `lg` up. Below that the same listing
+          renders as a card, so nothing is ever pushed off the side of a phone.
+        */
+        <ul className="border-hairline divide-hairline mt-6 divide-y overflow-hidden rounded-card border bg-white">
+          <li className="text-muted bg-surface hidden px-4 py-3 text-[12px] font-semibold tracking-wide uppercase lg:grid lg:grid-cols-[minmax(0,3fr)_minmax(0,1.2fr)_minmax(0,1.4fr)_minmax(0,1fr)_88px] lg:gap-4">
+            <span>Property</span>
+            <span>Location</span>
+            <span>Price</span>
+            <span>Status</span>
+            <span className="text-right">Actions</span>
+          </li>
 
-            <tbody className="divide-hairline divide-y">
-              {properties.map(property => (
-                <tr key={property.id}>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-3">
-                      <span className="bg-surface relative h-11 w-16 shrink-0 overflow-hidden rounded-md">
-                        {property.images[0] ? (
-                          <Image
-                            src={propertyCardImage(property.images[0])}
-                            alt=""
-                            fill
-                            sizes="64px"
-                            className="object-cover"
-                          />
-                        ) : null}
-                      </span>
-                      <div className="min-w-0">
-                        <p className="text-ink truncate text-[14px] font-semibold">
-                          {property.title}
-                        </p>
-                        <p className="text-muted text-[12px]">
-                          {property.published ? (
-                            property.featured ? (
-                              'Published · Featured'
-                            ) : (
-                              'Published'
-                            )
-                          ) : (
-                            <span className="text-danger font-semibold">Draft</span>
-                          )}
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td className="text-ink px-4 py-3 text-[14px]">{property.location}</td>
-                  <td className="text-ink px-4 py-3 text-[14px] font-semibold">
-                    {displayPriceCompact(property.price, property.price_label)}
-                  </td>
-                  <td className="px-4 py-3">
-                    {property.status === 'Available' ? (
-                      <span className="text-success text-[13px] font-semibold">Available</span>
+          {properties.map(property => (
+            <li
+              key={property.id}
+              className="px-4 py-3 lg:grid lg:grid-cols-[minmax(0,3fr)_minmax(0,1.2fr)_minmax(0,1.4fr)_minmax(0,1fr)_88px] lg:items-center lg:gap-4"
+            >
+              <div className="flex min-w-0 items-center gap-3">
+                <PropertyThumb image={property.images[0]} />
+                <div className="min-w-0 flex-1">
+                  <p className="text-ink truncate text-[14px] font-semibold">{property.title}</p>
+                  <p className="text-muted text-[12px]">
+                    {property.published ? (
+                      property.featured ? (
+                        'Published · Featured'
+                      ) : (
+                        'Published'
+                      )
                     ) : (
-                      <StatusBadge status={property.status} />
+                      <span className="text-danger font-semibold">Draft</span>
                     )}
-                  </td>
-                  <td className="text-muted px-4 py-3 text-[13px]">
-                    {formatDate(property.created_at)}
-                  </td>
+                  </p>
+                </div>
+                <span className="shrink-0 lg:hidden">
+                  <PropertyStatus status={property.status} />
+                </span>
+              </div>
 
-                  <td className="px-4 py-3">
-                    <div className="flex items-center justify-end gap-1">
-                      <Link
-                        href={`/admin/properties/edit/${property.id}`}
-                        aria-label={`Edit ${property.title}`}
-                        className="text-muted hover:text-brand flex h-10 w-10 items-center justify-center transition-colors"
-                      >
-                        <Pencil size={16} aria-hidden="true" />
-                      </Link>
-                      <DeletePropertyButton id={property.id} title={property.title} />
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              <p className="text-muted mt-2 flex flex-wrap items-center gap-x-1.5 text-[13px] lg:hidden">
+                <span className="text-ink">{property.location}</span>
+                <span aria-hidden="true">·</span>
+                <span className="text-ink font-semibold">
+                  {displayPriceCompact(property.price, property.price_label)}
+                </span>
+                <span aria-hidden="true">·</span>
+                <span>{formatDate(property.created_at)}</span>
+              </p>
+
+              <span className="text-ink hidden text-[14px] lg:block">{property.location}</span>
+
+              <span className="hidden lg:block">
+                <span className="text-ink block text-[14px] font-semibold">
+                  {displayPriceCompact(property.price, property.price_label)}
+                </span>
+                <span className="text-muted block text-[12px]">
+                  {formatDate(property.created_at)}
+                </span>
+              </span>
+
+              <span className="hidden lg:block">
+                <PropertyStatus status={property.status} />
+              </span>
+
+              <div className="mt-1 flex items-center gap-1 lg:mt-0 lg:justify-end">
+                <Link
+                  href={`/admin/properties/edit/${property.id}`}
+                  aria-label={`Edit ${property.title}`}
+                  className="text-muted hover:text-brand flex h-10 w-10 items-center justify-center transition-colors"
+                >
+                  <Pencil size={16} aria-hidden="true" />
+                </Link>
+                <DeletePropertyButton id={property.id} title={property.title} />
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   )

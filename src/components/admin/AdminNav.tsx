@@ -19,7 +19,10 @@ export function AdminNav() {
   const pathname = usePathname()
 
   return (
-    <nav aria-label="Admin sections" className="flex gap-1 overflow-x-auto">
+    <nav
+      aria-label="Admin sections"
+      className="scrollbar-none -mx-4 flex gap-1 overflow-x-auto px-4 md:-mx-6 md:px-6 lg:-mx-12 lg:px-12"
+    >
       {ADMIN_LINKS.map(({ href, label, Icon, exact }) => {
         const isActive = exact ? pathname === href : pathname.startsWith(href)
 
@@ -29,7 +32,7 @@ export function AdminNav() {
             href={href}
             aria-current={isActive ? 'page' : undefined}
             className={clsx(
-              'rounded-control flex h-11 shrink-0 items-center gap-2 px-3.5 text-[14px] font-semibold transition-colors',
+              'rounded-control flex h-10 shrink-0 items-center gap-2 px-3 text-[13.5px] font-semibold transition-colors md:h-11 md:px-3.5 md:text-[14px]',
               isActive ? 'bg-brand text-brand-ink' : 'text-ink hover:bg-surface'
             )}
           >

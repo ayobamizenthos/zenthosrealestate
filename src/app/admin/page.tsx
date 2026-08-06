@@ -41,7 +41,7 @@ export default async function AdminDashboardPage() {
   ])
 
   return (
-    <div className="app-shell py-6 md:py-10">
+    <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-title md:text-display text-brand font-extrabold">Dashboard</h1>
         <ButtonLink href="/admin/properties/new">
@@ -72,7 +72,10 @@ export default async function AdminDashboardPage() {
       <section className="mt-8">
         <div className="flex items-center justify-between">
           <h2 className="text-ink text-[15px] font-bold">Recent inquiries</h2>
-          <Link href="/admin/inquiries" className="text-brand text-[14px] font-semibold">
+          <Link
+            href="/admin/inquiries"
+            className="text-brand -mr-2 flex min-h-11 items-center px-2 text-[14px] font-semibold"
+          >
             View all
           </Link>
         </div>
