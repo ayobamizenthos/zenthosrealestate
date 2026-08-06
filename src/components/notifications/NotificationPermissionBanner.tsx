@@ -4,12 +4,13 @@ import { Bell, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { usePushSubscription } from '@/hooks/usePushSubscription'
 import { createPromptDismissal } from '@/lib/local-store'
+import { claimPromptSlot, releasePromptSlot, usePromptSlotHolder } from '@/lib/prompt-slot'
 
 const REPROMPT_AFTER_MS = 14 * 24 * 60 * 60 * 1000
 
 // Long enough that the visitor has seen the page and short enough that a single
 // session still converts. Asking on first paint gets dismissed reflexively.
-const PROMPT_DELAY_MS = 9000
+const PROMPT_DELAY_MS = 10000
 
 const pushPrompt = createPromptDismissal('zenthos.push-prompt-dismissed-at', REPROMPT_AFTER_MS)
 
@@ -22,17 +23,29 @@ export function NotificationPermissionBanner() {
   const isSuppressed = pushPrompt.useIsSuppressed()
   const { permission, isSubscribed, isBusy, subscribe } = usePushSubscription()
   const [hasWaited, setHasWaited] = useState(false)
+  const slotHolder = usePromptSlotHolder()
 
   useEffect(() => {
     const timer = window.setTimeout(() => setHasWaited(true), PROMPT_DELAY_MS)
     return () => window.clearTimeout(timer)
   }, [])
 
+  const isVisible =
+    hasWaited &&
+    !isSuppressed &&
+    permission === 'default' &&
+    !isSubscribed &&
+    slotHolder !== 'install'
+
+  useEffect(() => {
+    if (!isVisible) return
+    claimPromptSlot('alerts')
+    return () => releasePromptSlot('alerts')
+  }, [isVisible])
+
   const dismiss = () => pushPrompt.dismiss()
 
-  const shouldShow = hasWaited && !isSuppressed && permission === 'default' && !isSubscribed
-
-  if (!shouldShow) return null
+  if (!isVisible) return null
 
   return (
     <div className="fixed inset-x-0 bottom-[calc(64px+env(safe-area-inset-bottom))] z-50 px-3 md:bottom-6 md:left-6 md:w-80 md:px-0">

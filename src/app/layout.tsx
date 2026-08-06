@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE.name}`,
   },
   description:
-    'Houses, duplexes and apartments for sale across Lagos island and mainland. Every listing inspected, every title checked. Talk to a Zenthos RE broker on WhatsApp.',
+    'Houses, duplexes and apartments for sale across Lagos island and mainland. Every listing inspected, every title checked. Talk to us on WhatsApp.',
   applicationName: SITE.name,
   manifest: '/manifest.webmanifest',
   icons: {

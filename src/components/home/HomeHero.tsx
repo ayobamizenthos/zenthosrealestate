@@ -12,17 +12,17 @@ export function HomeHero() {
         }}
       />
 
-      <div className="app-shell relative flex flex-col items-center py-10 text-center md:py-16">
-        <h1 className="max-w-4xl text-[34px] leading-[1.05] font-extrabold tracking-tight text-white md:text-[52px] lg:text-[58px]">
+      <div className="app-shell relative flex flex-col items-center py-8 text-center sm:py-10 md:py-16">
+        <h1 className="max-w-4xl text-[28px] leading-[1.08] font-extrabold tracking-tight text-white text-balance sm:text-[34px] md:text-[52px] lg:text-[58px]">
           Find the right property in Lagos
         </h1>
 
-        <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-white/70 md:text-[16px]">
+        <p className="mt-3 max-w-xl text-[14px] leading-relaxed text-white/70 sm:text-[15px] md:mt-4 md:text-[16px]">
           Houses, duplexes and apartments across Lagos island and mainland. Every title checked
-          before we list it. Speak to a broker on WhatsApp today.
+          before we list it.
         </p>
 
-        <div className="mt-7 flex w-full justify-center md:mt-8">
+        <div className="mt-5 flex w-full justify-center md:mt-8">
           <HeroSearchForm />
         </div>
       </div>

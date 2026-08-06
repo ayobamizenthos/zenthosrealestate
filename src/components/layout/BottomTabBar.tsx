@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { useSavedProperties } from '@/components/property/SavedProvider'
-import { useSearchOverlay } from '@/components/search/SearchProvider'
 
 const TAB_ITEM_CLASSES =
   'flex flex-1 flex-col items-center justify-center gap-1 text-[11px] font-semibold transition-colors'
@@ -17,11 +16,11 @@ const FOOTER_REVEAL_PX = 180
 
 export function BottomTabBar() {
   const pathname = usePathname()
-  const { openSearch } = useSearchOverlay()
   const { savedCount } = useSavedProperties()
   const [isAtFooter, setIsAtFooter] = useState(false)
 
   const isHome = pathname === '/'
+  const isBrowsing = pathname.startsWith('/properties')
   const isJournal = pathname.startsWith('/blog')
   const isSaved = pathname.startsWith('/saved')
   const isProfile = pathname.startsWith('/profile')
@@ -60,10 +59,14 @@ export function BottomTabBar() {
           Home
         </Link>
 
-        <button type="button" onClick={openSearch} className={clsx(TAB_ITEM_CLASSES, 'text-muted')}>
+        <Link
+          href="/properties"
+          className={clsx(TAB_ITEM_CLASSES, isBrowsing ? 'text-brand' : 'text-muted')}
+          aria-current={isBrowsing ? 'page' : undefined}
+        >
           <Search size={21} aria-hidden="true" />
           Search
-        </button>
+        </Link>
 
         <Link
           href="/blog"

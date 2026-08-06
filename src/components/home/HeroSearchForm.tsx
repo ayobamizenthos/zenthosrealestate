@@ -7,17 +7,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import { useDebouncedValue } from '@/hooks/useDebouncedValue'
 import { propertyCardImage } from '@/lib/cloudinary'
-import {
-  BEDROOM_FILTER_OPTIONS,
-  LOCATION_LANDING_PAGES,
-  LOCATIONS_BY_ZONE,
-  PROPERTY_TYPES,
-  SEARCH_DEBOUNCE_MS,
-  SEARCH_MIN_CHARS,
-} from '@/lib/constants'
-import { MultiSelect } from '@/components/ui/MultiSelect'
+import { SEARCH_DEBOUNCE_MS, SEARCH_MIN_CHARS } from '@/lib/constants'
 import { displayPriceCompact } from '@/lib/format'
-import { PRICE_PRESETS } from '@/lib/property-filters'
 import { searchProperties } from '@/lib/queries/properties'
 import { createSupabaseBrowserClient } from '@/lib/supabase/client'
 import type { PropertySummary } from '@/lib/types'
@@ -28,11 +19,6 @@ export function HeroSearchForm() {
   const [resultsAbove, setResultsAbove] = useState(false)
 
   const [term, setTerm] = useState('')
-  const [locations, setLocations] = useState<string[]>([])
-  const [propertyTypes, setPropertyTypes] = useState<string[]>([])
-  const [priceBands, setPriceBands] = useState<string[]>([])
-  const [bedroomChoices, setBedroomChoices] = useState<string[]>([])
-
   const [isOpen, setIsOpen] = useState(false)
   const [resolved, setResolved] = useState<{ query: string; matches: PropertySummary[] }>({
     query: '',
@@ -94,26 +80,11 @@ export function HeroSearchForm() {
   const matches = isQueryReady && resolved.query === query ? resolved.matches : []
   const isSearching = isQueryReady && resolved.query !== query
 
+  // The hero asks one question. Everything else is chosen on the results page,
+  // where the filter rail already lives.
   const submit = () => {
     const params = new URLSearchParams()
     if (term.trim()) params.set('q', term.trim())
-    if (locations.length) params.set('location', locations.join(','))
-    if (propertyTypes.length) params.set('type', propertyTypes.join(','))
-
-    const bedCounts = bedroomChoices
-      .map(choice => Number.parseInt(choice, 10))
-      .filter(Number.isFinite)
-    if (bedCounts.length) params.set('beds', String(Math.min(...bedCounts)))
-
-    const chosen = PRICE_PRESETS.filter(preset => priceBands.includes(preset.label))
-    if (chosen.length) {
-      const mins = chosen
-        .map(preset => preset.min)
-        .filter((value): value is number => value !== null)
-      const maxes = chosen.map(preset => preset.max)
-      if (mins.length === chosen.length) params.set('min', String(Math.min(...mins)))
-      if (!maxes.includes(null)) params.set('max', String(Math.max(...(maxes as number[]))))
-    }
 
     const search = params.toString()
     setIsOpen(false)
@@ -121,113 +92,50 @@ export function HeroSearchForm() {
   }
 
   return (
-    <div ref={cardRef} className="relative w-full max-w-4xl">
-      <div className="rounded-xl bg-white p-2 shadow-2xl md:p-2.5">
-        <div className="flex items-center gap-2.5 px-3 py-2.5 md:px-4">
-          <Search size={18} aria-hidden="true" className="text-muted shrink-0" />
-          <input
-            type="search"
-            value={term}
-            onChange={event => {
-              setTerm(event.target.value)
-              setIsOpen(true)
+    <div ref={cardRef} className="relative w-full max-w-3xl">
+      <div className="flex items-center gap-1.5 rounded-full bg-white p-1.5 shadow-2xl md:gap-2 md:p-2">
+        <Search size={17} aria-hidden="true" className="text-muted ml-2.5 shrink-0 md:ml-3" />
+        <input
+          type="search"
+          value={term}
+          onChange={event => {
+            setTerm(event.target.value)
+            setIsOpen(true)
+          }}
+          onFocus={() => setIsOpen(true)}
+          onKeyDown={event => {
+            if (event.key === 'Enter') submit()
+          }}
+          placeholder="Search area, street or type"
+          aria-label="Search properties"
+          className="text-ink placeholder:text-muted h-11 min-w-0 flex-1 bg-transparent text-[16px] outline-none [&::-webkit-search-cancel-button]:appearance-none md:h-12"
+        />
+
+        {isSearching ? (
+          <LoaderCircle size={16} aria-hidden="true" className="text-brand shrink-0 animate-spin" />
+        ) : term ? (
+          <button
+            type="button"
+            onClick={() => {
+              setTerm('')
+              setIsOpen(false)
             }}
-            onFocus={() => setIsOpen(true)}
-            onKeyDown={event => {
-              if (event.key === 'Enter') submit()
-            }}
-            placeholder="Search area, street or type"
-            aria-label="Search properties"
-            className="text-ink placeholder:text-muted h-11 min-w-0 flex-1 bg-transparent text-[16px] outline-none [&::-webkit-search-cancel-button]:appearance-none"
-          />
-          {isSearching ? (
-            <LoaderCircle
-              size={16}
-              aria-hidden="true"
-              className="text-brand shrink-0 animate-spin"
-            />
-          ) : term ? (
-            <button
-              type="button"
-              onClick={() => {
-                setTerm('')
-                setIsOpen(false)
-              }}
-              aria-label="Clear search"
-              className="text-muted hover:text-ink flex h-8 w-8 shrink-0 items-center justify-center"
-            >
-              <X size={16} aria-hidden="true" />
-            </button>
-          ) : null}
-        </div>
+            aria-label="Clear search"
+            className="text-muted hover:text-ink flex h-9 w-9 shrink-0 items-center justify-center"
+          >
+            <X size={16} aria-hidden="true" />
+          </button>
+        ) : null}
 
-        <div className="flex flex-col md:flex-row md:items-stretch">
-          <MultiSelect
-            label="Location"
-            placeholder="Anywhere in Lagos"
-            searchable
-            searchPlaceholder="Type an area"
-            groups={[
-              { label: 'Island', options: LOCATIONS_BY_ZONE.Island },
-              { label: 'Mainland', options: LOCATIONS_BY_ZONE.Mainland },
-            ]}
-            selected={locations}
-            onChange={setLocations}
-          />
-
-          <MultiSelect
-            label="Property type"
-            placeholder="All types"
-            groups={[{ label: 'Types', options: PROPERTY_TYPES }]}
-            selected={propertyTypes}
-            onChange={setPropertyTypes}
-          />
-
-          <MultiSelect
-            label="Price range"
-            placeholder="All prices"
-            groups={[{ label: 'Bands', options: PRICE_PRESETS.map(preset => preset.label) }]}
-            selected={priceBands}
-            onChange={setPriceBands}
-          />
-
-          <MultiSelect
-            label="Bedrooms"
-            placeholder="All sizes"
-            groups={[
-              {
-                label: 'Bedrooms',
-                options: BEDROOM_FILTER_OPTIONS.map(count => `${count}+ bedrooms`),
-              },
-            ]}
-            selected={bedroomChoices}
-            onChange={setBedroomChoices}
-          />
-
-          <div className="p-2 md:flex md:items-center">
-            <button
-              type="button"
-              onClick={submit}
-              className="bg-brand hover:bg-brand-hover flex h-12 w-full items-center justify-center gap-2 rounded-lg px-7 text-[15px] font-bold text-white transition-colors md:h-14"
-            >
-              <Search size={17} aria-hidden="true" />
-              Search
-            </button>
-          </div>
-        </div>
-
-        <div className="scrollbar-none flex gap-2 overflow-x-auto px-3 py-2.5 md:px-4">
-          {LOCATION_LANDING_PAGES.map(area => (
-            <button
-              key={area.slug}
-              type="button"
-              onClick={() => router.push(`/properties/${area.slug}`)}
-              className="text-ink hover:border-ink hover:bg-surface flex h-11 shrink-0 items-center rounded-full border px-4 text-[13px] font-medium whitespace-nowrap transition-colors"
-            >
-              {area.name}
-            </button>
-          ))}
-        </div>
+        <button
+          type="button"
+          onClick={submit}
+          aria-label="Search properties"
+          className="bg-brand hover:bg-brand-hover flex h-11 shrink-0 items-center justify-center gap-2 rounded-full px-4 text-[15px] font-bold text-white transition-colors md:h-12 md:px-6"
+        >
+          <Search size={17} aria-hidden="true" className="md:hidden" />
+          <span className="hidden md:inline">Search</span>
+        </button>
       </div>
 
       {isOpen && isQueryReady ? (

@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { ZenthosLogo } from '@/components/brand/ZenthosLogo'
 import { useVisitCount } from '@/hooks/useVisitCount'
 import { createPromptDismissal, useIsClient } from '@/lib/local-store'
+import { claimPromptSlot, releasePromptSlot } from '@/lib/prompt-slot'
 
 const REPROMPT_AFTER_MS = 7 * 24 * 60 * 60 * 1000
 const MIN_VISITS = 2
@@ -44,13 +45,24 @@ export function InstallBanner() {
     return () => window.removeEventListener('beforeinstallprompt', captureInstallPrompt)
   }, [])
 
-  if (!isClient) return null
-  if (isSuppressed) return null
-  if (isStandalone()) return null
-  if (visitCount < MIN_VISITS) return null
+  // Safe to read the window on this render: useIsClient is false through
+  // hydration, so these only run once the markup has already matched.
+  const showIosHint = isClient && isIosSafari()
 
-  const showIosHint = isIosSafari()
-  if (!installEvent && !showIosHint) return null
+  const isVisible =
+    isClient &&
+    !isSuppressed &&
+    !isStandalone() &&
+    visitCount >= MIN_VISITS &&
+    (Boolean(installEvent) || showIosHint)
+
+  useEffect(() => {
+    if (!isVisible) return
+    claimPromptSlot('install')
+    return () => releasePromptSlot('install')
+  }, [isVisible])
+
+  if (!isVisible) return null
 
   const dismiss = () => installPrompt.dismiss()
 

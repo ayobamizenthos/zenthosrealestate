@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${SITE.name} | Property for Sale in Lagos`,
     description:
-      'Inspected homes for sale across Lagos island and mainland. Speak to a broker on WhatsApp.',
+      'Inspected homes for sale across Lagos island and mainland. Talk to us on WhatsApp.',
     url: SITE.url,
   },
 }
