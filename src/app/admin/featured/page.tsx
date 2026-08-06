@@ -6,7 +6,7 @@ import type { PropertySummary } from '@/lib/types'
 export const metadata: Metadata = { title: 'Homepage order' }
 
 const COLUMNS =
-  'id, slug, title, description, location, state, address, price, price_label, property_type, bedrooms, bathrooms, toilets, serviced, furnished, images, status, listing_type, created_at'
+  'id, slug, title, description, location, state, address, price, price_label, property_type, bedrooms, bathrooms, toilets, images, listing_type, created_at'
 
 export default async function AdminFeaturedPage() {
   const { supabase } = await requireAdmin()

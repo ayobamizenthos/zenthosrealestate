@@ -177,7 +177,6 @@ const payload = {
   bedrooms: details.bedrooms,
   bathrooms: details.bedrooms,
   toilets: details.bedrooms + 1,
-  furnished: 'Unfurnished',
   listing_type: 'Sale',
   status: 'Available',
   amenities: [],

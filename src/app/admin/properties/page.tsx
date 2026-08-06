@@ -2,11 +2,10 @@ import { Pencil, Plus } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { DeletePropertyButton } from '@/components/admin/DeletePropertyButton'
-import { StatusBadge } from '@/components/ui/Badge'
 import { ButtonLink } from '@/components/ui/Button'
 import { propertyCardImage } from '@/lib/cloudinary'
-import { PROPERTY_LOCATIONS, PROPERTY_STATUSES } from '@/lib/constants'
-import type { PropertyLocation, PropertyStatus } from '@/lib/constants'
+import { PROPERTY_LOCATIONS } from '@/lib/constants'
+import type { PropertyLocation } from '@/lib/constants'
 import { requireAdmin } from '@/lib/auth'
 import { displayPriceCompact, formatDate } from '@/lib/format'
 import { listPropertiesForAdmin } from '@/lib/queries/admin'
@@ -30,13 +29,6 @@ function PropertyThumb({ image }: { image: string | undefined }) {
   )
 }
 
-function PropertyStatus({ status }: { status: PropertyStatus }) {
-  if (status === 'Available') {
-    return <span className="text-success text-[13px] font-semibold">Available</span>
-  }
-  return <StatusBadge status={status} />
-}
-
 export default async function AdminPropertiesPage({
   searchParams,
 }: {
@@ -45,14 +37,10 @@ export default async function AdminPropertiesPage({
   const { supabase } = await requireAdmin()
   const params = await searchParams
 
-  const statusParam = readParam(params, 'status')
   const locationParam = readParam(params, 'location')
 
   const filters = {
     search: readParam(params, 'q').slice(0, 100),
-    status: (PROPERTY_STATUSES as readonly string[]).includes(statusParam)
-      ? (statusParam as PropertyStatus)
-      : ('All' as const),
     location: (PROPERTY_LOCATIONS as readonly string[]).includes(locationParam)
       ? (locationParam as PropertyLocation)
       : ('All' as const),
@@ -79,20 +67,6 @@ export default async function AdminPropertiesPage({
           aria-label="Search properties by title"
           className="border-hairline focus:border-brand rounded-control h-11 min-w-0 border px-3.5 text-[16px] outline-none sm:col-span-2 lg:w-64 lg:flex-1 lg:col-span-1"
         />
-
-        <select
-          name="status"
-          defaultValue={filters.status}
-          aria-label="Filter by status"
-          className="border-hairline rounded-control h-11 min-w-0 border bg-white px-3 text-[16px] lg:w-44"
-        >
-          <option value="All">All statuses</option>
-          {PROPERTY_STATUSES.map(status => (
-            <option key={status} value={status}>
-              {status}
-            </option>
-          ))}
-        </select>
 
         <select
           name="location"
@@ -126,18 +100,17 @@ export default async function AdminPropertiesPage({
           renders as a card, so nothing is ever pushed off the side of a phone.
         */
         <ul className="border-hairline divide-hairline mt-6 divide-y overflow-hidden rounded-card border bg-white">
-          <li className="text-muted bg-surface hidden px-4 py-3 text-[12px] font-semibold tracking-wide uppercase lg:grid lg:grid-cols-[minmax(0,3fr)_minmax(0,1.2fr)_minmax(0,1.4fr)_minmax(0,1fr)_88px] lg:gap-4">
+          <li className="text-muted bg-surface hidden px-4 py-3 text-[12px] font-semibold tracking-wide uppercase lg:grid lg:grid-cols-[minmax(0,3fr)_minmax(0,1.2fr)_minmax(0,1.4fr)_88px] lg:gap-4">
             <span>Property</span>
             <span>Location</span>
             <span>Price</span>
-            <span>Status</span>
             <span className="text-right">Actions</span>
           </li>
 
           {properties.map(property => (
             <li
               key={property.id}
-              className="px-4 py-3 lg:grid lg:grid-cols-[minmax(0,3fr)_minmax(0,1.2fr)_minmax(0,1.4fr)_minmax(0,1fr)_88px] lg:items-center lg:gap-4"
+              className="px-4 py-3 lg:grid lg:grid-cols-[minmax(0,3fr)_minmax(0,1.2fr)_minmax(0,1.4fr)_88px] lg:items-center lg:gap-4"
             >
               <div className="flex min-w-0 items-center gap-3">
                 <PropertyThumb image={property.images[0]} />
@@ -155,9 +128,6 @@ export default async function AdminPropertiesPage({
                     )}
                   </p>
                 </div>
-                <span className="shrink-0 lg:hidden">
-                  <PropertyStatus status={property.status} />
-                </span>
               </div>
 
               <p className="text-muted mt-2 flex flex-wrap items-center gap-x-1.5 text-[13px] lg:hidden">
@@ -179,10 +149,6 @@ export default async function AdminPropertiesPage({
                 <span className="text-muted block text-[12px]">
                   {formatDate(property.created_at)}
                 </span>
-              </span>
-
-              <span className="hidden lg:block">
-                <PropertyStatus status={property.status} />
               </span>
 
               <div className="mt-1 flex items-center gap-1 lg:mt-0 lg:justify-end">

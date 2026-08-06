@@ -8,11 +8,9 @@ import { SelectField, TextArea, TextField } from '@/components/ui/TextField'
 import type { PropertyActionState } from '@/lib/actions/properties'
 import {
   AMENITIES,
-  FURNISHED_STATES,
   LISTING_TYPES,
   LOCATIONS_BY_ZONE,
   TITLE_DOCUMENTS,
-  PROPERTY_STATUSES,
   PROPERTY_TYPES,
 } from '@/lib/constants'
 import type { Property } from '@/lib/types'
@@ -204,40 +202,18 @@ export function PropertyForm({ action, property }: PropertyFormProps) {
           />
         </div>
 
-        <div className="grid gap-4 md:grid-cols-3">
-          <SelectField
-            label="Furnishing"
-            name="furnished"
-            defaultValue={property?.furnished ?? 'Unfurnished'}
-          >
-            {FURNISHED_STATES.map(state => (
-              <option key={state} value={state}>
-                {state}
-              </option>
-            ))}
-          </SelectField>
-
-          <SelectField
-            label="Listing type"
-            name="listing_type"
-            required
-            defaultValue={property?.listing_type ?? LISTING_TYPES[0]}
-          >
-            {LISTING_TYPES.map(listingType => (
-              <option key={listingType} value={listingType}>
-                For {listingType.toLowerCase()}
-              </option>
-            ))}
-          </SelectField>
-
-          <SelectField label="Status" name="status" defaultValue={property?.status ?? 'Available'}>
-            {PROPERTY_STATUSES.map(status => (
-              <option key={status} value={status}>
-                {status}
-              </option>
-            ))}
-          </SelectField>
-        </div>
+        <SelectField
+          label="Listing type"
+          name="listing_type"
+          required
+          defaultValue={property?.listing_type ?? LISTING_TYPES[0]}
+        >
+          {LISTING_TYPES.map(listingType => (
+            <option key={listingType} value={listingType}>
+              For {listingType.toLowerCase()}
+            </option>
+          ))}
+        </SelectField>
       </section>
 
       <section>

@@ -1,4 +1,4 @@
-import type { PropertyLocation, PropertyStatus } from '@/lib/constants'
+import type { PropertyLocation } from '@/lib/constants'
 import type { ZenthosSupabaseClient } from '@/lib/supabase/types'
 import type { PropertySummary } from '@/lib/types'
 
@@ -9,11 +9,10 @@ export interface AdminPropertyRow extends PropertySummary {
 }
 
 const ADMIN_COLUMNS =
-  'id, slug, title, description, location, state, address, price, price_label, property_type, bedrooms, bathrooms, toilets, area_sqm, furnished, images, status, listing_type, published, featured, created_at, reference_code'
+  'id, slug, title, description, location, state, address, price, price_label, property_type, bedrooms, bathrooms, toilets, area_sqm, images, listing_type, published, featured, created_at, reference_code'
 
 export interface AdminPropertyFilters {
   search: string
-  status: PropertyStatus | 'All'
   location: PropertyLocation | 'All'
 }
 
@@ -27,7 +26,6 @@ export async function listPropertiesForAdmin(
     .order('created_at', { ascending: false })
     .limit(200)
 
-  if (filters.status !== 'All') query = query.eq('status', filters.status)
   if (filters.location !== 'All') query = query.eq('location', filters.location)
 
   if (filters.search) {
@@ -53,9 +51,7 @@ export async function listPropertiesForAdmin(
     bathrooms: row.bathrooms,
     toilets: row.toilets,
     area_sqm: row.area_sqm,
-    furnished: row.furnished as PropertySummary['furnished'],
     images: row.images,
-    status: row.status as PropertyStatus,
     listing_type: row.listing_type as PropertySummary['listing_type'],
     published: row.published,
     featured: row.featured,
@@ -64,21 +60,15 @@ export async function listPropertiesForAdmin(
   }))
 }
 
-export async function countPropertiesByStatus(
+export async function countProperties(
   supabase: ZenthosSupabaseClient
-): Promise<{ byStatus: Record<PropertyStatus, number>; drafts: number; total: number }> {
-  const { data, error } = await supabase.from('properties').select('status, published')
+): Promise<{ live: number; drafts: number; total: number }> {
+  const { data, error } = await supabase.from('properties').select('published')
 
   if (error) throw new Error(`Failed to count properties: ${error.message}`)
 
-  const byStatus: Record<PropertyStatus, number> = { Available: 0, Sold: 0, Reserved: 0 }
-  let drafts = 0
+  const rows = data ?? []
+  const drafts = rows.filter(row => !row.published).length
 
-  for (const row of data ?? []) {
-    const status = row.status as PropertyStatus
-    if (status in byStatus) byStatus[status] += 1
-    if (!row.published) drafts += 1
-  }
-
-  return { byStatus, drafts, total: data?.length ?? 0 }
+  return { live: rows.length - drafts, drafts, total: rows.length }
 }

@@ -8,7 +8,7 @@ import { listBlogPosts, type BlogPost } from '@/lib/queries/blog'
 import { createSupabasePublicClient } from '@/lib/supabase/public'
 
 export const metadata: Metadata = {
-  title: 'Lagos Property Journal',
+  title: 'Lagos Property Blog',
   description:
     'Guides and market insight on buying property in Lagos: title documents, service charges, inspections and where value sits across the city.',
   alternates: { canonical: '/blog' },
@@ -113,7 +113,7 @@ export default async function BlogIndexPage() {
     <div className="app-shell py-8 md:py-14">
       <header className="max-w-2xl">
         <h1 className="text-ink text-[28px] leading-tight font-extrabold sm:text-[34px] md:text-[42px]">
-          Lagos Property Journal
+          Lagos Property Blog
         </h1>
         <p className="text-muted mt-4 text-[15px] leading-relaxed md:text-[16px]">
           What we have learned brokering property in Lagos, written for buyers, owners and agents.

@@ -1,11 +1,9 @@
 import type {
   Amenity,
-  FurnishedState,
   InquiryStatus,
   ListingType,
   PropertyLocation,
   PropertyState,
-  PropertyStatus,
   PropertyType,
   TitleDocument,
 } from './constants'
@@ -29,11 +27,9 @@ export interface Property {
 
   reference_code: string
   title_document: TitleDocument | null
-  furnished: FurnishedState
   amenities: Amenity[]
   images: string[]
   featured: boolean
-  status: PropertyStatus
   listing_type: ListingType
   published: boolean
   created_at: string
@@ -56,9 +52,7 @@ export type PropertySummary = Pick<
   | 'bathrooms'
   | 'toilets'
   | 'area_sqm'
-  | 'furnished'
   | 'images'
-  | 'status'
   | 'listing_type'
   | 'created_at'
 >
@@ -133,7 +127,6 @@ export interface PropertyFilters {
   locations: PropertyLocation[]
   titleDocuments: TitleDocument[]
   propertyTypes: PropertyType[]
-  furnished: FurnishedState[]
   listingType: ListingType | 'All'
   minPrice: number | null
   maxPrice: number | null

@@ -6,16 +6,14 @@ import { z } from 'zod'
 import { requireAdmin } from '@/lib/auth'
 import {
   AMENITIES,
-  FURNISHED_STATES,
   LISTING_TYPES,
   MAX_IMAGES_PER_PROPERTY,
   PROPERTY_LOCATIONS,
   STATES,
   TITLE_DOCUMENTS,
-  PROPERTY_STATUSES,
   PROPERTY_TYPES,
 } from '@/lib/constants'
-import { notifyNewProperty, notifyPriceDrop, notifyStatusChange } from '@/lib/push/notify'
+import { notifyNewProperty, notifyPriceDrop } from '@/lib/push/notify'
 import { getPropertyByIdForAdmin } from '@/lib/queries/properties'
 
 export interface PropertyActionState {
@@ -53,9 +51,7 @@ const propertySchema = z.object({
     .refine(value => value === null || (Number.isFinite(value) && value > 0), {
       message: 'Floor area must be a positive whole number',
     }),
-  furnished: z.enum(FURNISHED_STATES),
   listing_type: z.enum(LISTING_TYPES),
-  status: z.enum(PROPERTY_STATUSES),
   amenities: z.array(z.enum(AMENITIES)).max(AMENITIES.length),
   images: z.array(z.string().url()).max(MAX_IMAGES_PER_PROPERTY),
   featured: z.boolean(),
@@ -85,9 +81,7 @@ function readForm(formData: FormData) {
     bedrooms: formData.get('bedrooms') ?? 0,
     bathrooms: formData.get('bathrooms') ?? 0,
     toilets: formData.get('toilets') ?? 0,
-    furnished: formData.get('furnished'),
     listing_type: formData.get('listing_type'),
-    status: formData.get('status') ?? 'Available',
     amenities: formData.getAll('amenities'),
     images,
     featured: formData.get('featured') === 'on',
@@ -163,7 +157,6 @@ export async function updatePropertyAction(
     const droppedPrice = before.price !== null && after.price !== null && after.price < before.price
 
     if (droppedPrice) await notifyPriceDrop(after, before.price as number).catch(() => undefined)
-    if (before.status !== after.status) await notifyStatusChange(after).catch(() => undefined)
 
     if (!before.published && after.published) {
       await notifyNewProperty(after).catch(() => undefined)

@@ -26,10 +26,7 @@ export function PropertyJsonLd({ property }: { property: Property }) {
             '@type': 'Offer',
             price: property.price,
             priceCurrency: 'NGN',
-            availability:
-              property.status === 'Available'
-                ? 'https://schema.org/InStock'
-                : 'https://schema.org/SoldOut',
+            availability: 'https://schema.org/InStock',
           },
         }
       : {}),

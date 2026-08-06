@@ -1,18 +1,11 @@
 import { PROPERTIES_PER_PAGE } from '@/lib/constants'
-import type {
-  Amenity,
-  FurnishedState,
-  ListingType,
-  PropertyLocation,
-  PropertyStatus,
-  PropertyType,
-} from '@/lib/constants'
+import type { Amenity, ListingType, PropertyLocation, PropertyType } from '@/lib/constants'
 import type { PropertiesRow } from '@/lib/database.types'
 import type { ZenthosSupabaseClient } from '@/lib/supabase/types'
 import type { Property, PropertyFilters, PropertyPage, PropertySummary } from '@/lib/types'
 
 const SUMMARY_COLUMNS =
-  'id, slug, title, description, location, state, address, price, price_label, property_type, bedrooms, bathrooms, toilets, area_sqm, furnished, images, status, listing_type, created_at'
+  'id, slug, title, description, location, state, address, price, price_label, property_type, bedrooms, bathrooms, toilets, area_sqm, images, listing_type, created_at'
 
 const DETAIL_COLUMNS = `${SUMMARY_COLUMNS}, amenities, featured, published, reference_code, title_document, updated_at`
 
@@ -32,15 +25,15 @@ function toSummary(row: Pick<PropertiesRow, keyof PropertySummary>): PropertySum
     bathrooms: row.bathrooms,
     toilets: row.toilets,
     area_sqm: row.area_sqm,
-    furnished: row.furnished as FurnishedState,
     images: row.images,
-    status: row.status as PropertyStatus,
     listing_type: row.listing_type as ListingType,
     created_at: row.created_at,
   }
 }
 
-function toProperty(row: Omit<PropertiesRow, 'search_vector' | 'featured_rank'>): Property {
+function toProperty(
+  row: Omit<PropertiesRow, 'search_vector' | 'featured_rank' | 'furnished' | 'status'>
+): Property {
   return {
     ...toSummary(row),
     amenities: row.amenities as Amenity[],
@@ -83,7 +76,6 @@ export async function listProperties(
   if (filters.locations.length) query = query.in('location', filters.locations)
   if (filters.titleDocuments.length) query = query.in('title_document', filters.titleDocuments)
   if (filters.propertyTypes.length) query = query.in('property_type', filters.propertyTypes)
-  if (filters.furnished.length) query = query.in('furnished', filters.furnished)
   if (filters.listingType !== 'All') query = query.eq('listing_type', filters.listingType)
   if (filters.minPrice !== null) query = query.gte('price', filters.minPrice)
   if (filters.maxPrice !== null) query = query.lte('price', filters.maxPrice)
@@ -132,7 +124,6 @@ export async function getFeaturedProperties(
     .select(SUMMARY_COLUMNS)
     .eq('published', true)
     .eq('featured', true)
-    .neq('status', 'Sold')
     .order('featured_rank', { ascending: true, nullsFirst: false })
     .order('created_at', { ascending: false })
     .limit(limit)

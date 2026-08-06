@@ -10,11 +10,9 @@ import { useLockBodyScroll } from '@/hooks/useLockBodyScroll'
 import {
   BEDROOM_FILTER_OPTIONS,
   SEARCH_DEBOUNCE_MS,
-  FURNISHED_STATES,
   LOCATIONS_BY_ZONE,
   TITLE_DOCUMENTS,
   PROPERTY_TYPES,
-  type FurnishedState,
   type PropertyLocation,
   type TitleDocument,
   type PropertyType,
@@ -28,7 +26,7 @@ import {
 } from '@/lib/property-filters'
 import type { PropertyFilters, PropertySort } from '@/lib/types'
 
-type FilterKey = 'location' | 'price' | 'beds' | 'type' | 'title' | 'more' | 'sort'
+type FilterKey = 'location' | 'price' | 'beds' | 'type' | 'title' | 'added' | 'sort'
 
 const PANEL_TITLES: Record<FilterKey, string> = {
   location: 'Area',
@@ -36,7 +34,7 @@ const PANEL_TITLES: Record<FilterKey, string> = {
   beds: 'Bedrooms',
   type: 'Property type',
   title: 'Title document',
-  more: 'More filters',
+  added: 'Date added',
   sort: 'Sort',
 }
 
@@ -212,8 +210,6 @@ export function FilterBar({ filters, onChange }: FilterBarProps) {
     return `Up to ${high} beds`
   }
 
-  const extraCount = (filters.addedWithinDays !== null ? 1 : 0) + filters.furnished.length
-
   const summaries: Record<FilterKey, string | null> = {
     location: filters.locations.length
       ? filters.locations.length === 1
@@ -235,7 +231,11 @@ export function FilterBar({ filters, onChange }: FilterBarProps) {
         ? filters.titleDocuments[0]
         : `${filters.titleDocuments.length} titles`
       : null,
-    more: extraCount > 0 ? `More · ${extraCount}` : null,
+    added:
+      filters.addedWithinDays === null
+        ? null
+        : (DATE_ADDED_PRESETS.find(preset => preset.days === filters.addedWithinDays)?.label ??
+          null),
     sort:
       filters.sort === 'newest'
         ? null
@@ -265,7 +265,7 @@ export function FilterBar({ filters, onChange }: FilterBarProps) {
       beds: { minBedrooms: null, maxBedrooms: null },
       type: { propertyTypes: [] },
       title: { titleDocuments: [] },
-      more: { furnished: [], addedWithinDays: null },
+      added: { addedWithinDays: null },
       sort: { sort: 'newest' },
     }
 
@@ -461,34 +461,16 @@ export function FilterBar({ filters, onChange }: FilterBarProps) {
     }
 
     return (
-      <div className="space-y-5">
-        <PillGroup label="Furnishing">
-          {FURNISHED_STATES.map(state => (
-            <Pill
-              key={state}
-              label={state}
-              selected={filters.furnished.includes(state)}
-              onClick={() =>
-                onChange({
-                  ...filters,
-                  furnished: toggleEntry<FurnishedState>(filters.furnished, state),
-                })
-              }
-            />
-          ))}
-        </PillGroup>
-
-        <PillGroup label="Date added">
-          {DATE_ADDED_PRESETS.map(preset => (
-            <Pill
-              key={preset.label}
-              label={preset.label}
-              selected={filters.addedWithinDays === preset.days}
-              onClick={() => onChange({ ...filters, addedWithinDays: preset.days })}
-            />
-          ))}
-        </PillGroup>
-      </div>
+      <PillGroup>
+        {DATE_ADDED_PRESETS.map(preset => (
+          <Pill
+            key={preset.label}
+            label={preset.label}
+            selected={filters.addedWithinDays === preset.days}
+            onClick={() => onChange({ ...filters, addedWithinDays: preset.days })}
+          />
+        ))}
+      </PillGroup>
     )
   }
 

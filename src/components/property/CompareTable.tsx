@@ -75,9 +75,7 @@ export function CompareTable() {
     { label: 'Bedrooms', render: property => String(property.bedrooms) },
     { label: 'Bathrooms', render: property => String(property.bathrooms) },
     { label: 'Property type', render: property => property.property_type },
-    { label: 'Furnishing', render: property => property.furnished },
     { label: 'Listing type', render: property => `For ${property.listing_type.toLowerCase()}` },
-    { label: 'Status', render: property => property.status },
   ]
 
   return (

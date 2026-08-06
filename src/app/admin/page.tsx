@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ButtonLink } from '@/components/ui/Button'
 import { requireAdmin } from '@/lib/auth'
 import { formatRelativeTime } from '@/lib/format'
-import { countPropertiesByStatus } from '@/lib/queries/admin'
+import { countProperties } from '@/lib/queries/admin'
 import { countInquiriesByStatus, listInquiries } from '@/lib/queries/inquiries'
 
 export const dynamic = 'force-dynamic'
@@ -29,11 +29,7 @@ export default async function AdminDashboardPage() {
   const { supabase } = await requireAdmin()
 
   const [propertyCounts, inquiryCounts, recentInquiries] = await Promise.all([
-    countPropertiesByStatus(supabase).catch(() => ({
-      byStatus: { Available: 0, Sold: 0, Reserved: 0 },
-      drafts: 0,
-      total: 0,
-    })),
+    countProperties(supabase).catch(() => ({ live: 0, drafts: 0, total: 0 })),
     countInquiriesByStatus(supabase).catch(() => ({ New: 0, Contacted: 0, Closed: 0 })),
     listInquiries(supabase)
       .then(all => all.slice(0, 6))
@@ -52,11 +48,10 @@ export default async function AdminDashboardPage() {
 
       <section className="mt-6">
         <h2 className="text-ink text-[15px] font-bold">Properties</h2>
-        <div className="mt-3 grid grid-cols-2 gap-3 md:grid-cols-4">
-          <StatTile label="Available" value={propertyCounts.byStatus.Available} tone="brand" />
-          <StatTile label="Reserved" value={propertyCounts.byStatus.Reserved} />
-          <StatTile label="Sold" value={propertyCounts.byStatus.Sold} />
+        <div className="mt-3 grid grid-cols-3 gap-3">
+          <StatTile label="Live" value={propertyCounts.live} tone="brand" />
           <StatTile label="Drafts" value={propertyCounts.drafts} />
+          <StatTile label="Total" value={propertyCounts.total} />
         </div>
       </section>
 

@@ -1,4 +1,4 @@
-import { Bath, BedDouble, ChevronRight, MapPin, Phone, Sofa, Toilet } from 'lucide-react'
+import { Bath, BedDouble, ChevronRight, MapPin, Phone, Toilet } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -152,7 +152,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
     { label: 'Bathrooms', value: String(property.bathrooms) },
     { label: 'Toilets', value: String(property.toilets) },
     ...(property.area_sqm ? [{ label: 'Floor area', value: `${property.area_sqm} sqm` }] : []),
-    { label: 'Furnishing', value: property.furnished },
     ...(property.title_document
       ? [{ label: 'Title document', value: property.title_document }]
       : []),
@@ -240,7 +239,7 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
               <CompareButton propertyId={property.id} propertyTitle={property.title} />
             </div>
 
-            <div className="mt-6 grid grid-cols-4 gap-1.5 sm:gap-3 md:mt-8">
+            <div className="mt-6 grid grid-cols-3 gap-2 sm:gap-3 md:mt-8">
               <SpecTile
                 icon={<BedDouble size={17} aria-hidden="true" />}
                 value={String(property.bedrooms)}
@@ -255,11 +254,6 @@ export default async function PropertyDetailPage({ params }: { params: PageParam
                 icon={<Toilet size={17} aria-hidden="true" />}
                 value={String(property.toilets)}
                 label={property.toilets === 1 ? 'Toilet' : 'Toilets'}
-              />
-              <SpecTile
-                icon={<Sofa size={17} aria-hidden="true" />}
-                value={property.furnished}
-                label="Furnishing"
               />
             </div>
 

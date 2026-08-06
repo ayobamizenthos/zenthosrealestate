@@ -15,7 +15,6 @@ import Link from 'next/link'
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon'
-import { StatusBadge } from '@/components/ui/Badge'
 import { propertyBlurPlaceholder, propertyCardImage } from '@/lib/cloudinary'
 import { SITE } from '@/lib/constants'
 import { displayPrice } from '@/lib/format'
@@ -67,10 +66,6 @@ export function PropertyCard({ property, priority = false, action }: PropertyCar
             className="object-cover"
           />
         ) : null}
-
-        <div className="absolute top-3 left-3 z-10 flex flex-wrap gap-1.5">
-          <StatusBadge status={property.status} />
-        </div>
 
         {action ? <div className="absolute top-3 right-3 z-20">{action}</div> : null}
 

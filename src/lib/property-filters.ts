@@ -1,11 +1,9 @@
 import {
-  FURNISHED_STATES,
   LISTING_TYPES,
   PROPERTY_LOCATIONS,
   STATES,
   TITLE_DOCUMENTS,
   PROPERTY_TYPES,
-  type FurnishedState,
   type ListingType,
   type PropertyLocation,
   type PropertyState,
@@ -19,7 +17,6 @@ export const EMPTY_FILTERS: PropertyFilters = {
   locations: [],
   titleDocuments: [],
   propertyTypes: [],
-  furnished: [],
   listingType: 'All',
   minPrice: null,
   maxPrice: null,
@@ -104,7 +101,6 @@ export function parsePropertyFilters(params: SearchParamsInput): PropertyFilters
     locations: readEnumList<PropertyLocation>(params, 'location', PROPERTY_LOCATIONS),
     titleDocuments: readEnumList<TitleDocument>(params, 'title', TITLE_DOCUMENTS),
     propertyTypes: readEnumList<PropertyType>(params, 'type', PROPERTY_TYPES),
-    furnished: readEnumList<FurnishedState>(params, 'furnished', FURNISHED_STATES),
     listingType,
     minPrice: readPositiveInt(params, 'min'),
     maxPrice: readPositiveInt(params, 'max'),
@@ -124,7 +120,6 @@ export function filtersToSearchParams(filters: PropertyFilters): URLSearchParams
   if (filters.locations.length) params.set('location', filters.locations.join(','))
   if (filters.titleDocuments.length) params.set('title', filters.titleDocuments.join(','))
   if (filters.propertyTypes.length) params.set('type', filters.propertyTypes.join(','))
-  if (filters.furnished.length) params.set('furnished', filters.furnished.join(','))
   if (filters.listingType !== 'All') params.set('listing', filters.listingType)
   if (filters.minPrice !== null) params.set('min', String(filters.minPrice))
   if (filters.maxPrice !== null) params.set('max', String(filters.maxPrice))
@@ -150,7 +145,6 @@ export function countActiveFilters(filters: PropertyFilters): number {
     filters.locations.length +
     filters.titleDocuments.length +
     filters.propertyTypes.length +
-    filters.furnished.length +
     (filters.listingType !== 'All' ? 1 : 0) +
     (filters.minPrice !== null || filters.maxPrice !== null ? 1 : 0) +
     (filters.minBedrooms !== null || filters.maxBedrooms !== null ? 1 : 0) +

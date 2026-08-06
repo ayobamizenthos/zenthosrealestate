@@ -95,20 +95,6 @@ export async function notifyPriceDrop(property: Property, previousPrice: number)
   })
 }
 
-export async function notifyStatusChange(property: Property): Promise<void> {
-  const audience = await usersWhoSaved(property.id)
-
-  await fanOut(audience, 'status_change', {
-    title: `${property.title} is now ${property.status.toLowerCase()}`,
-    body:
-      property.status === 'Sold'
-        ? 'This property has been sold. Similar listings are still available.'
-        : `The status changed to ${property.status}.`,
-    url: `/properties/${property.slug}`,
-    tag: `status-${property.id}`,
-  })
-}
-
 export async function notifyNewInquiry(inquiry: {
   id: string
   name: string

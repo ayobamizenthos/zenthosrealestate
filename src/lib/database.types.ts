@@ -32,14 +32,32 @@ export type PropertiesRow = {
   updated_at: Timestamptz
 }
 
+// `furnished` and `status` are retired from the product but still carry
+// historical values, so the database fills them from their defaults.
 type PropertiesInsert = Omit<
   PropertiesRow,
-  'id' | 'slug' | 'search_vector' | 'reference_code' | 'featured_rank' | 'created_at' | 'updated_at'
+  | 'id'
+  | 'slug'
+  | 'search_vector'
+  | 'reference_code'
+  | 'featured_rank'
+  | 'created_at'
+  | 'updated_at'
+  | 'furnished'
+  | 'status'
 > &
   Partial<
     Pick<
       PropertiesRow,
-      'id' | 'slug' | 'reference_code' | 'area_sqm' | 'featured_rank' | 'created_at' | 'updated_at'
+      | 'id'
+      | 'slug'
+      | 'reference_code'
+      | 'area_sqm'
+      | 'featured_rank'
+      | 'created_at'
+      | 'updated_at'
+      | 'furnished'
+      | 'status'
     >
   >
 

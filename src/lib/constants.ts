@@ -50,14 +50,8 @@ export const TITLE_DOCUMENTS = [
 ] as const
 export type TitleDocument = (typeof TITLE_DOCUMENTS)[number]
 
-export const FURNISHED_STATES = ['Furnished', 'Unfurnished', 'Semi-furnished'] as const
-export type FurnishedState = (typeof FURNISHED_STATES)[number]
-
 export const LISTING_TYPES = ['Sale'] as const
 export type ListingType = (typeof LISTING_TYPES)[number]
-
-export const PROPERTY_STATUSES = ['Available', 'Sold', 'Reserved'] as const
-export type PropertyStatus = (typeof PROPERTY_STATUSES)[number]
 
 export const INQUIRY_STATUSES = ['New', 'Contacted', 'Closed'] as const
 export type InquiryStatus = (typeof INQUIRY_STATUSES)[number]

@@ -21,7 +21,7 @@ export function BottomTabBar() {
 
   const isHome = pathname === '/'
   const isBrowsing = pathname.startsWith('/properties')
-  const isJournal = pathname.startsWith('/blog')
+  const isBlog = pathname.startsWith('/blog')
   const isSaved = pathname.startsWith('/saved')
   const isProfile = pathname.startsWith('/profile')
 
@@ -70,11 +70,11 @@ export function BottomTabBar() {
 
         <Link
           href="/blog"
-          className={clsx(TAB_ITEM_CLASSES, isJournal ? 'text-brand' : 'text-muted')}
-          aria-current={isJournal ? 'page' : undefined}
+          className={clsx(TAB_ITEM_CLASSES, isBlog ? 'text-brand' : 'text-muted')}
+          aria-current={isBlog ? 'page' : undefined}
         >
           <Newspaper size={21} aria-hidden="true" />
-          Journal
+          Blog
         </Link>
 
         <Link

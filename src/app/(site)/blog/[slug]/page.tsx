@@ -171,7 +171,7 @@ export default async function BlogPostPage({ params }: { params: PageParams }) {
               href="/blog"
               className="hover:text-brand inline-flex min-h-9 items-center transition-colors"
             >
-              Journal
+              Blog
             </Link>
           </li>
           <ChevronRight size={13} aria-hidden="true" className="shrink-0" />
@@ -256,7 +256,7 @@ export default async function BlogPostPage({ params }: { params: PageParams }) {
 
             {otherPosts.length > 0 ? (
               <div className="mt-8">
-                <p className="text-ink text-[15px] font-bold">More from the journal</p>
+                <p className="text-ink text-[15px] font-bold">More from the blog</p>
                 <ul className="mt-4 space-y-4">
                   {otherPosts.map(other => (
                     <li key={other.slug}>
