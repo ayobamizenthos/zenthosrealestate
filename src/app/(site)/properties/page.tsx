@@ -42,12 +42,11 @@ async function loadProperties(filters: PropertyFilters): Promise<PropertyPage> {
 
 export default async function PropertiesPage({ searchParams }: { searchParams: SearchParams }) {
   const filters = parsePropertyFilters(await searchParams)
-  const { properties, total, pageCount } = await loadProperties(filters)
+  const { properties, pageCount } = await loadProperties(filters)
 
   return (
     <PropertyBrowser
       filters={filters}
-      total={total}
       heading="Property for Sale in Lagos"
       intro="Every listing here has been inspected by a Zenthos broker and its title document checked. Filter by area, price, bedrooms, property type or title to narrow the list."
     >

@@ -29,7 +29,6 @@ type FilterKey = 'location' | 'price' | 'beds' | 'type' | 'title' | 'more'
 
 interface FilterBarProps {
   filters: PropertyFilters
-  total: number
   onChange: (next: PropertyFilters) => void
 }
 
@@ -139,7 +138,7 @@ function BedroomScale({
   )
 }
 
-export function FilterBar({ filters, total, onChange }: FilterBarProps) {
+export function FilterBar({ filters, onChange }: FilterBarProps) {
   const [openPanel, setOpenPanel] = useState<FilterKey | null>(null)
 
   const [queryDraft, setQueryDraft] = useState(filters.query)

@@ -4,14 +4,12 @@ import clsx from 'clsx'
 import { usePathname, useRouter } from 'next/navigation'
 import { useCallback, useTransition } from 'react'
 import type { ReactNode } from 'react'
-import { PROPERTIES_PER_PAGE } from '@/lib/constants'
 import { filtersToQueryString } from '@/lib/property-filters'
 import type { PropertyFilters } from '@/lib/types'
 import { FilterBar } from './FilterBar'
 
 interface PropertyBrowserProps {
   filters: PropertyFilters
-  total: number
   heading: string
   intro: string
   children: ReactNode
@@ -19,7 +17,6 @@ interface PropertyBrowserProps {
 
 export function PropertyBrowser({
   filters,
-  total,
   heading,
   intro,
   children,
@@ -39,9 +36,6 @@ export function PropertyBrowser({
     [pathname, router]
   )
 
-  const firstOnPage = total === 0 ? 0 : (filters.page - 1) * PROPERTIES_PER_PAGE + 1
-  const lastOnPage = Math.min(filters.page * PROPERTIES_PER_PAGE, total)
-
   return (
     <>
       <div className="bg-canvas">
@@ -53,7 +47,7 @@ export function PropertyBrowser({
         </div>
       </div>
 
-      <FilterBar filters={filters} total={total} onChange={applyFilters} />
+      <FilterBar filters={filters} onChange={applyFilters} />
 
       <div className="bg-page min-h-screen">
         <div className="app-shell py-6 md:py-8">
