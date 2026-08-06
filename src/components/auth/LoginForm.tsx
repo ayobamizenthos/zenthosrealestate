@@ -82,13 +82,16 @@ export function LoginForm() {
         {isSubmitting ? 'Signing in…' : 'Sign in'}
       </Button>
 
-      <div className="mt-5 flex items-center justify-between text-[14px]">
-        <Link href="/forgot-password" className="text-muted hover:text-brand transition-colors">
+      <div className="mt-3 flex items-center justify-between text-[14px]">
+        <Link
+          href="/forgot-password"
+          className="text-muted hover:text-brand -mx-1 inline-flex min-h-11 items-center px-1 transition-colors"
+        >
           Forgot password?
         </Link>
         <Link
           href={`/register?next=${encodeURIComponent(nextPath)}`}
-          className="text-brand font-semibold"
+          className="text-brand -mx-1 inline-flex min-h-11 items-center px-1 font-semibold"
         >
           Create account
         </Link>

@@ -32,7 +32,10 @@ export function ForgotPasswordForm() {
           If an account exists for <span className="text-ink font-semibold">{email}</span>, a reset
           link is on its way.
         </p>
-        <Link href="/login" className="text-brand mt-6 inline-block text-[14px] font-semibold">
+        <Link
+          href="/login"
+          className="text-brand mt-4 inline-flex min-h-11 items-center text-[14px] font-semibold"
+        >
           Back to sign in
         </Link>
       </div>
@@ -62,8 +65,11 @@ export function ForgotPasswordForm() {
         {isSubmitting ? 'Sending…' : 'Send reset link'}
       </Button>
 
-      <p className="text-muted mt-5 text-center text-[14px]">
-        <Link href="/login" className="text-brand font-semibold">
+      <p className="text-muted mt-3 text-center text-[14px]">
+        <Link
+          href="/login"
+          className="text-brand inline-flex min-h-11 items-center px-2 font-semibold"
+        >
           Back to sign in
         </Link>
       </p>

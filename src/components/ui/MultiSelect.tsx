@@ -125,7 +125,7 @@ export function MultiSelect({
                 onChange={event => setTerm(event.target.value)}
                 placeholder={searchPlaceholder}
                 aria-label={searchPlaceholder}
-                className="text-ink placeholder:text-muted h-7 w-full min-w-0 bg-transparent text-[14px] outline-none [&::-webkit-search-cancel-button]:appearance-none"
+                className="text-ink placeholder:text-muted h-7 w-full min-w-0 bg-transparent text-[16px] outline-none [&::-webkit-search-cancel-button]:appearance-none"
               />
             </div>
           ) : null}

@@ -136,9 +136,9 @@ export function HeroSearchForm() {
             onKeyDown={event => {
               if (event.key === 'Enter') submit()
             }}
-            placeholder="Search by area, street or property type"
+            placeholder="Search area, street or type"
             aria-label="Search properties"
-            className="text-ink placeholder:text-muted h-11 min-w-0 flex-1 bg-transparent text-[15px] outline-none [&::-webkit-search-cancel-button]:appearance-none"
+            className="text-ink placeholder:text-muted h-11 min-w-0 flex-1 bg-transparent text-[16px] outline-none [&::-webkit-search-cancel-button]:appearance-none"
           />
           {isSearching ? (
             <LoaderCircle

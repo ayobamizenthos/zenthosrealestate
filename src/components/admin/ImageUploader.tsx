@@ -182,7 +182,7 @@ export function ImageUploader({ initialImages }: { initialImages: string[] }) {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={pendingCount > 0}
-            className="text-brand inline-flex items-center gap-2 text-[15px] font-semibold disabled:opacity-60"
+            className="text-brand inline-flex min-h-11 items-center gap-2 px-3 text-[15px] font-semibold disabled:opacity-60"
           >
             {pendingCount > 0 ? (
               <>

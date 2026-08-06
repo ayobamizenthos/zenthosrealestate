@@ -140,11 +140,11 @@ export function RegisterForm() {
         {isSubmitting ? 'Creating account…' : 'Create account'}
       </Button>
 
-      <p className="text-muted mt-5 text-center text-[14px]">
+      <p className="text-muted mt-4 text-center text-[14px]">
         Already have an account?{' '}
         <Link
           href={`/login?next=${encodeURIComponent(nextPath)}`}
-          className="text-brand font-semibold"
+          className="text-brand inline-flex min-h-11 items-center px-1 font-semibold"
         >
           Sign in
         </Link>

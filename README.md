@@ -1,8 +1,8 @@
 # Zenthos Real Estate
 
-Property brokerage for Lagos and Abuja. Buyers search and filter listings, save
-and compare them, and reach a broker on WhatsApp. Brokers publish and manage
-listings from an admin area.
+Property brokerage for Lagos. Buyers search and filter listings, save and
+compare them, read the journal, and reach a broker on WhatsApp. Brokers publish
+and manage listings, articles and area guides from an admin area.
 
 **Live:** https://www.zenthosrealestate.com.ng
 
