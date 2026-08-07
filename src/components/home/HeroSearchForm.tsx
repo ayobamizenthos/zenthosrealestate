@@ -5,13 +5,15 @@ import { LoaderCircle, Search, X } from 'lucide-react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
+import { FilterChips } from '@/components/filters/FilterChips'
 import { useDebouncedValue } from '@/hooks/useDebouncedValue'
 import { propertyCardImage } from '@/lib/cloudinary'
 import { SEARCH_DEBOUNCE_MS, SEARCH_MIN_CHARS } from '@/lib/constants'
 import { displayPriceCompact } from '@/lib/format'
+import { EMPTY_FILTERS, filtersToQueryString } from '@/lib/property-filters'
 import { searchProperties } from '@/lib/queries/properties'
 import { createSupabaseBrowserClient } from '@/lib/supabase/client'
-import type { PropertySummary } from '@/lib/types'
+import type { PropertyFilters, PropertySummary } from '@/lib/types'
 
 export function HeroSearchForm() {
   const router = useRouter()
@@ -19,6 +21,7 @@ export function HeroSearchForm() {
   const [resultsAbove, setResultsAbove] = useState(false)
 
   const [term, setTerm] = useState('')
+  const [draft, setDraft] = useState<PropertyFilters>(EMPTY_FILTERS)
   const [isOpen, setIsOpen] = useState(false)
   const [resolved, setResolved] = useState<{ query: string; matches: PropertySummary[] }>({
     query: '',
@@ -80,15 +83,11 @@ export function HeroSearchForm() {
   const matches = isQueryReady && resolved.query === query ? resolved.matches : []
   const isSearching = isQueryReady && resolved.query !== query
 
-  // The hero asks one question. Everything else is chosen on the results page,
-  // where the filter rail already lives.
+  // The hero collects the same filters the results page does, then hands them
+  // over in the query string rather than filtering anything itself.
   const submit = () => {
-    const params = new URLSearchParams()
-    if (term.trim()) params.set('q', term.trim())
-
-    const search = params.toString()
     setIsOpen(false)
-    router.push(search ? `/properties?${search}` : '/properties')
+    router.push(`/properties${filtersToQueryString({ ...draft, query: term.trim(), page: 1 })}`)
   }
 
   return (
@@ -106,7 +105,7 @@ export function HeroSearchForm() {
           onKeyDown={event => {
             if (event.key === 'Enter') submit()
           }}
-          placeholder="Search area, street or type"
+          placeholder="Search area, city or type"
           aria-label="Search properties"
           className="text-ink placeholder:text-muted h-11 min-w-0 flex-1 bg-transparent text-[16px] outline-none [&::-webkit-search-cancel-button]:appearance-none md:h-12"
         />
@@ -136,6 +135,18 @@ export function HeroSearchForm() {
           <Search size={17} aria-hidden="true" className="md:hidden" />
           <span className="hidden md:inline">Search</span>
         </button>
+      </div>
+
+      {/* The same rail the results page uses. Choices ride along in the query
+          string rather than filtering anything here. */}
+      <div className="scrollbar-none -mx-4 mt-3 overflow-x-auto px-4 md:mx-0 md:flex md:justify-center md:px-0">
+        <FilterChips
+          filters={draft}
+          onChange={setDraft}
+          showClearAll={false}
+          bleedToEdge={false}
+          onDark
+        />
       </div>
 
       {isOpen && isQueryReady ? (
