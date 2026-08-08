@@ -39,14 +39,13 @@ export const PROPERTY_TYPES = [
 ] as const
 export type PropertyType = (typeof PROPERTY_TYPES)[number]
 
+// We broker built houses, not land. Excision, gazette, a registered survey and
+// a family receipt all belong to the raw-land stage and never describe the
+// title a finished home changes hands on.
 export const TITLE_DOCUMENTS = [
   "Governor's Consent",
   'Certificate of Occupancy',
   'Deed of Assignment',
-  'Registered Survey',
-  'Excision',
-  'Gazette',
-  'Family Receipt',
 ] as const
 export type TitleDocument = (typeof TITLE_DOCUMENTS)[number]
 
