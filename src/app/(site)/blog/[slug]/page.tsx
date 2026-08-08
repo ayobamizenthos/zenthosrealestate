@@ -93,58 +93,63 @@ function renderInline(text: string) {
 }
 
 function renderBody(body: string) {
-  return body
-    .split(/\n{2,}/)
-    .map(block => block.trim())
-    .filter(Boolean)
-    .map((block, index) => {
-      if (block.startsWith('## ')) {
-        return (
-          <h2
-            key={index}
-            className="text-ink mt-9 mb-3 text-[20px] leading-snug font-bold md:mt-12 md:text-[24px]"
-          >
-            {block.slice(3)}
-          </h2>
-        )
-      }
+  return (
+    body
+      // Normalise first: a body saved with Windows line endings splits on nothing
+      // and the whole article collapses into one paragraph.
+      .replace(/\r\n?/g, '\n')
+      .split(/\n{2,}/)
+      .map(block => block.trim())
+      .filter(Boolean)
+      .map((block, index) => {
+        if (block.startsWith('## ')) {
+          return (
+            <h2
+              key={index}
+              className="text-ink mt-9 mb-3 text-[20px] leading-snug font-bold md:mt-12 md:text-[24px]"
+            >
+              {block.slice(3)}
+            </h2>
+          )
+        }
 
-      if (block.startsWith('> ')) {
-        return (
-          <blockquote
-            key={index}
-            className="border-brand text-ink my-7 border-l-2 pl-4 text-[17px] leading-relaxed font-medium md:my-9 md:pl-6 md:text-[19px]"
-          >
-            {renderInline(block.slice(2))}
-          </blockquote>
-        )
-      }
+        if (block.startsWith('> ')) {
+          return (
+            <blockquote
+              key={index}
+              className="border-brand text-ink my-7 border-l-2 pl-4 text-[17px] leading-relaxed font-medium md:my-9 md:pl-6 md:text-[19px]"
+            >
+              {renderInline(block.slice(2))}
+            </blockquote>
+          )
+        }
 
-      if (block.startsWith('- ')) {
-        return (
-          <ul key={index} className="mb-5 space-y-2">
-            {block
-              .split('\n')
-              .map(line => line.replace(/^-\s*/, '').trim())
-              .filter(Boolean)
-              .map(item => (
-                <li
-                  key={item}
-                  className="text-ink/85 before:bg-brand relative pl-5 text-[16px] leading-[1.7] before:absolute before:top-[0.7em] before:left-0 before:h-1.5 before:w-1.5 before:rounded-full md:text-[17px]"
-                >
-                  {renderInline(item)}
-                </li>
-              ))}
-          </ul>
-        )
-      }
+        if (block.startsWith('- ')) {
+          return (
+            <ul key={index} className="mb-5 space-y-2">
+              {block
+                .split('\n')
+                .map(line => line.replace(/^-\s*/, '').trim())
+                .filter(Boolean)
+                .map(item => (
+                  <li
+                    key={item}
+                    className="text-ink/85 before:bg-brand relative pl-5 text-[16px] leading-[1.7] before:absolute before:top-[0.7em] before:left-0 before:h-1.5 before:w-1.5 before:rounded-full md:text-[17px]"
+                  >
+                    {renderInline(item)}
+                  </li>
+                ))}
+            </ul>
+          )
+        }
 
-      return (
-        <p key={index} className="text-ink/85 mb-5 text-[16px] leading-[1.75] md:text-[17px]">
-          {renderInline(block)}
-        </p>
-      )
-    })
+        return (
+          <p key={index} className="text-ink/85 mb-5 text-[16px] leading-[1.75] md:text-[17px]">
+            {renderInline(block)}
+          </p>
+        )
+      })
+  )
 }
 
 export default async function BlogPostPage({ params }: { params: PageParams }) {
