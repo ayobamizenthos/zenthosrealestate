@@ -37,14 +37,12 @@ async function fanOut(
   if (recipients.length) await sendPushToUsers(recipients, payload)
 }
 
-async function usersFollowingLocation(location: string): Promise<string[]> {
+async function allRegisteredUsers(): Promise<string[]> {
   const supabase = createSupabaseServiceClient()
-  const { data, error } = await supabase.rpc('notification_audience', {
-    target_location: location,
-  })
+  const { data, error } = await supabase.from('profiles').select('id')
 
   if (error) return []
-  return (data ?? []).map(row => row.user_id)
+  return (data ?? []).map(row => row.id)
 }
 
 async function usersWhoSaved(propertyId: string): Promise<string[]> {
@@ -67,9 +65,9 @@ async function adminUserIds(): Promise<string[]> {
 }
 
 /*
-  A new listing is the one event that goes to the whole audience: every device
-  that has allowed notifications, signed in or not, open or closed. Registered
-  users following the area also get a row in their in-app notification list.
+  A new listing goes to the whole audience: every device that has allowed
+  notifications, signed in or not, open or closed, and a row in every registered
+  account's notification list so it is still there when they next open the site.
 */
 export async function notifyNewProperty(property: Property): Promise<void> {
   const payload: PushPayload = {
@@ -79,8 +77,7 @@ export async function notifyNewProperty(property: Property): Promise<void> {
     tag: `new-property-${property.id}`,
   }
 
-  const followers = await usersFollowingLocation(property.location)
-  await recordInAppNotifications(followers, 'new_property', payload)
+  await recordInAppNotifications(await allRegisteredUsers(), 'new_property', payload)
   await sendPushToEveryone(payload)
 }
 

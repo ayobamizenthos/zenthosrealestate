@@ -11,7 +11,7 @@ import { propertyCardImage } from '@/lib/cloudinary'
 import { listingAlerts, markAllRead } from '@/lib/listing-alerts'
 import { useLocalStore } from '@/lib/local-store'
 
-export function DeviceAlertList() {
+export function DeviceAlertList({ hideWhenEmpty = false }: { hideWhenEmpty?: boolean }) {
   const alerts = useLocalStore(listingAlerts)
 
   useEffect(() => {
@@ -20,6 +20,10 @@ export function DeviceAlertList() {
   }, [])
 
   if (!alerts.length) {
+    // Signed-in visitors already have their account list above this one, so an
+    // empty device feed is noise rather than information.
+    if (hideWhenEmpty) return null
+
     return (
       <EmptyState
         illustration={<BellRing size={40} className="text-brand" aria-hidden="true" />}
