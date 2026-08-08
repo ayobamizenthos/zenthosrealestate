@@ -1,6 +1,7 @@
 import { Pencil, Plus } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { CopyCaptionButton } from '@/components/admin/CopyCaptionButton'
 import { DeletePropertyButton } from '@/components/admin/DeletePropertyButton'
 import { ButtonLink } from '@/components/ui/Button'
 import { propertyCardImage } from '@/lib/cloudinary'
@@ -152,6 +153,7 @@ export default async function AdminPropertiesPage({
               </span>
 
               <div className="mt-1 flex items-center gap-1 lg:mt-0 lg:justify-end">
+                <CopyCaptionButton property={property} />
                 <Link
                   href={`/admin/properties/edit/${property.id}`}
                   aria-label={`Edit ${property.title}`}

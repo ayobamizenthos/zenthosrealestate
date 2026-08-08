@@ -1,4 +1,4 @@
-import type { PropertyLocation } from '@/lib/constants'
+import type { PropertyLocation, TitleDocument } from '@/lib/constants'
 import type { ZenthosSupabaseClient } from '@/lib/supabase/types'
 import type { PropertySummary } from '@/lib/types'
 
@@ -6,10 +6,11 @@ export interface AdminPropertyRow extends PropertySummary {
   published: boolean
   featured: boolean
   reference_code: string
+  title_document: TitleDocument | null
 }
 
 const ADMIN_COLUMNS =
-  'id, slug, title, description, location, state, address, price, price_label, property_type, bedrooms, bathrooms, toilets, area_sqm, images, listing_type, published, featured, created_at, reference_code'
+  'id, slug, title, description, location, state, address, price, price_label, property_type, bedrooms, bathrooms, toilets, area_sqm, images, listing_type, published, featured, created_at, reference_code, title_document'
 
 export interface AdminPropertyFilters {
   search: string
@@ -57,6 +58,7 @@ export async function listPropertiesForAdmin(
     featured: row.featured,
     created_at: row.created_at,
     reference_code: row.reference_code,
+    title_document: row.title_document as AdminPropertyRow['title_document'],
   }))
 }
 
