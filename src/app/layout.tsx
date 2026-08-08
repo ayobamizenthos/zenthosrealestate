@@ -37,6 +37,9 @@ export const metadata: Metadata = {
     url: SITE.url,
   },
   twitter: { card: 'summary_large_image' },
+  // Search Console drops the property if this tag disappears, so it ships with
+  // the layout rather than being pasted in and forgotten.
+  verification: { google: 'k0qeebDCOJVgtIuqmBMKprsUxjStRQY08tBF_qJP11I' },
   robots: {
     index: true,
     follow: true,
