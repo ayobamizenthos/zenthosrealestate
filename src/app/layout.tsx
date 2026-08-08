@@ -21,7 +21,12 @@ export const metadata: Metadata = {
   applicationName: SITE.name,
   manifest: '/manifest.webmanifest',
   icons: {
-    icon: [{ url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' }],
+    // 48 first: Google picks the smallest icon that is a multiple of 48 and
+    // ignores the 16x16 favicon.ico Next advertises by default.
+    icon: [
+      { url: '/icons/icon-48.png', sizes: '48x48', type: 'image/png' },
+      { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+    ],
     apple: [{ url: '/icons/apple-touch-icon.png', sizes: '180x180' }],
   },
   appleWebApp: {

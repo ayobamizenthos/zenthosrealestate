@@ -84,6 +84,10 @@ await writeFile(join(APP_DIR, 'icon.png'), await bare(512, 0.04))
 await writeFile(join(APP_DIR, 'apple-icon.png'), await tile(180, 0.1))
 await writeIco(join(APP_DIR, 'favicon.ico'), [16, 32, 48])
 
+// Google only shows a favicon in search results when it is square and a
+// multiple of 48px. The .ico carries a 48 variant, but Next advertises that
+// file as 16x16, so the size Google trusts is published separately.
+await writeFile(join(ICONS_DIR, 'icon-48.png'), await tile(48, 0.08))
 await writeFile(join(ICONS_DIR, 'icon-192.png'), await tile(192, 0.08))
 await writeFile(join(ICONS_DIR, 'icon-512.png'), await tile(512, 0.08))
 await writeFile(join(ICONS_DIR, 'apple-touch-icon.png'), await tile(180, 0.1))
