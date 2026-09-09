@@ -1,0 +1,74 @@
+const UPLOAD_SEGMENT = '/image/upload/'
+
+export const PROPERTY_ASPECT_RATIO = '4:5'
+
+const WATERMARK =
+  'l_zenthos:properties:zenthos_wordmark,o_42,w_0.22,fl_relative,g_south_east,x_0.04,y_0.04'
+
+export const IMAGE_PRESETS = {
+  cardThumb: `f_auto,q_auto,w_800,c_fill,ar_4:3,g_auto/${WATERMARK}`,
+  gallery: `f_auto,q_auto,w_1400,c_fill,ar_4:5,g_auto/${WATERMARK}`,
+  lightbox: `f_auto,q_auto:best,w_2400,c_limit/${WATERMARK}`,
+  socialCard: `f_jpg,q_auto,w_1200,h_630,c_fill,g_auto/${WATERMARK}`,
+  blurPlaceholder: 'f_auto,q_10,w_24,c_fill,ar_4:3,e_blur:400',
+  // Journal photography is licensed from third parties, so it carries a printed
+  // credit instead of the Zenthos watermark.
+  journalCard: 'f_auto,q_auto,w_900,c_fill,ar_3:2,g_auto',
+  journalHero: 'f_auto,q_auto,w_1800,c_fill,ar_16:9,g_auto',
+  journalSocial: 'f_jpg,q_auto,w_1200,h_630,c_fill,g_auto',
+} as const
+
+export function isCloudinaryUrl(url: string): boolean {
+  return url.includes('res.cloudinary.com') && url.includes(UPLOAD_SEGMENT)
+}
+
+export function transformCloudinary(url: string, transform: string): string {
+  if (!isCloudinaryUrl(url)) return url
+
+  const [origin, rest] = url.split(UPLOAD_SEGMENT)
+  const segments = rest.split('/')
+
+  const withoutExistingTransform = /^[a-z]{1,3}_/.test(segments[0]) ? segments.slice(1) : segments
+
+  return `${origin}${UPLOAD_SEGMENT}${transform}/${withoutExistingTransform.join('/')}`
+}
+
+export function propertyCardImage(url: string): string {
+  return transformCloudinary(url, IMAGE_PRESETS.cardThumb)
+}
+
+export function propertyGalleryImage(url: string): string {
+  return transformCloudinary(url, IMAGE_PRESETS.gallery)
+}
+
+export function propertySocialImage(url: string): string {
+  return transformCloudinary(url, IMAGE_PRESETS.socialCard)
+}
+
+export function propertyBlurPlaceholder(url: string): string {
+  return transformCloudinary(url, IMAGE_PRESETS.blurPlaceholder)
+}
+
+export function propertyOriginalImage(url: string): string {
+  return transformCloudinary(url, 'f_auto,q_auto:best')
+}
+
+/*
+  Journal covers written by us are pre-sized webp files under public/journal, so
+  they need no transform at all. Covers uploaded through the admin editor still
+  arrive from Cloudinary and are transformed on the way out.
+*/
+export function journalCardImage(url: string): string {
+  if (!isCloudinaryUrl(url)) return url.replace('-hero.webp', '-card.webp')
+  return transformCloudinary(url, IMAGE_PRESETS.journalCard)
+}
+
+export function journalHeroImage(url: string): string {
+  if (!isCloudinaryUrl(url)) return url
+  return transformCloudinary(url, IMAGE_PRESETS.journalHero)
+}
+
+export function journalSocialImage(url: string, siteUrl: string): string {
+  if (!isCloudinaryUrl(url)) return new URL(url, siteUrl).toString()
+  return transformCloudinary(url, IMAGE_PRESETS.journalSocial)
+}
